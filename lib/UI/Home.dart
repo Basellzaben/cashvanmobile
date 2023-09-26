@@ -194,7 +194,7 @@ class _HomeState extends State<Home> {
                             alignment: LanguageProvider.Align(),
 
                             child: Text(
-                                LanguageProvider.Llanguage("AlEsraaHospital"),
+                                LanguageProvider.Llanguage("galaxycasgvan"),
                                 style: ArabicTextStyle(
                                     arabicFont: ArabicFont.tajawal,
                                     color: HexColor(Globalvireables.black2),
@@ -251,7 +251,7 @@ class _HomeState extends State<Home> {
                                     height: 5,
                                   ),
                                   Text(
-                                      LanguageProvider.Llanguage("Appoiments"),
+                                      LanguageProvider.Llanguage("openvisit"),
 
 
                                       style: ArabicTextStyle(
@@ -737,9 +737,6 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: 40,
                         ),
-
-
-
                         Row(
                           children: [
                             Container(
@@ -773,13 +770,6 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-
-
-
-
-
-
-
                         SizedBox(
                           height: 10,
                         ),
