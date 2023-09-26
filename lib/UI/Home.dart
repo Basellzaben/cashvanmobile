@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:arabic_font/arabic_font.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cashvanmobile/UI/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,6 +22,7 @@ import '../ColorsLanguage/HexaColor.dart';
 import '../Providers/LoginProvider.dart';
 import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
+import 'Settings.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -178,16 +180,7 @@ class _HomeState extends State<Home> {
                                   fontWeight: FontWeight.w700),
                             ),),
                             Spacer(),
-                            GestureDetector(
-                              onTap: () {
 
-                              },
-                              child: Icon(
-                                Icons.notifications,
-                                color: HexColor(ThemP.getcolor()),
-                                size: 33 * unitHeightValue,
-                              ),
-                            )
                           ],
                         ),
                         SizedBox(
@@ -212,7 +205,6 @@ class _HomeState extends State<Home> {
 
                           ),
                         ),
-
                         SizedBox(height: 5,),
                         SizedBox(
                           height: 15,
@@ -221,7 +213,6 @@ class _HomeState extends State<Home> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-
 
 
                               },
@@ -825,10 +816,11 @@ class _HomeState extends State<Home> {
   int selectedIndex = 1;
 
   final List<Widget> nav = [
+    Settings(),
     Home(),
-    Home(),
-    Home(),
+    profile(),
   ];
+
 
 
 
