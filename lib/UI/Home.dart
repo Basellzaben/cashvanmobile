@@ -87,8 +87,8 @@ class _HomeState extends State<Home> {
     icon: Icon(Icons.home),
     label: LanguageProvider.Llanguage('Home')),
     BottomNavigationBarItem(
-    icon: Icon(Icons.person),
-    label: LanguageProvider.Llanguage('profile')),
+    icon: Icon(Icons.inventory_2_outlined),
+    label: LanguageProvider.Llanguage('Invoices')),
     ],
     iconSize: 30 * unitHeightValue,
     unselectedFontSize: 12 * unitHeightValue,
@@ -252,8 +252,6 @@ class _HomeState extends State<Home> {
                                   ),
                                   Text(
                                       LanguageProvider.Llanguage("openvisit"),
-
-
                                       style: ArabicTextStyle(
                                           arabicFont: ArabicFont.tajawal,
                                           color: HexColor(ThemP.getcolor()),

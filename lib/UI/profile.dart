@@ -72,9 +72,8 @@ class _profileState extends State<profile> {
                   label: LanguageProvider.Llanguage('Home')
               ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: LanguageProvider.Llanguage('profile')
-              ),
+                  icon: Icon(Icons.inventory_2_outlined),
+                  label: LanguageProvider.Llanguage('Invoices')),
             ],
             iconSize: 30 * unitHeightValue,
             unselectedFontSize: 12 * unitHeightValue,

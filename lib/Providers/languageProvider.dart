@@ -43,7 +43,6 @@ class Language extends ChangeNotifier {
   }
 
   //"Top Doctors :",
-
   static Map<String, Object?> ar = {
     "selectvisitno":"يجب اختيار زياره لعرض التفاصيل ",
     "notfound":"صوره الأشعة غير متوفره",
@@ -95,7 +94,7 @@ class Language extends ChangeNotifier {
     "Prescription": "وصفات الخروج",
     "Vitalsigns": "العلامات حيوية",
     "openvisit": "فتح زيارة",
-    "Invoices": "الفواتير",
+    "Invoices": "الفاتورة",
     "Payments": "الدفعات",
     "Insurance": "التامين",
     "galaxycasgvan": "Galaxy CashVan",
@@ -277,7 +276,7 @@ class Language extends ChangeNotifier {
     "Prescription": "Prescription",
     "Vitalsigns": "Vital signs",
     "openvisit": "Open visit",
-    "Invoices": "Invoices",
+    "Invoices": "Invoice",
     "Payments": "Payments",
     "Insurance": "Insurance",
     "galaxycasgvan": "Galaxy CashVan",
