@@ -17,6 +17,8 @@ import 'Home.dart';
 import 'package:arabic_font/arabic_font.dart';
 import 'package:http/http.dart' as http;
 
+import 'LoginScreen.dart';
+
 class Settings extends StatefulWidget {
   @override
   State<Settings> createState() => _SettingsState();
@@ -289,7 +291,15 @@ var Terms='';
                                                 TextButton(
                                                   //  textColor: Colors.black,
                                                   onPressed: () {
-
+                                                    Navigator.of(context)
+                                                        .pushAndRemoveUntil(
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginScreen(),
+                                                        ),
+                                                            (Route<dynamic>
+                                                        route) =>
+                                                        false);
                                                   },
                                                   child: Text(
                                                     LanguageProvider.Llanguage('Logout'),

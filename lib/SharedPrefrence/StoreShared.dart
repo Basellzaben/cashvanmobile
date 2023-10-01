@@ -19,7 +19,7 @@ class StoreShared{
 
 
 
- static Future<bool> checkNetwork() async {
+ static  checkNetwork() async {
    bool isConnected = false;
    try {
      final result = await InternetAddress.lookup('google.com');

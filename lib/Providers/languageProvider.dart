@@ -46,7 +46,14 @@ class Language extends ChangeNotifier {
   static Map<String, Object?> ar = {
     "selectvisitno":"يجب اختيار زياره لعرض التفاصيل ",
     "notfound":"صوره الأشعة غير متوفره",
-    "Show":"عرض",
+      "Show":"عرض",
+      "end":"انهاء الزيارة",
+      "customers":"العملاء",
+    "start":"بدء",
+      "outRange":"خارج نطاق العميل",
+"Exceptionaltour":"جولة استثنائية",
+    "substituteemployee":"الموظف البديل",
+    "selectcustomer":"اختيار العميل",
     "medicalreport":"تقرير طبي",
     "terms": "الشروط و الاحكام",
     "update": "تحديث",
@@ -210,6 +217,15 @@ class Language extends ChangeNotifier {
 
   static Map<String, Object?> en = {
     "Show":"Show",
+      "end":"End Visit",
+
+      "selectcustomer":"select customer",
+    "substituteemployee":"substitute employee",
+"start":"Start",
+    "Exceptionaltour":"Exceptional tour",
+      "customers":"customers",
+      "outRange":"Outside the client's scope",
+
     "notfound":"Item not found",
     "selectvisitno":"You must choose the excess number to view the insurance details",
     "loginandacept": "Agree and continue",

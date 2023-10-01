@@ -25,7 +25,7 @@ Future<void> main() async {
         ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
 
       ],
-      child:DevicePreview(enabled: false,builder:(context)=> const MyApp(),)));
+      child:DevicePreview(enabled: true,builder:(context)=> const MyApp(),)));
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'F'),
+      home: const MyHomePage(title: ''),
     );
   }
 }

@@ -18,10 +18,8 @@ class Globalvireables {
   static String connectIPLocal="http://10.0.1.120:3210";
 
 
-  static String loginAPI=connectIPLocal+"/api/LoginController/login";
   static String them1="#229954";
   static String them2="#2E86C1";
-
 
   static String them3="#8E44AD";
   static String them4="#2E4053";
@@ -30,7 +28,12 @@ class Globalvireables {
 
 //Store Data into Shared Keys
   static String UsersJson='UsersJson';
+  static String CustomerJson='CustomerJson';
+  static String OpenRound='OpenRoundJson';
 
+
+  static String loginAPI=connectIPLocal+"/api/LoginController/login";
+  static String customerAPI=connectIPLocal+"/api/customerController/customer";
 
 
 

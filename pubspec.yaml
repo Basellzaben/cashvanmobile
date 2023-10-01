@@ -43,9 +43,13 @@ dependencies:
   http: ^1.1.0
   auto_size_text: ^3.0.0
   flutter_screenutil: ^5.9.0
-  flutter_svg: ^2.0.7
+  flutter_svg:
   share_plus: ^7.1.0
   shared_preferences: ^2.2.1
+  dropdown_search: ^5.0.6
+  icon_forest: ^1.1.8
+  iconsax: ^0.0.8
+  geolocator: ^10.1.0
 
 dev_dependencies:
   flutter_test:
