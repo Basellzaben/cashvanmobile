@@ -10,6 +10,19 @@ class LoginProvider extends ChangeNotifier {
   String nameA="";
   String nameE="";
 
+
+  //max id's
+  int MaxLongstRANS=0;
+
+  getMaxLongstRANS() {
+    return MaxLongstRANS;
+  }
+
+  setMaxLongstRANS(int MaxLongstRANS) {
+    this.MaxLongstRANS = MaxLongstRANS;
+    notifyListeners();
+  }
+
   getnameE() {
     return nameE;
   }

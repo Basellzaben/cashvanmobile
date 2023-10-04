@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:arabic_font/arabic_font.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'ColorsLanguage/GlobalVar.dart';
 import 'ColorsLanguage/HexaColor.dart';
 import 'Providers/LoginProvider.dart';
+import 'Providers/RoundProvider.dart';
 import 'Providers/Them.dart';
 import 'Providers/languageProvider.dart';
+import 'Sqlite/DatabaseHandler.dart';
 import 'UI/LoginScreen.dart';
 String language='';
 
@@ -23,6 +26,7 @@ Future<void> main() async {
         ChangeNotifierProvider<Language>(create: (_) => Language()),
         ChangeNotifierProvider<Them>(create: (_) => Them()),
         ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
+        ChangeNotifierProvider<RoundProvider>(create: (_) => RoundProvider()),
 
       ],
       child:DevicePreview(enabled: true,builder:(context)=> const MyApp(),)));
@@ -30,6 +34,15 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+
+  @override
+  void initState() async {
+    final handler = DatabaseHandler();
+    handler.initDatabase();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -19,6 +19,7 @@ import '../ColorsLanguage/HexaColor.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/OpenRoundModel.dart';
 import '../Providers/LoginProvider.dart';
+import '../Providers/RoundProvider.dart';
 import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
 import '../SharedPrefrence/StoreShared.dart';
@@ -33,20 +34,47 @@ class Invoice extends StatefulWidget {
 }
 
 class _InvoiceState extends State<Invoice> {
+
+  String CustomerId = '';
+  String CustomerName = '';
+  String CustomerLimite = '';
+  String Receivables = '';
+
   @override
   void initState() {
+
+   // getCustomerData();
+
     super.initState();
   }
 
 
+
+
+/*  getCustomerData() async {
+
+
+    CustomerName=await StoreShared.getJson(Globalvireables.CustomerName);
+    CustomerId=await StoreShared.getJson(Globalvireables.CustomerId);
+    CustomerLimite=await StoreShared.getJson(Globalvireables.CustomerLimite);
+    Receivables=await StoreShared.getJson(Globalvireables.Receivables);
+
+    print(CustomerName + "   CustomerName");
+  }*/
   @override
   void dispose() {
     super.dispose();
   }
 
+  bool IncludeTex = true;
+  bool Cash = true;
+
 
   @override
   Widget build(BuildContext context) {
+   // getCustomerData();
+    var roundpr = Provider.of<RoundProvider>(context, listen: false);
+
     var ThemP = Provider.of<Them>(context, listen: false);
     double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
     var stops = [0.0, 1.00];
@@ -61,33 +89,78 @@ class _InvoiceState extends State<Invoice> {
         fit: BoxFit.cover,
       ),
       Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            elevation: 8,
-            selectedItemColor: HexColor(Globalvireables.white),
-            unselectedItemColor: Colors.white,
-            backgroundColor: HexColor(ThemP.getcolor()),
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: LanguageProvider.Llanguage('settings'),
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: LanguageProvider.Llanguage('Home')),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.inventory_2_outlined),
-                  label: LanguageProvider.Llanguage('Invoices')),
-            ],
-            iconSize: 30 * unitHeightValue,
-            unselectedFontSize: 12 * unitHeightValue,
-            selectedFontSize: 16 * unitHeightValue,
-            showUnselectedLabels: true,
-            currentIndex: selectedIndex,
-            selectedIconTheme:
-                IconThemeData(color: HexColor(Globalvireables.white)),
-            onTap: _onItemTapped,
+          bottomNavigationBar: Container(
+            color: HexColor(ThemP.color).withOpacity(0.8),
+            height: 70,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 66,
+                  color: HexColor(ThemP.color),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[Icon(Icons.add, color: Colors.white), Text(LanguageProvider.Llanguage('Add'), style: TextStyle(color: Colors.white))],
+                  ),
+                ),
+                SizedBox(width: 3,),
+                Container(
+                  width: 90,
+                  color: HexColor(ThemP.color),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[Icon(Icons.all_inclusive, color: Colors.white), Text(LanguageProvider.Llanguage('allInvoices'), style: TextStyle(color: Colors.white))],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: HexColor(ThemP.color).withOpacity(0.8),
+                    child: Row(
+                  children: [
+                    Spacer(),
+
+Spacer(),
+                    Text(
+                      '245.8',style: ArabicTextStyle(
+                        arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                        color: Colors.white,fontWeight: FontWeight.w600),),
+
+                    Text(
+                      ' : ',style: ArabicTextStyle(
+                        arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                        color: Colors.white,fontWeight: FontWeight.w900),),
+
+
+                  Text(
+                  LanguageProvider.Llanguage('Total'),style: ArabicTextStyle(
+                    arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                    color: Colors.white,fontWeight: FontWeight.w500),),
+
+
+
+              ],),
+                  ),
+                ),
+              ],
+            ),
           ),
+          backgroundColor: Colors.transparent,
+    /*      floatingActionButton: Align(
+            alignment: new FractionalOffset(0.55, 1.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              child: FloatingActionButton(
+                backgroundColor: HexColor(Globalvireables.basecolor),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                 // addClasses(context);
+                },
+              ),
+            ),
+          ),*/
           appBar: AppBar(
             backgroundColor: Colors.white,
             bottomOpacity: 800.0,
@@ -99,75 +172,173 @@ class _InvoiceState extends State<Invoice> {
                 LanguageProvider.langg,
                 LanguageProvider.getDirection()),
           ),
-          backgroundColor: HexColor(ThemP.getcolor()),
           // backgroundColor: Colors.transparent,
 
           body: Directionality(
             textDirection: LanguageProvider.getDirection(),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 1.15,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    HexColor((Globalvireables.secondcolor)),
-                    HexColor((ThemP.getcolor()))
-                  ],
-                  stops: stops,
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                ),
-              ),
+
               child: SafeArea(
+
                 child: Container(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 1.24,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/background.png"),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(0.0),
-                          bottomRight: Radius.circular(40.0),
-                          topLeft: Radius.circular(0.0),
-                          bottomLeft: Radius.circular(40.0)),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/background.png"),
+                      fit: BoxFit.cover,
                     ),
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                  ),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                         
+                          SizedBox(
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.only(
+                                      bottomLeft: Radius.circular(80)),
+                                  // if you need this
+                                  side: BorderSide(
+                                    width:
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height,
+                                    //  color: HexColor(ThemP.getcolor())12.withOpacity(0.1),
+                                  ),
+                                ),
+
+                                child:Container(
+                                  width: MediaQuery.of(context).size.width,
+
+                                  child: Column(children: [
+
+                                    Row(children: [
+
+                                      Text(
+                                        LanguageProvider.Llanguage('Invoicesid'),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),),
+                                      Text(
+                                        roundpr.getCustomerId()+"7534",style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),)
+
+                                    ],),
+
+                                    Row(children: [
+
+                                      Text(
+                                        LanguageProvider.Llanguage('customerid'),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),),
+                                      Text(
+                                        roundpr.getCustomerId(),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),)
+
+                                    ],),
+                                    Row(children: [
+
+                                      Text(
+                                        LanguageProvider.Llanguage('customername'),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),),
+                                      Text(
+                                        roundpr.getCustomerName(),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),)
+
+                                    ],),
+
+                                    Row(children: [
+
+                                      Text(
+                                        LanguageProvider.Llanguage('Clientceiling'),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),),
+                                      Text(
+                                        roundpr.getCustomerLimite(),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),)
+
+                                    ],),
+
+                                    Row(children: [
+
+                                      Text(
+                                        LanguageProvider.Llanguage('Receivables'),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),),
+                                      Text(
+                                        roundpr.getReceivables(),style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,fontSize: 15*unitHeightValue,
+                                          color: Colors.black,fontWeight: FontWeight.w600),)
+
+                                    ],),
+
+                                    Row(
+                                      children: [
+
+                                        Checkbox(
+                                            value: Cash,
+                                            //set variable for value
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                Cash = !Cash;
+                                              });
+                                            }),
+                                        Text("نقدي",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontSize: MediaQuery.of(context).size.width > 600?22:15)),
+                                        Spacer(),
+                                        Checkbox(
+                                            value: IncludeTex,
+                                            //set variable for value
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                IncludeTex =
+                                                !IncludeTex;
+                                              });
+                                            }),
+                                        Text("شامل الضريبه",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontSize:MediaQuery.of(context).size.width > 600?22: 15)),
+                                        Spacer(),
+                                        Spacer(),
+                                        Spacer(),
+
+
+
+
+
+                                      ],
+                                    ),
+
+                                  ],),
+
+                                )
+
+                            ),
+                          ),
+
+
+
                         ],
                       ),
                     ),
-                  ),
                 ),
               ),
-            ),
           )),
     ]);
   }
 
-  _onItemTapped(int index) {
-    if (index != 2) {
-      setState(() {
-        selectedIndex = index;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => nav[index]),
-        );
-      });
-    }
-  }
 
-  int selectedIndex = 1;
 
-  final List<Widget> nav = [
-    Settings(),
-    Home(),
-    Invoice(),
-  ];
+
 
 }

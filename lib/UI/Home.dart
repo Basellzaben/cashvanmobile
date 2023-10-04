@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 
 import 'package:arabic_font/arabic_font.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cashvanmobile/Calculator.dart';
 import 'package:cashvanmobile/UI/Invoice.dart';
 import 'package:cashvanmobile/UI/profile.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +17,26 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:sqflite/sqflite.dart';
 import 'dart:convert';
 import 'dart:math' as math;
 
 import '../ColorsLanguage/GlobalVar.dart';
 import '../ColorsLanguage/HexaColor.dart';
 import '../Models/CustomersModel.dart';
+import '../Models/Locationn.dart';
 import '../Models/OpenRoundModel.dart';
+import '../Models/UsersModel.dart';
 import '../Providers/LoginProvider.dart';
+import '../Providers/RoundProvider.dart';
 import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
 import '../SharedPrefrence/StoreShared.dart';
+import '../Sqlite/DatabaseHandler.dart';
+import 'MapScreen.dart';
 import 'Settings.dart';
+import 'UpdateScreen.dart';
 import 'Visits.dart';
 
 class Home extends StatefulWidget {
@@ -44,12 +53,12 @@ class _HomeState extends State<Home> {
   void initState() {
 
 
-    timer = Timer.periodic(Duration(seconds: 1),
-    (Timer t) => GetCurrentTime());
+    //GetRounddata();
+    //timer = Timer.periodic(Duration(seconds: 1),
+    //(Timer t) => GetRounddata());
 
 
-    GetCustomers();
-    GetRounddata();
+    //GetCustomers();
     super.initState();
   }
 var IsOpen=false;
@@ -65,6 +74,7 @@ var CustomerName='';
   Widget build(BuildContext context) {
 
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+    var roundpr = Provider.of<RoundProvider>(context, listen: false);
 
     var ThemP = Provider.of<Them>(context, listen: false);
 
@@ -336,11 +346,22 @@ var CustomerName='';
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Invoice()),
-                                );
+                              onTap: ()  {
+
+                              //
+                                if(IsOpen){
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) => Invoice()),);
+                                }else{
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) =>
+                                          AlertDialog(
+                                            title: Text(LanguageProvider.Llanguage('Invoices')),
+                                            content: Text(LanguageProvider.Llanguage('selectvisitno')),
+                                          ));
+                                }
+
+
                               },
                               child: Column(
                                 children: [
@@ -406,6 +427,10 @@ var CustomerName='';
                             GestureDetector(
                               onTap: () async {
 
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => UpdateScreen()),
+                                );
 
 
                               },
@@ -473,6 +498,10 @@ var CustomerName='';
                             GestureDetector(
                               onTap: () async {
 
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => UpdateScreen()),
+                                );
 
 
                               },
@@ -580,7 +609,7 @@ var CustomerName='';
                                    child: Column(
                                      children: [
                                        Spacer(),
-                                       SvgPicture.asset("assets/Dates.svg",color: HexColor(ThemP.getcolor()),
+                                       SvgPicture.asset("assets/visits.svg",color: HexColor(ThemP.getcolor()),
                                          height: 50 * unitHeightValue,
                                          width: 50 * unitHeightValue,
                                        ),
@@ -610,12 +639,57 @@ var CustomerName='';
                              ),
                            ),
                            Spacer(),
+                           Spacer(),
                            GestureDetector(
                              onTap: () {
-                               Navigator.push(
-                                 context,
-                                 MaterialPageRoute(builder: (context) => Invoice()),
-                               );
+                               if(IsOpen){
+                                 Navigator.push(context,MaterialPageRoute(builder: (context) => Invoice()),);
+                               }else{
+                                 showDialog(
+                                     context: context,
+                                     builder: (_) =>
+                                         AlertDialog(
+                                           title: Text(LanguageProvider.Llanguage('Invoices')),
+                                           content: Text(LanguageProvider.Llanguage('selectvisitno')),
+                                           actions: [
+                                             TextButton(
+                                               //  textColor: Colors.black,
+                                               onPressed: () {
+                                                 Navigator.of(context).pop();
+
+                                                 Navigator.push(
+                                                   context,
+                                                   MaterialPageRoute(builder: (context) => Visits()),
+                                                 );
+                                               },
+                                               child: Text(
+                                                 LanguageProvider.Llanguage('openvisit'),
+                                                 style: ArabicTextStyle(
+                                                     arabicFont: ArabicFont.tajawal,
+                                                     color: Colors.redAccent,
+                                                     fontSize: 15 *
+                                                         unitHeightValue),
+                                               ),
+                                             ),
+                                             TextButton(
+                                               // textColor: Colors.black,
+                                               onPressed: () {
+                                                 Navigator.of(context).pop();
+
+
+                                               },
+                                               child: Text(
+                                                 LanguageProvider.Llanguage('cancel'),
+                                                 style: ArabicTextStyle(
+                                                     arabicFont: ArabicFont.tajawal,
+                                                     color: Colors.black87,
+                                                     fontSize: 15 *
+                                                         unitHeightValue),
+                                               ),
+                                             ),
+                                           ],
+                                         ));
+                               }
                              },
                              child: Column(
                                children: [
@@ -678,9 +752,13 @@ var CustomerName='';
                              ),
                            ),
                            Spacer(),
+                           Spacer(),
                            GestureDetector(
                              onTap: () async {
-
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(builder: (context) => UpdateScreen()),
+                               );
 
 
                              },
@@ -796,6 +874,8 @@ var CustomerName='';
 
  GetCustomers() async {
    print("SHARED JSON");
+
+
    print(await StoreShared.getJson(Globalvireables.CustomerJson));
    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 
@@ -803,8 +883,10 @@ var CustomerName='';
    Uri apiUrl = Uri.parse(Globalvireables.customerAPI);
 
    var map = new Map<String, dynamic>();
+
    map['EXCEPTION'] = 'false';
    map['ManId'] = Loginprovider.getid();
+
 
    try {
      http.Response res = await http.post(
@@ -817,8 +899,10 @@ var CustomerName='';
 
 
      if (res.statusCode == 200) {
-        StoreShared.SaveJson(
-           Globalvireables.CustomerJson, res.body.toString());
+      /*  StoreShared.SaveJson(
+           Globalvireables.CustomerJson, res.body.toString());*/
+
+
      } else {
        throw "Unable to retrieve Doctors. orrr";
      }
@@ -834,9 +918,9 @@ var CustomerName='';
   }
 
 
-  Future<List<OpenRoundModel>> GetRounddata() async {
-    print("JSONJSON" + await StoreShared.getJson(Globalvireables.OpenRound));
-
+  Future<List<OpenRoundModel>?> GetRounddata() async {
+    var roundpr = Provider.of<RoundProvider>(context, listen: false);
+try{
     List<dynamic> body =
     jsonDecode(await StoreShared.getJson(Globalvireables.OpenRound));
     List<OpenRoundModel> users = body
@@ -846,15 +930,35 @@ var CustomerName='';
         .toList();
 
 
-    if(users[0].starttime.toString().length>7){
-      IsOpen=true;
-      CustomerName=users[0].englishName.toString();
+    if (users[0].starttime
+        .toString()
+        .length > 7) {
+      IsOpen = true;
+      CustomerName = users[0].englishName.toString();
+
+
+      String CustomerId = users[0].custId.toString();
+      String CustomerLimite = '387';
+      String Receivables = '0.0';
+
+      roundpr.setCustomerId(CustomerId);
+      roundpr.setCustomerLimite(CustomerLimite);
+      roundpr.setReceivables(Receivables);
+      roundpr.setCustomerName(CustomerName);
     }
+
 
     setState(() {
 
     });
     return users;
+  }catch(_){
+
+
+
+}
+    return null;
+
   }
 
 
@@ -865,7 +969,47 @@ var CustomerName='';
 StringTimer= DateTime.now().toString().substring(10, 16);
 setState(() {
 
+
+
 });
   }
+
+
+  Future<List<CustomersModel>> getCustomers() async {
+    var handler = DatabaseHandler();
+
+    List<Locationn> locations = [];
+    List<CustomersModel> users = await handler.retrievebranches();
+    print("getCustomersWORK1");
+
+    try {
+      print("getCustomersWORK");
+
+
+      List<CustomersModel> users = await handler.retrievebranches();
+
+      print(users.first.branchName.toString() + "   branchnameBBBB");
+
+
+      for (int i = 0; i < users.length; i++) {
+        if (users[i].locX.toString() != 'null' &&
+            users[i].locX.toString() != 'NULL')
+          locations.add(new Locationn(
+              double.parse(users[i].locX.toString()),
+              double.parse(users[i].locY.toString()),
+              users[i].branchName.toString()));
+      }
+      //GetShortestDistance(locations);
+      print("thisisiteeem : " + users.first.customerId.toString());
+      return users;
+
+    }catch(e){
+      print(e.toString()+" ERRORSQKKL");
+    }
+    return users;
+  }
+
+
+
 
 }

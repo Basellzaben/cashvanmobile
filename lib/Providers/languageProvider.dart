@@ -44,9 +44,19 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
-    "selectvisitno":"يجب اختيار زياره لعرض التفاصيل ",
+      "bestlinedesc":"أفضل مسار هي ميزة تمكنك من معرفة أفضل طريقة لزيارة جميع عملائك في أقصر مسافة وأسرع وقت، لذا يجب عليك زيارة عملائك بالترتيب بدءاً من العميل رقم واحد.",
+      "Total":"  المجموع  ",
+      "Add":"إضافة",
+      "allInvoices": "الفواتير",
+      "Invoicesid": "رقم الفاتورة",
+"bestline":"المسار الأفضل",
+      "Receivables":"الذمم : ",
+      "Clientceiling":"سقف العميل : ",
+      "customerid":"رقم العميل  :  ",
+    "selectvisitno":"يجب فتح زيارة لعرض التفاصيل ",
     "notfound":"صوره الأشعة غير متوفره",
       "Show":"عرض",
+      "customername":"اسم العميل : ",
       "end":"انهاء الزيارة",
       "customers":"العملاء",
     "start":"بدء",
@@ -216,9 +226,20 @@ class Language extends ChangeNotifier {
   };
 
   static Map<String, Object?> en = {
+      "Clientceiling":"Client ceiling",
     "Show":"Show",
-      "end":"End Visit",
+      "bestline":"The best path",
+      "bestlinedesc":"Best Path is a feature that enables you to know the best way to visit all your customers in the shortest distance and fastest time, so you should visit your customers in order starting from customer number one.",
 
+      "Receivables":"Receivables",
+      "Total":"Total : ",
+      "Add":"Total : ",
+      "allInvoices": "Invoices",
+      "Invoicesid": "invoice number",
+
+      "end":"End Visit",
+      "customerid":"Customer Number  :",
+"customername":"Customer Name  : ",
       "selectcustomer":"select customer",
     "substituteemployee":"substitute employee",
 "start":"Start",
@@ -227,7 +248,7 @@ class Language extends ChangeNotifier {
       "outRange":"Outside the client's scope",
 
     "notfound":"Item not found",
-    "selectvisitno":"You must choose the excess number to view the insurance details",
+    "selectvisitno":"You must open the visit to view the invoice details",
     "loginandacept": "Agree and continue",
     "email": "Email",
     "doneupdte": "The information has been updated successfully",

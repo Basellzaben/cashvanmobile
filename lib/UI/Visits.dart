@@ -14,14 +14,19 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
+import '../Calculator.dart';
 import '../ColorsLanguage/GlobalVar.dart';
 import '../ColorsLanguage/HexaColor.dart';
 import '../Models/CustomersModel.dart';
+import '../Models/Locationn.dart';
+import '../Models/ManLogTransModel.dart';
 import '../Models/OpenRoundModel.dart';
 import '../Providers/LoginProvider.dart';
 import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
 import '../SharedPrefrence/StoreShared.dart';
+import '../Sqlite/DatabaseHandler.dart';
+import '../Sqlite/GettAllData.dart';
 import '../widget/Widgets.dart';
 import 'Home.dart';
 import 'Settings.dart';
@@ -33,48 +38,69 @@ class Visits extends StatefulWidget {
 }
 
 class _VisitsState extends State<Visits> {
+  final handler = DatabaseHandler();
+
+  List<Widget> listofwidgets = [];
+
   Timer? timer;
   bool active = false;
   bool IsOpen = false;
 
+  String latCustomer = '';
+  String longCustomer = '';
+  String CustomerId = '';
+
+  String CustomerName = '';
+  String CustomerLimite = '';
+  String Receivables = '';
+
+  List<ManLogTransModel> Manlogtrans = [];
+
+
   @override
   void initState() {
+    GettAllData.GetMaxLongTrans(context);
+
+
+    //stepList[0]=Step(title: Text('Address'), content: Center(child: Text('Address'),));
+    getSavedBestpath();
     determinePosition();
-    GetRounddata();
+   // GetRounddata();
     timer = Timer.periodic(Duration(seconds: 10),
-        (Timer t) => GetDistance(latCustomer, longCustomer));
+            (Timer t) => GetDistance(latCustomer, longCustomer));
 
-    timer = Timer.periodic(Duration(seconds: 3),
-            (Timer t) => GetRounddata());
-
-
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) =>     GettAllData.GetMaxLongTrans(context)
+    );
 
     super.initState();
+
+
   }
 
   TextEditingController dateinput = TextEditingController();
   TextEditingController searchscustomerscontroller = TextEditingController();
+  TextEditingController CustomerPathController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  String latCustomer = '';
-  String longCustomer = '';
-  String CustomerId = '';
-
   var check = false;
   var check2 = false;
 
   @override
   Widget build(BuildContext context) {
+
     var ThemP = Provider.of<Them>(context, listen: false);
     var colors = [
       HexColor((Globalvireables.secondcolor)),
       HexColor((ThemP.getcolor()))
     ];
-    double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
+    double unitHeightValue = MediaQuery
+        .of(context)
+        .size
+        .height * 0.00122;
     var stops = [0.0, 1.00];
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
@@ -82,8 +108,14 @@ class _VisitsState extends State<Visits> {
     return Stack(children: <Widget>[
       Image.asset(
         "assets/background.png",
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         fit: BoxFit.cover,
       ),
       Scaffold(
@@ -111,7 +143,7 @@ class _VisitsState extends State<Visits> {
             showUnselectedLabels: true,
             currentIndex: selectedIndex,
             selectedIconTheme:
-                IconThemeData(color: HexColor(Globalvireables.white)),
+            IconThemeData(color: HexColor(Globalvireables.white)),
             onTap: _onItemTapped,
           ),
           appBar: AppBar(
@@ -131,8 +163,14 @@ class _VisitsState extends State<Visits> {
           body: Directionality(
             textDirection: LanguageProvider.getDirection(),
             child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 1.15,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 1.15,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -147,8 +185,14 @@ class _VisitsState extends State<Visits> {
               child: SafeArea(
                 child: Container(
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 1.24,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 1.24,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/background.png"),
@@ -176,7 +220,10 @@ class _VisitsState extends State<Visits> {
                                         arabicFont: ArabicFont.tajawal,
                                         color: HexColor(Globalvireables.black2),
                                         fontSize:
-                                        Globalvireables.getDeviceType()=='tablet'?18 * unitHeightValue:14 * unitHeightValue,
+                                        Globalvireables.getDeviceType() ==
+                                            'tablet'
+                                            ? 18 * unitHeightValue
+                                            : 14 * unitHeightValue,
                                         fontWeight: FontWeight.w900)),
                               ),
                               Spacer(),
@@ -195,7 +242,10 @@ class _VisitsState extends State<Visits> {
                                         arabicFont: ArabicFont.tajawal,
                                         color: HexColor(Globalvireables.black2),
                                         fontSize:
-                                        Globalvireables.getDeviceType()=='tablet'?18 * unitHeightValue:14 * unitHeightValue,
+                                        Globalvireables.getDeviceType() ==
+                                            'tablet'
+                                            ? 18 * unitHeightValue
+                                            : 14 * unitHeightValue,
                                         fontWeight: FontWeight.w900)),
                               ),
                               Spacer(),
@@ -221,9 +271,9 @@ class _VisitsState extends State<Visits> {
                                       child: Icon(
                                           color: Colors.redAccent,
                                           dateinput.text.contains(
-                                                      LanguageProvider.Llanguage(
-                                                          'selectcustomer')) ||
-                                                  dateinput.text.length != 10
+                                              LanguageProvider.Llanguage(
+                                                  'selectcustomer')) ||
+                                              dateinput.text.length != 10
                                               ? null
                                               : Icons.cancel)),
                                   border: OutlineInputBorder(),
@@ -232,13 +282,13 @@ class _VisitsState extends State<Visits> {
                                           color: HexColor(ThemP.getcolor()),
                                           width: 2.0),
                                       borderRadius:
-                                          BorderRadius.circular(10.0)),
+                                      BorderRadius.circular(10.0)),
                                   enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                           color: HexColor(ThemP.getcolor()),
                                           width: 2.0),
                                       borderRadius:
-                                          BorderRadius.circular(10.0)),
+                                      BorderRadius.circular(10.0)),
                                   contentPadding: EdgeInsets.only(
                                       top: 18, bottom: 18, right: 20, left: 20),
                                   fillColor: HexColor(Globalvireables.white),
@@ -249,47 +299,57 @@ class _VisitsState extends State<Visits> {
                                 readOnly: true,
                                 //set it true, so that user will not able to edit text
                                 onTap: () async {
-                                  IsOpen?null:
-                                  showDialog(
+                                  IsOpen
+                                      ? null
+                                      : showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return Center(
                                         child: Card(
                                           child: Padding(
-                                            padding: const EdgeInsets.all(9.0),
+                                            padding:
+                                            const EdgeInsets.all(9.0),
                                             child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
+                                              height:
+                                              MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .height /
                                                   1.2,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
+                                              width:
+                                              MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width /
                                                   1.1,
                                               child: Column(
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
+                                                    const EdgeInsets
+                                                        .all(8.0),
                                                     child: SizedBox(
                                                       child: Text(
                                                           LanguageProvider
                                                               .Llanguage(
-                                                                  'customers'),
+                                                              'customers'),
                                                           style: ArabicTextStyle(
                                                               arabicFont:
-                                                                  ArabicFont
-                                                                      .tajawal,
+                                                              ArabicFont
+                                                                  .tajawal,
                                                               color: HexColor(
                                                                   Globalvireables
                                                                       .black2),
-                                                              fontSize:
-                                                              Globalvireables.getDeviceType()=='tablet'?25 * unitHeightValue:20 * unitHeightValue,
-
+                                                              fontSize: Globalvireables
+                                                                  .getDeviceType() ==
+                                                                  'tablet'
+                                                                  ? 25 *
+                                                                  unitHeightValue
+                                                                  : 20 *
+                                                                  unitHeightValue,
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w900)),
+                                                              FontWeight
+                                                                  .w900)),
                                                     ),
                                                   ),
                                                   Divider(
@@ -297,73 +357,88 @@ class _VisitsState extends State<Visits> {
                                                       color: Colors.grey),
                                                   SizedBox(
                                                     child: TextField(
-                                                      onChanged: (content) {
+                                                      onChanged:
+                                                          (content) {
                                                         setState(() {});
                                                       },
                                                       controller:
-                                                          searchscustomerscontroller,
+                                                      searchscustomerscontroller,
                                                       //editing controller of this TextField
                                                       decoration:
-                                                          InputDecoration(
+                                                      InputDecoration(
                                                         prefixIcon: Icon(
                                                           Icons.search,
                                                           color: HexColor(
-                                                              ThemP.getcolor()),
+                                                              ThemP
+                                                                  .getcolor()),
                                                           size: 27 *
                                                               unitHeightValue,
                                                         ),
                                                         suffixIcon:
-                                                            GestureDetector(
-                                                                onTap: () {
-                                                                  setState(() {
+                                                        GestureDetector(
+                                                            onTap:
+                                                                () {
+                                                              setState(
+                                                                      () {
                                                                     searchscustomerscontroller
-                                                                        .text = '';
+                                                                        .text =
+                                                                    '';
                                                                   });
-                                                                },
-                                                                child: Icon(
-                                                                    color: Colors
-                                                                        .redAccent,
-                                                                    searchscustomerscontroller.text.isEmpty ||
-                                                                            searchscustomerscontroller.text.toString() ==
-                                                                                LanguageProvider.Llanguage('Search')
-                                                                        ? null
-                                                                        : Icons.cancel)),
+                                                            },
+                                                            child: Icon(
+                                                                color: Colors
+                                                                    .redAccent,
+                                                                searchscustomerscontroller
+                                                                    .text
+                                                                    .isEmpty ||
+                                                                    searchscustomerscontroller
+                                                                        .text
+                                                                        .toString() ==
+                                                                        LanguageProvider
+                                                                            .Llanguage(
+                                                                            'Search')
+                                                                    ? null
+                                                                    : Icons
+                                                                    .cancel)),
                                                         border:
-                                                            OutlineInputBorder(),
+                                                        OutlineInputBorder(),
                                                         focusedBorder: OutlineInputBorder(
                                                             borderSide: BorderSide(
                                                                 color: HexColor(
                                                                     ThemP
                                                                         .getcolor()),
-                                                                width: 2.0),
+                                                                width:
+                                                                2.0),
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0)),
+                                                            BorderRadius
+                                                                .circular(
+                                                                10.0)),
                                                         enabledBorder: OutlineInputBorder(
                                                             borderSide: BorderSide(
                                                                 color: HexColor(
                                                                     ThemP
                                                                         .getcolor()),
-                                                                width: 2.0),
+                                                                width:
+                                                                2.0),
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0)),
+                                                            BorderRadius
+                                                                .circular(
+                                                                10.0)),
                                                         contentPadding:
-                                                            EdgeInsets.only(
-                                                                top: 18,
-                                                                bottom: 18,
-                                                                right: 20,
-                                                                left: 20),
+                                                        EdgeInsets.only(
+                                                            top: 18,
+                                                            bottom:
+                                                            18,
+                                                            right: 20,
+                                                            left: 20),
                                                         fillColor: HexColor(
                                                             Globalvireables
                                                                 .white),
                                                         filled: true,
                                                         hintText:
-                                                            LanguageProvider
-                                                                .Llanguage(
-                                                                    "Search"),
+                                                        LanguageProvider
+                                                            .Llanguage(
+                                                            "Search"),
                                                       ),
                                                       //a  readOnly: true,  //set it true, so that user will not able to edit text
                                                       onTap: () async {
@@ -372,137 +447,244 @@ class _VisitsState extends State<Visits> {
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            1.6,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            1.1,
+                                                    height: MediaQuery
+                                                        .of(
+                                                        context)
+                                                        .size
+                                                        .height /
+                                                        1.6,
+                                                    width: MediaQuery
+                                                        .of(
+                                                        context)
+                                                        .size
+                                                        .width /
+                                                        1.1,
                                                     child: FutureBuilder(
                                                       future: check2
                                                           ? getCustomersOnline()
                                                           : getCustomers(),
                                                       builder: (BuildContext
-                                                              context,
+                                                      context,
                                                           AsyncSnapshot<
-                                                                  List<
-                                                                      CustomersModel>>
-                                                              snapshot) {
-                                                        if (snapshot.hasData) {
+                                                              List<
+                                                                  CustomersModel>>
+                                                          snapshot) {
+                                                        if (snapshot
+                                                            .hasData) {
                                                           List<CustomersModel>?
-                                                              Visits =
-                                                              snapshot.data;
+                                                          Visits =
+                                                              snapshot
+                                                                  .data;
 
-                                                          List<CustomersModel>? search = Visits!
-                                                              .where((element) =>
-                                                                  element
-                                                                      .branchName
-                                                                      .toString()
-                                                                      .contains(searchscustomerscontroller
-                                                                          .text
-                                                                          .toString()) ||
-                                                                  element
-                                                                      .customerId
-                                                                      .toString()
-                                                                      .contains(searchscustomerscontroller
-                                                                          .text
-                                                                          .toString()))
+                                                          List<
+                                                              CustomersModel>? search = Visits!
+                                                              .where((
+                                                              element) =>
+                                                          element
+                                                              .branchName
+                                                              .toString()
+                                                              .contains(
+                                                              searchscustomerscontroller
+                                                                  .text
+                                                                  .toString()) ||
+                                                              element
+                                                                  .customerId
+                                                                  .toString()
+                                                                  .contains(
+                                                                  searchscustomerscontroller
+                                                                      .text
+                                                                      .toString()))
                                                               .toList();
 
                                                           return ListView(
                                                             children: search!
-                                                                .map(
-                                                                    (CustomersModel
-                                                                            v) =>
-                                                                        Column(
-                                                                          children: [
-                                                                            Card(
-                                                                              child: GestureDetector(
-                                                                                onTap: () {
-                                                                                  dateinput.text = v.branchName.toString();
-                                                                                  latCustomer = v.locX.toString();
-                                                                                  longCustomer = v.locY.toString();
-                                                                                  CustomerId = v.id.toString();
+                                                                .map((
+                                                                CustomersModel v) =>
+                                                                Column(
+                                                                  children: [
+                                                                    Card(
+                                                                      child: GestureDetector(
+                                                                        onTap: () {
+                                                                          Manlogtrans.clear();
+                                                                          GettAllData.GetMaxLongTrans(context);
 
-                                                                                  print("Lat and Long : " + latCustomer + " : ");
+                                                                          StoreShared.SaveJson('OpendCustomerId', v.customerId.toString());
+    Manlogtrans
+        .add(
+    new ManLogTransModel(
+    manNo: int
+        .parse(
+        Loginprovider
+            .id) ,
+    id: Loginprovider
+      .MaxLongstRANS,
+    custNo: int
+        .parse(
+    v
+        .customerId
+        .toString()),
+    screenCode: 1123,
+    actionNo: 18,
+    transNo: Loginprovider
+        .MaxLongstRANS
+        .toString(),
+    transDate: DateTime
+        .now(),
+    tabletId: 'Mobile',
+    batteryCharge: "88",
+    notes: "",
+      posted: 0
+    ));
 
-                                                                                  GetDistance(latCustomer, longCustomer);
-                                                                                  setState(() {});
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                                child: Padding(
-                                                                                  padding: const EdgeInsets.all(8.0),
-                                                                                  child: SizedBox(
-                                                                                      child: Row(
-                                                                                    children: [
-                                                                                      SizedBox(
-                                                                                        width: MediaQuery.of(context).size.width / 1.4,
-                                                                                        child: Text(
-                                                                                          textAlign: TextAlign.center,
-                                                                                          v.branchName.toString(),
-                                                                                          style: ArabicTextStyle(arabicFont: ArabicFont.tajawal, color: Colors.black,
+                                                                          dateinput.text = v.branchName.toString();
+                                                                          latCustomer =
+                                                                              v
+                                                                                  .locX
+                                                                                  .toString();
+                                                                          longCustomer =
+                                                                              v
+                                                                                  .locY
+                                                                                  .toString();
+                                                                          CustomerId =
+                                                                              v
+                                                                                  .id
+                                                                                  .toString();
 
-                                                                                              fontSize:   Globalvireables.getDeviceType()=='tablet'?20 * unitHeightValue:15 * unitHeightValue, fontWeight: FontWeight.w700),
-                                                                                        ),
-                                                                                      ),
-                                                                                      Spacer(),
-                                                                                      Text(
-                                                                                        v.id.toString(),
-                                                                                        style: ArabicTextStyle(arabicFont: ArabicFont.tajawal, color: Colors.black,
-                                                                                            fontSize: Globalvireables.getDeviceType()=='tablet'?18 * unitHeightValue:13 * unitHeightValue, fontWeight: FontWeight.w700),
-                                                                                      ),
-                                                                                    ],
-                                                                                  )),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          ],
-                                                                        ))
+                                                                          CustomerName =
+                                                                              v
+                                                                                  .branchName
+                                                                                  .toString();
+                                                                          CustomerLimite =
+                                                                          '652';
+                                                                          Receivables =
+                                                                          '0.00';
+
+                                                                          print(
+                                                                              "Lat and Long : " +
+                                                                                  latCustomer +
+                                                                                  " : ");
+
+                                                                          GetDistance(
+                                                                              latCustomer,
+                                                                              longCustomer);
+                                                                          setState(() {});
+                                                                          Navigator
+                                                                              .pop(
+                                                                              context);
+                                                                        },
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .all(
+                                                                              8.0),
+                                                                          child: SizedBox(
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  SizedBox(
+                                                                                    width: MediaQuery
+                                                                                        .of(
+                                                                                        context)
+                                                                                        .size
+                                                                                        .width /
+                                                                                        1.4,
+                                                                                    child: Text(
+                                                                                      textAlign: TextAlign
+                                                                                          .center,
+                                                                                      v
+                                                                                          .branchName
+                                                                                          .toString(),
+                                                                                      style: ArabicTextStyle(
+                                                                                          arabicFont: ArabicFont
+                                                                                              .tajawal,
+                                                                                          color: Colors
+                                                                                              .black,
+                                                                                          fontSize: Globalvireables
+                                                                                              .getDeviceType() ==
+                                                                                              'tablet'
+                                                                                              ? 20 *
+                                                                                              unitHeightValue
+                                                                                              : 15 *
+                                                                                              unitHeightValue,
+                                                                                          fontWeight: FontWeight
+                                                                                              .w700),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Spacer(),
+                                                                                  Text(
+                                                                                    v
+                                                                                        .id
+                                                                                        .toString(),
+                                                                                    style: ArabicTextStyle(
+                                                                                        arabicFont: ArabicFont
+                                                                                            .tajawal,
+                                                                                        color: Colors
+                                                                                            .black,
+                                                                                        fontSize: Globalvireables
+                                                                                            .getDeviceType() ==
+                                                                                            'tablet'
+                                                                                            ? 18 *
+                                                                                            unitHeightValue
+                                                                                            : 13 *
+                                                                                            unitHeightValue,
+                                                                                        fontWeight: FontWeight
+                                                                                            .w700),
+                                                                                  ),
+                                                                                ],
+                                                                              )),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ))
                                                                 .toList(),
                                                           );
                                                         } else {
                                                           return Center(
                                                               child:
-                                                                  CircularProgressIndicator());
+                                                              CircularProgressIndicator());
                                                         }
                                                       },
                                                     ),
                                                   ),
                                                   Align(
                                                     child: SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              4,
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton
+                                                      width: MediaQuery
+                                                          .of(
+                                                          context)
+                                                          .size
+                                                          .width /
+                                                          4,
+                                                      child:
+                                                      ElevatedButton(
+                                                        style:
+                                                        ElevatedButton
                                                             .styleFrom(
                                                           primary: HexColor(
-                                                              ThemP.getcolor()),
+                                                              ThemP
+                                                                  .getcolor()),
                                                         ),
                                                         child: Text(
                                                           LanguageProvider
                                                               .Llanguage(
-                                                                  'cancel'),
+                                                              'cancel'),
                                                           style: ArabicTextStyle(
                                                               arabicFont:
-                                                                  ArabicFont
-                                                                      .tajawal,
+                                                              ArabicFont
+                                                                  .tajawal,
                                                               color: HexColor(
                                                                   Globalvireables
                                                                       .white),
-                                                              fontSize:
-                                                              Globalvireables.getDeviceType()=='tablet'?19*
-                                                                  unitHeightValue:14 *
+                                                              fontSize: Globalvireables
+                                                                  .getDeviceType() ==
+                                                                  'tablet'
+                                                                  ? 19 *
+                                                                  unitHeightValue
+                                                                  : 14 *
                                                                   unitHeightValue),
                                                         ),
-                                                        onPressed: () async {
-                                                          Navigator.of(context)
+                                                        onPressed:
+                                                            () async {
+                                                          Navigator.of(
+                                                              context)
                                                               .pop();
                                                         },
                                                       ),
@@ -542,9 +724,11 @@ class _VisitsState extends State<Visits> {
                                   value: check,
                                   //set variable for value
                                   onChanged: (bool? value) async {
+                                    if (!check)
+                                      check2 = false;
+
                                     setState(() {
-                                      if(!IsOpen)
-                                        check = !check;
+                                      if (!IsOpen) check = !check;
                                     });
                                   }),
                               Text(
@@ -554,7 +738,11 @@ class _VisitsState extends State<Visits> {
                                       arabicFont: ArabicFont.tajawal,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
-                                      fontSize:  Globalvireables.getDeviceType()=='tablet'?17 * unitHeightValue:12 * unitHeightValue)),
+                                      fontSize:
+                                      Globalvireables.getDeviceType() ==
+                                          'tablet'
+                                          ? 17 * unitHeightValue
+                                          : 12 * unitHeightValue)),
                             ],
                           ),
                           Row(
@@ -563,9 +751,11 @@ class _VisitsState extends State<Visits> {
                                   value: check2,
                                   //set variable for value
                                   onChanged: (bool? value) async {
+                                    if (!check2)
+                                      check = false;
+
                                     setState(() {
-                                      if(!IsOpen)
-                                      check2 = !check2;
+                                      if (!IsOpen) check2 = !check2;
                                     });
                                   }),
                               Text(
@@ -574,80 +764,253 @@ class _VisitsState extends State<Visits> {
                                       arabicFont: ArabicFont.tajawal,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: Globalvireables.getDeviceType()=='tablet'?17 * unitHeightValue:12 * unitHeightValue)),
+                                      fontSize:
+                                      Globalvireables.getDeviceType() ==
+                                          'tablet'
+                                          ? 17 * unitHeightValue
+                                          : 12 * unitHeightValue)),
                             ],
                           ),
-                          active||IsOpen
+                          active || IsOpen
                               ? Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    height: 50,
-                                    width: MediaQuery.of(context).size.width / 1.2,
-                                    margin: EdgeInsets.only(top: 40, bottom: 5),
-                                    color: HexColor(Globalvireables.white),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: IsOpen?Colors.redAccent:HexColor(ThemP.getcolor()),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          )),
-                                      child: Text(
-                                        IsOpen?LanguageProvider.Llanguage('end'):LanguageProvider.Llanguage('start'),
-                                        style: ArabicTextStyle(
-                                            arabicFont: ArabicFont.tajawal,
-                                            color:
-                                                HexColor(Globalvireables.white),
-                                            fontSize: Globalvireables.getDeviceType()=='tablet'?21 * unitHeightValue:16 * unitHeightValue),
-                                      ),
-                                      onPressed: () async {
-if(IsOpen){
-  IsOpen=false;
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              height: 50,
+                              width:
+                              MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 1.2,
+                              margin: EdgeInsets.only(top: 40, bottom: 5),
+                              color: HexColor(Globalvireables.white),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: IsOpen
+                                        ? Colors.redAccent
+                                        : HexColor(ThemP.getcolor()),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10.0),
+                                    )),
+                                child: Text(
+                                  IsOpen
+                                      ? LanguageProvider.Llanguage('end')
+                                      : LanguageProvider.Llanguage(
+                                      'start'),
+                                  style: ArabicTextStyle(
+                                      arabicFont: ArabicFont.tajawal,
+                                      color:
+                                      HexColor(Globalvireables.white),
+                                      fontSize: Globalvireables
+                                          .getDeviceType() ==
+                                          'tablet'
+                                          ? 21 * unitHeightValue
+                                          : 16 * unitHeightValue),
+                                ),
+                                onPressed: () async {
+                                  if (IsOpen) {
+                                    IsOpen = false;
 
-  StoreShared.SaveJson(Globalvireables.OpenRound,"");
+                                    Future.delayed(const Duration(milliseconds: 1000), () async {
 
-  dateinput.clear();
-  check=false;
-  check2=false;
+                                      await GettAllData.GetMaxLongTrans(context);
 
 
-      }else {
-  IsOpen=true;
-  List<OpenRoundModel> openRound=[new OpenRoundModel(
-      manno: Loginprovider.id,
-      englishName: dateinput.text,
-      roundType: check2 ? '1' : '0',
-      //0 normal
-      employeeType: check ? '1' : '0',
-      //0 normal
-      custId: CustomerId,
-      starttime: DateTime.now().toString().substring(0, 16),
-      endtime: DateTime.now().toString().substring(0, 16),
-      status: '0'
-  )];
- // openRound.add(;
+                                      var custno=await StoreShared.getJson('OpendCustomerId');
+                                      Manlogtrans.clear();
+                                      Manlogtrans
+                                          .add(
+                                          new ManLogTransModel(
+                                            manNo:int.parse(Loginprovider.id),
+                                            id:  Loginprovider.MaxLongstRANS ,
+                                            custNo: int.parse(custno),
+                                            screenCode: 1123,
+                                            actionNo: 19,
+                                            transNo: Loginprovider
+                                                .MaxLongstRANS
+                                                .toString(),
+                                            transDate: DateTime
+                                                .now(),
+                                            tabletId: 'Mobile',
+                                            batteryCharge: "88",
+                                            notes: "",
+                                            posted: 0 )
+                                      );
 
-  StoreShared.SaveJson(Globalvireables.OpenRound,
-      jsonEncode(openRound.map((e) => e.toJson()).toList()));
-}
+                                      handler.addManLogTrans(Manlogtrans);
+
+
+                                      check = false;
+                                      check2 = false;
+                                      GettAllData.GetMaxLongTrans(context);
+
+
+
+                                    });
+dateinput.clear();
 setState(() {
 
 });
-                                      },
-                                    ),
-                                  ),
-                                )
+                                  } else {
+                                    IsOpen = true;
+
+
+                                  await StoreShared.SaveJson('OpenTime',DateTime.now().toString());
+
+
+                                    Future.delayed(const Duration(milliseconds: 1000), () async {
+
+                                    GettAllData.GetMaxLongTrans(context);
+
+                                    handler.addManLogTrans(Manlogtrans);
+    /*  List<OpenRoundModel> openRound = [
+                                      new OpenRoundModel(
+                                          manno: Loginprovider.id,
+                                          englishName: dateinput.text,
+                                          roundType: check2 ? '1' : '0',
+                                          //0 normal
+                                          employeeType: check ? '1' : '0',
+                                          //0 normal
+                                          custId: CustomerId,
+                                          starttime: DateTime.now()
+                                              .toString()
+                                              .substring(0, 16),
+                                          endtime: DateTime.now()
+                                              .toString()
+                                              .substring(0, 16),
+                                          status: '0')
+                                    ];
+                                    // openRound.add(;
+
+                                   StoreShared.SaveJson(
+                                        Globalvireables.OpenRound,
+                                        jsonEncode(openRound
+                                            .map((e) => e.toJson())
+                                            .toList()));
+
+                                    StoreShared.SaveJson(
+                                        Globalvireables.CustomerName,
+                                        CustomerName);
+                                    StoreShared.SaveJson(
+                                        Globalvireables.CustomerId,
+                                        CustomerId);
+                                    StoreShared.SaveJson(
+                                        Globalvireables.CustomerLimite,
+                                        CustomerLimite);
+                                    StoreShared.SaveJson(
+                                        Globalvireables.Receivables,
+                                        Receivables);*/
+
+                                    GettAllData.GetMaxLongTrans(context);
+
+    });
+
+
+                                  }
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          )
                               : Container(
-                                  child: Center(
-                                    child: Text(
-                                      LanguageProvider.Llanguage('outRange'),
-                                      style: ArabicTextStyle(
-                                          arabicFont: ArabicFont.tajawal,
-                                          color: Colors.redAccent,
-                                          fontSize: Globalvireables.getDeviceType()=='tablet'?21 * unitHeightValue:16 * unitHeightValue),
-                                    ),
-                                  ),
-                                ),
+                            child: Center(
+                              child: Text(
+                                LanguageProvider.Llanguage('outRange'),
+                                style: ArabicTextStyle(
+                                    arabicFont: ArabicFont.tajawal,
+                                    color: Colors.redAccent,
+                                    fontSize:
+                                    Globalvireables.getDeviceType() ==
+                                        'tablet'
+                                        ? 21 * unitHeightValue
+                                        : 16 * unitHeightValue),
+                              ),
+                            ),
+                          ),
+
+                          /*  TextField(
+                            enabled: false,
+                            controller: CustomerPathController,
+                            maxLines: null,
+                          ),*/
+
+                          SizedBox(height: 30,),
+
+                          listofwidgets.length > 0 ?
+                          Row(
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                    LanguageProvider.Llanguage(
+                                        'bestline'),
+                                    style: ArabicTextStyle(
+                                        arabicFont: ArabicFont.tajawal,
+                                        color: HexColor(Globalvireables.black2),
+                                        fontSize:
+                                        Globalvireables.getDeviceType() ==
+                                            'tablet'
+                                            ? 18 * unitHeightValue
+                                            : 14 * unitHeightValue,
+                                        fontWeight: FontWeight.w900)),
+                              ),
+                              Spacer(),
+                              GestureDetector(
+                                  onTap: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Expanded(
+                                          child: AlertDialog(
+                                            title: Center(
+                                              child: Text(
+                                                  textAlign: TextAlign.center,
+
+                                                  LanguageProvider.Llanguage(
+                                                      "bestline"),
+                                                  style: ArabicTextStyle(
+                                                      arabicFont: ArabicFont
+                                                          .tajawal,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w700,
+                                                      fontSize: 16 *
+                                                          unitHeightValue)),
+                                            ),
+                                            content: Text(
+                                              LanguageProvider.Llanguage(
+                                                  "bestlinedesc"),
+                                              textAlign: TextAlign.center,
+
+                                              style: ArabicTextStyle(
+                                                  arabicFont: ArabicFont
+                                                      .tajawal,
+                                                  fontSize:
+                                                  16 * unitHeightValue),
+                                            ),
+                                            actions: [
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }, child: Icon(Icons.info_outline_rounded,))
+                            ],
+                          ) : Container(),
+
+                          SizedBox(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height / 3,
+                            child: ListView.builder
+                              (
+                                itemCount: listofwidgets.length,
+                                itemBuilder: (BuildContext ctxt, int index) {
+                                  return listofwidgets[index];
+                                }
+                            ),
+                          )
+
                         ],
                       ),
                     ),
@@ -680,27 +1043,44 @@ setState(() {
   ];
 
   Future<List<CustomersModel>> getCustomers() async {
-    print("JSONJSON" + await StoreShared.getJson(Globalvireables.CustomerJson));
+    var handler = DatabaseHandler();
 
-    List<dynamic> body =
-        jsonDecode(await StoreShared.getJson(Globalvireables.CustomerJson));
-    List<CustomersModel> users = body
-        .map(
-          (dynamic item) => CustomersModel.fromJson(item),
-        )
-        .toList();
+    List<Locationn> locations = [];
+    List<CustomersModel> users = await handler.retrievebranches();
+    print("getCustomersWORK1");
 
-    print("thisisiteeem : " + users.first.customerId.toString());
+    try {
+      print("getCustomersWORK");
 
+
+      List<CustomersModel> users = await handler.retrievebranches();
+
+      print(users.first.branchName.toString() + "   branchnameBBBB");
+
+
+      for (int i = 0; i < users.length; i++) {
+        if (users[i].locX.toString() != 'null' &&
+            users[i].locX.toString() != 'NULL')
+          locations.add(new Locationn(
+              double.parse(users[i].locX.toString()),
+              double.parse(users[i].locY.toString()),
+              users[i].branchName.toString()));
+      }
+      GetShortestDistance(locations);
+      print("thisisiteeem : " + users.first.customerId.toString());
+      return users;
+    } catch (e) {
+      print(e.toString() + " ERRORSQKKL");
+    }
     return users;
   }
 
   Future<List<CustomersModel>> getCustomersOnline() async {
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
-
-    Uri apiUrl = Uri.parse(Globalvireables.customerAPI);
-
     try {
+      Uri apiUrl = Uri.parse(Globalvireables.customerAPI);
+      List<Locationn> locations = [];
+
       var map = new Map<String, dynamic>();
       map['EXCEPTION'] = 'true';
       map['ManId'] = Loginprovider.getid();
@@ -712,6 +1092,8 @@ setState(() {
         body: map,
       );
 
+      print("Input customer" + res.body.toString());
+
       if (res.statusCode == 200) {
         print("Invoices" + res.body.toString());
 
@@ -719,38 +1101,60 @@ setState(() {
 
         List<CustomersModel> Invoices = body
             .map(
-              (dynamic item) => CustomersModel.fromJson(item),
-            )
+              (dynamic item) => CustomersModel.fromJson(item),)
             .toList();
+        try {
+          for (int i = 0; i < Invoices.length; i++) {
+            if (Invoices[i].locX
+                .toString()
+                .length > 4 &&
+                Invoices[i].locX
+                    .toString()
+                    .length > 4)
+              locations.add(new Locationn(
+                  double.parse(Invoices[i].locX.toString()),
+                  double.parse(Invoices[i].locY.toString()),
+                  Invoices[i].branchName.toString()));
+          }
 
+          print("Locationlength : " + locations.length.toString());
+          GetShortestDistance(locations);
+        } catch (e) {
+          print("ERRORR1 : " + e.toString());
+        }
         return Invoices;
       } else {
         throw "Unable to retrieve Invoices." + res.statusCode.toString();
       }
-    } catch (e) {}
-
+    } catch (e) {
+      print("ERRORR : " + e.toString());
+    }
     throw "Unable to retrieve Invoices.";
   }
 
   GetDistance(String latCustomer, String longCustomer) async {
-    print(latCustomer.toString() +
-        " : " +
-        longCustomer.toString() +
-        " latCustomer");
+    try {
+      print(latCustomer.toString() +
+          " : " +
+          longCustomer.toString() +
+          " latCustomer");
 
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    double lat = position.latitude;
-    double long = position.longitude;
-    print("Latitude: $lat and Longitude: $long");
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      double lat = position.latitude;
+      double long = position.longitude;
+      print("Latitude: $lat and Longitude: $long");
 
-    double distanceInMeters = await Geolocator.distanceBetween(
-        lat, long, double.parse(lat.toString()), double.parse(longCustomer));
+      double distanceInMeters = await Geolocator.distanceBetween(
+          lat, long, double.parse(lat.toString()), double.parse(longCustomer));
 
-    print(
-        (distanceInMeters / 1000).toStringAsFixed(2).toString() + " DISTANCE");
-    if ((distanceInMeters / 1000) < 100000) active = true;
-    setState(() {});
+      print((distanceInMeters / 1000).toStringAsFixed(2).toString() +
+          " DISTANCE");
+      if ((distanceInMeters / 1000) < 100000) active = true;
+      setState(() {});
+    } catch (e) {
+      print("ERROR : " + e.toString());
+    }
   }
 
   determinePosition() async {
@@ -766,33 +1170,108 @@ setState(() {
     }
   }
 
-  Future<List<OpenRoundModel>> GetRounddata() async {
-    print("JSONJSON" + await StoreShared.getJson(Globalvireables.OpenRound));
+  /*Future<List<OpenRoundModel>?> GetRounddata() async {
+    try {
+      print("JSONJSON" + await StoreShared.getJson(Globalvireables.OpenRound));
 
-    List<dynamic> body =
-    jsonDecode(await StoreShared.getJson(Globalvireables.OpenRound));
-    List<OpenRoundModel> users = body
-        .map(
-          (dynamic item) => OpenRoundModel.fromJson(item),
-    )
-        .toList();
+      List<dynamic> body =
+      jsonDecode(await StoreShared.getJson(Globalvireables.OpenRound));
+
+      List<OpenRoundModel> users = body
+          .map(
+            (dynamic item) => OpenRoundModel.fromJson(item),
+      )
+          .toList();
+
+      if (users[0].starttime
+          .toString()
+          .length > 7) {
+        IsOpen = true;
+      }
+
+      dateinput.text = users[0].englishName.toString();
+      if (users[0].employeeType.toString() == '1') {
+        check = true;
+      }
+      if (users[0].roundType.toString() == '1') {
+        check2 = true;
+      }
+      setState(() {});
+      return users;
+    } catch (_) {}
+    return null;
+  }
+*/
+  GetShortestDistance(List<Locationn> locations) {
+    List<String> CustomerLine = [];
+    var ThemP = Provider.of<Them>(context, listen: false);
+
+    if (locations.length > 2) {
+      List<Locationn> shortestPath = Calculator.nearestNeighbor(locations);
+
+      double totalDistance = 0;
+      for (var i = 0; i < shortestPath.length - 1; i++) {
+        totalDistance += Calculator.calculateDistance2(shortestPath[i].x,
+            shortestPath[i].y, shortestPath[i + 1].x, shortestPath[i + 1].y);
+      }
+
+      print('Total distance: $totalDistance');
+      //  super.initState();
+      print('shortest path algorthim :');
+      print("Names" +
+          shortestPath.map((location) => '(${location.name})').join(' -> '));
+      CustomerPathController.text =
+          (shortestPath.map((location) => '(${location.name})').join(' -> ')) +
+              "\n";
+
+      print("liiistaaa   :  " + json.encode(listofwidgets).toString());
+
+      listofwidgets.clear();
+      for (int i = 0; i < shortestPath.length; i++) {
+        listofwidgets.add(new Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 0),
+                        shape: BoxShape.circle,
+                        color: HexColor(ThemP.color),
+                      ),
+                      child: Center(child: Text((i + 1).toString(),
+                        style: TextStyle(color: Colors.white),))
+                  ),
 
 
-    if(users[0].starttime.toString().length>7){
-      IsOpen=true;
+                ],
+              ),
+            ),
+            Text(shortestPath[i].name),
+          ],
+        ));
+
+
+        setState(() {});
+      }
+
+
+      //  StoreShared.SaveJson(Globalvireables.listofbestline, json.encode(listofwidgets));
+
+
+      //  const Step(title: Text('Address'), content: Center(child: Text('Address'),)),
+    } else {
+      print('shortest path algorithm error');
     }
+  }
 
-    dateinput.text=users[0].englishName.toString();
-    if(users[0].employeeType.toString()=='1'){
-      check=true;
-    }
-    if(users[0].roundType.toString()=='1'){
-      check2=true;
-    }
-setState(() {
-
-});
-    return users;
+  getSavedBestpath() {
+    //listofwidgets = json.decode();;
+    // if(StoreShared.getJson(Globalvireables.listofbestline).toString().length>5)
+    //listofwidgets = json.decode(StoreShared.getJson(Globalvireables.listofbestline));
   }
 
 }

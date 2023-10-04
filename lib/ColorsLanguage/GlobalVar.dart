@@ -29,11 +29,21 @@ class Globalvireables {
 //Store Data into Shared Keys
   static String UsersJson='UsersJson';
   static String CustomerJson='CustomerJson';
-  static String OpenRound='OpenRoundJson';
 
+  static String CustomerName='CustomerName';
+  static String CustomerId='CustomerId';
+  static String CustomerLimite='CustomerLimite';
+  static String Receivables='Receivables';
+  static String listofbestline='listofbestline';
+
+
+  static String OpenRound='OpenRoundJson';
+  static String AllRound='AllRound';
 
   static String loginAPI=connectIPLocal+"/api/LoginController/login";
   static String customerAPI=connectIPLocal+"/api/customerController/customer";
+
+  static String Total='';
 
 
 

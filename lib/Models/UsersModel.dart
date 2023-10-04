@@ -49,7 +49,7 @@ class UsersModel {
   var supervisor;
   var allowLoginOutside;
   var rangeLogin;
-  var accNum;
+  var Acc_Num;
 
   UsersModel(
       {this.id,
@@ -102,7 +102,119 @@ class UsersModel {
         this.supervisor,
         this.allowLoginOutside,
         this.rangeLogin,
-        this.accNum});
+        this.Acc_Num});
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'arabicName': arabicName,
+      'englishName': englishName,
+      'manType': manType,
+      'manSupervisor': manSupervisor,
+      'alternativeMan': alternativeMan,
+      'branchNo': branchNo,
+      'manStatus': manStatus,
+      'email': email,
+      'mobileNo': mobileNo,
+      'loginName': loginName,
+      'basicSalary': basicSalary,
+      'carId': carId,
+      'password': password,
+      'cashComm': cashComm,
+      'creditComm': creditComm,
+      'quta': quta,
+      'sales2': sales2,
+      'state': state,
+      'year': year,
+      'country': country,
+      'city': city,
+      'area': area,
+      'type': type,
+      'note': note,
+      'dis': dis,
+      'storeNo': storeNo,
+      'mobileNo2': mobileNo2,
+      'manImage': manImage,
+      'imagePath': imagePath,
+      'maxDiscount': maxDiscount,
+      'maxBouns': maxBouns,
+      'fullName': fullName,
+      'manMaterial': manMaterial,
+      'manRegion': manRegion,
+      'opiningBalanceVacation': opiningBalanceVacation,
+      'balanceVacation': balanceVacation,
+      'equationId': equationId,
+      'subAgent': subAgent,
+      'customerName': customerName,
+      'items': items,
+      'salesAccNo': salesAccNo,
+      'receiptVType': receiptVType,
+      'salesVType': salesVType,
+      'retSalesVType': retSalesVType,
+      'cashAccNo': cashAccNo,
+      'vType': vType,
+      'supervisor': supervisor,
+      'allowLoginOutside': allowLoginOutside,
+      'rangeLogin': rangeLogin,
+      'Acc_Num': Acc_Num,
+    };
+  }
+
+  factory UsersModel.fromMap(Map<String, dynamic> map) {
+    return UsersModel(
+      id: map['id'],
+      arabicName: map['arabicName'],
+      englishName: map['englishName'],
+      manType: map['manType'],
+      manSupervisor: map['manSupervisor'],
+      alternativeMan: map['alternativeMan'],
+      branchNo: map['branchNo'],
+      manStatus: map['manStatus'],
+      email: map['email'],
+      mobileNo: map['mobileNo'],
+      loginName: map['loginName'],
+      basicSalary: map['basicSalary'],
+      carId: map['carId'],
+      password: map['password'],
+      cashComm: map['cashComm'],
+      creditComm: map['creditComm'],
+      quta: map['quta'],
+      sales2: map['sales2'],
+      state: map['state'],
+      year: map['year'],
+      country: map['country'],
+      city: map['city'],
+      area: map['area'],
+      type: map['type'],
+      note: map['note'],
+      dis: map['dis'],
+      storeNo: map['storeNo'],
+      mobileNo2: map['mobileNo2'],
+      manImage: map['manImage'],
+      imagePath: map['imagePath'],
+      maxDiscount: map['maxDiscount'],
+      maxBouns: map['maxBouns'],
+      fullName: map['fullName'],
+      manMaterial: map['manMaterial'],
+      manRegion: map['manRegion'],
+      opiningBalanceVacation: map['opiningBalanceVacation'],
+      balanceVacation: map['balanceVacation'],
+      equationId: map['equationId'],
+      subAgent: map['subAgent'],
+      customerName: map['customerName'],
+      items: map['items'],
+      salesAccNo: map['salesAccNo'],
+      receiptVType: map['receiptVType'],
+      salesVType: map['salesVType'],
+      retSalesVType: map['retSalesVType'],
+      cashAccNo: map['cashAccNo'],
+      vType: map['vType'],
+      supervisor: map['supervisor'],
+      allowLoginOutside: map['allowLoginOutside'],
+      rangeLogin: map['rangeLogin'],
+      Acc_Num: map['Acc_Num'],
+    );
+  }
+
 
   UsersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -155,7 +267,7 @@ class UsersModel {
     supervisor = json['supervisor'];
     allowLoginOutside = json['allowLoginOutside'];
     rangeLogin = json['rangeLogin'];
-    accNum = json['acc_Num'];
+    Acc_Num = json['acc_Num'];
   }
 
   Map<String, dynamic> toJson() {
@@ -210,7 +322,9 @@ class UsersModel {
     data['supervisor'] = this.supervisor.toString();
     data['allowLoginOutside'] = this.allowLoginOutside.toString();
     data['rangeLogin'] = this.rangeLogin.toString();
-    data['acc_Num'] = this.accNum.toString();
+    data['acc_Num'] = this.Acc_Num.toString();
     return data;
+
+
   }
 }

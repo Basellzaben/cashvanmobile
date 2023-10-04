@@ -19,6 +19,8 @@ import '../Models/UsersModel.dart';
 import '../Providers/LoginProvider.dart';
 import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
+import '../Sqlite/DatabaseHandler.dart';
+import '../Sqlite/GettAllData.dart';
 import 'Home.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -36,6 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    final handler = DatabaseHandler();
+
+    handler.initDatabase();
     Getrememper();
     super.initState();
   }
@@ -260,9 +265,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 13 * unitHeightValue),
                     ),
                     onPressed: () async {
-                      Login(_emailController.text.toString(),
+
+                     // GettAllData.GetAllUser(context);
+
+
+     Login(_emailController.text.toString(),
                           _passController.text.toString());
-                      /* Navigator.of(context).pushAndRemoveUntil(
+     /*                  Navigator.of(context).pushAndRemoveUntil(
                                           MaterialPageRoute(
                                             builder: (context) => Index(),
                                           ),Login
