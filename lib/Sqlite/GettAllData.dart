@@ -19,6 +19,8 @@ class GettAllData {
 
 
   static Future<List<UsersModel>> GetAllUser(BuildContext context) async {
+    await Future.delayed(Duration(seconds: 1));
+
     var LanguageProvider = Provider.of<Language>(context, listen: false);
 
     showDialog(
@@ -87,6 +89,7 @@ try{
 
 
   static Future<List<CustomersModel>> GetAllBranches(BuildContext context) async {
+    await Future.delayed(Duration(seconds: 1));
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 
@@ -113,7 +116,7 @@ try{
         body: map,
       );
 
-      print("Input customer" + res.body.toString());
+     // print("Input customer" + res.body.toString());
 
       if (res.statusCode == 200) {
         print("Invoices" + res.body.toString());
@@ -134,7 +137,13 @@ try{
         Navigator.pop(context);
 
 
-
+        showDialog(
+            context: context,
+            builder: (_) =>
+                AlertDialog(
+                  title: Text(LanguageProvider.Llanguage('login')),
+                  content: Text(res.statusCode.toString()),
+                ));
 
 
         throw "Unable to retrieve Invoices." + res.statusCode.toString();
@@ -165,6 +174,25 @@ try{
 return await handler.getMaxIdFromTable('ManLogTrans');
 
 }
+
+
+  static GetMaxLongTransNo(BuildContext context) async {
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    final handler = DatabaseHandler();
+
+    Loginprovider.MaxLongstRANSNo= await handler.getMaxIdFromTableNo(context,'ManLogTrans');
+
+    return await handler.getMaxIdFromTableNo(context,'ManLogTrans');
+
+  }
+
+
+
+
+
+
+
 
 
 

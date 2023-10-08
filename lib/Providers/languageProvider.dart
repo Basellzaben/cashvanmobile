@@ -44,6 +44,7 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+      "updatedata":"تحديث البيانات",
       "bestlinedesc":"أفضل مسار هي ميزة تمكنك من معرفة أفضل طريقة لزيارة جميع عملائك في أقصر مسافة وأسرع وقت، لذا يجب عليك زيارة عملائك بالترتيب بدءاً من العميل رقم واحد.",
       "Total":"  المجموع  ",
       "Add":"إضافة",
@@ -116,7 +117,7 @@ class Language extends ChangeNotifier {
     "Insurance": "التامين",
     "galaxycasgvan": "Galaxy CashVan",
     "language": "تغيير اللغه",
-    "loading": "يجب الانتظار لحين جلب الوقت...",
+    "loading": "يجب الانتظار ...",
     "previoustime": "وقت الانصراف السابق",
     "aboutcompany": "وقت الانصراف السابق",
     "notask": "لا يتوفر لديك مهام الان",
@@ -228,6 +229,8 @@ class Language extends ChangeNotifier {
   static Map<String, Object?> en = {
       "Clientceiling":"Client ceiling",
     "Show":"Show",
+      "updatedata":"Update Data",
+
       "bestline":"The best path",
       "bestlinedesc":"Best Path is a feature that enables you to know the best way to visit all your customers in the shortest distance and fastest time, so you should visit your customers in order starting from customer number one.",
 
@@ -345,7 +348,7 @@ class Language extends ChangeNotifier {
     "password": "password",
     "distancerangeit": "It must be within the permitted distance range",
     "distancerange": "It must be within the allowed distance range",
-    "loading": "You have to wait until the time comes...",
+    "loading": "wait ...",
     "fingett": "finger print",
     "sickleave": "sick leave",
     "aboutcompany":

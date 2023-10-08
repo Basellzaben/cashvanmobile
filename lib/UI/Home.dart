@@ -26,6 +26,7 @@ import '../ColorsLanguage/GlobalVar.dart';
 import '../ColorsLanguage/HexaColor.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/Locationn.dart';
+import '../Models/ManVisitsModel.dart';
 import '../Models/OpenRoundModel.dart';
 import '../Models/UsersModel.dart';
 import '../Providers/LoginProvider.dart';
@@ -51,11 +52,11 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
+    getRoundData();
 
     //GetRounddata();
-    //timer = Timer.periodic(Duration(seconds: 1),
-    //(Timer t) => GetRounddata());
+  timer = Timer.periodic(Duration(seconds: 7),
+    (Timer t) => getRoundData());
 
 
     //GetCustomers();
@@ -244,7 +245,7 @@ var CustomerName='';
                                   style: ArabicTextStyle(
                                       arabicFont: ArabicFont.tajawal,
                                       color: HexColor(Globalvireables.black2),
-                                      fontSize: 18 * unitHeightValue,
+                                      fontSize: 16 * unitHeightValue,
                                       fontWeight: FontWeight.w700)
                               ),
 
@@ -258,7 +259,7 @@ var CustomerName='';
                                   style: ArabicTextStyle(
                                       arabicFont: ArabicFont.tajawal,
                                       color: Colors.green,
-                                      fontSize: 20 * unitHeightValue,
+                                      fontSize: 18 * unitHeightValue,
                                       fontWeight: FontWeight.w900)
                               ),
 
@@ -466,7 +467,7 @@ var CustomerName='';
                                     child: Column(
                                       children: [
                                         Spacer(),
-                                        SvgPicture.asset("assets/xray.svg",color: HexColor(ThemP.getcolor()),
+                                        SvgPicture.asset("assets/update.svg",color: HexColor(ThemP.getcolor()),
                                           height: 50 * unitHeightValue,
                                           width: 50 * unitHeightValue,
                                         ),
@@ -478,7 +479,7 @@ var CustomerName='';
                                     height: 5,
                                   ),
                                   Text(
-                                      LanguageProvider.Llanguage("Ray"),
+                                      LanguageProvider.Llanguage("updatedata"),
 
 
                                       style: ArabicTextStyle(
@@ -537,7 +538,7 @@ var CustomerName='';
                                     child: Column(
                                       children: [
                                         Spacer(),
-                                        SvgPicture.asset("assets/xray.svg",color: HexColor(ThemP.getcolor()),
+                                        SvgPicture.asset("assets/update.svg",color: HexColor(ThemP.getcolor()),
                                           height: 50 * unitHeightValue,
                                           width: 50 * unitHeightValue,
                                         ),
@@ -549,7 +550,7 @@ var CustomerName='';
                                     height: 5,
                                   ),
                                   Text(
-                                      LanguageProvider.Llanguage("Ray"),
+                                      LanguageProvider.Llanguage("updatedata"),
 
 
                                       style: ArabicTextStyle(
@@ -794,7 +795,7 @@ var CustomerName='';
                                    child: Column(
                                      children: [
                                        Spacer(),
-                                       SvgPicture.asset("assets/xray.svg",color: HexColor(ThemP.getcolor()),
+                                       SvgPicture.asset("assets/update.svg",color: HexColor(ThemP.getcolor()),
                                          height: 50 * unitHeightValue,
                                          width: 50 * unitHeightValue,
                                        ),
@@ -806,7 +807,7 @@ var CustomerName='';
                                    height: 5,
                                  ),
                                  Text(
-                                     LanguageProvider.Llanguage("Ray"),
+                                     LanguageProvider.Llanguage("updatedata"),
 
 
                                      style: ArabicTextStyle(
@@ -988,19 +989,19 @@ setState(() {
 
       List<CustomersModel> users = await handler.retrievebranches();
 
-      print(users.first.branchName.toString() + "   branchnameBBBB");
+      print(users.first.branchname.toString() + "   branchnameBBBB");
 
 
       for (int i = 0; i < users.length; i++) {
-        if (users[i].locX.toString() != 'null' &&
-            users[i].locX.toString() != 'NULL')
+        if (users[i].locx.toString() != 'null' &&
+            users[i].locy.toString() != 'NULL')
           locations.add(new Locationn(
-              double.parse(users[i].locX.toString()),
-              double.parse(users[i].locY.toString()),
-              users[i].branchName.toString()));
+              double.parse(users[i].locx.toString()),
+              double.parse(users[i].locy.toString()),
+              users[i].branchname.toString()));
       }
       //GetShortestDistance(locations);
-      print("thisisiteeem : " + users.first.customerId.toString());
+      print("thisisiteeem : " + users.first.customerid.toString());
       return users;
 
     }catch(e){
@@ -1009,7 +1010,36 @@ setState(() {
     return users;
   }
 
+  getRoundData() async {
+    try{
+      final handler = DatabaseHandler();
 
+
+
+
+      ManVisitsModel manvisitsmodel=await handler.retrieveOpenManVisitss();
+      if(manvisitsmodel!=null){
+        IsOpen=true;
+
+        CustomerName = manvisitsmodel.CusName.toString();
+
+
+        setState(() {
+        });
+
+        return manvisitsmodel;
+
+      }else{
+        print ("errrrrrrororor");
+      }}
+    catch(e){
+
+      print ("errrrrrrororor   "+e.toString());
+
+    }
+
+    return null;
+  }
 
 
 }

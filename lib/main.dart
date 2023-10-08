@@ -78,8 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
       language='AR';
     }
     pref.setString('language', language);
-    Provider.of<Language>(context, listen: false)
-        .setLanguage(language);
+    Provider.of<Language>(context, listen: false).setLanguage(language);
     print(language +" laaan");}
   @override
   Widget build(BuildContext context) {

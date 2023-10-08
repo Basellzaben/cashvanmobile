@@ -13,7 +13,7 @@ class StoreShared{
 
  static getJson(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String stringValue = prefs.getString(key)??'[{}]';
+    String stringValue = prefs.getString(key)??'';
     return stringValue;
   }
 

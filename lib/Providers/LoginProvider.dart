@@ -13,6 +13,17 @@ class LoginProvider extends ChangeNotifier {
 
   //max id's
   int MaxLongstRANS=0;
+  int MaxLongstRANSNo=0;
+  getMaxLongstRANSNo() {
+    return MaxLongstRANSNo;
+  }
+
+  setMaxLongstRANSNo(int MaxLongstRANSNo) {
+    this.MaxLongstRANSNo = MaxLongstRANSNo;
+    notifyListeners();
+  }
+
+
 
   getMaxLongstRANS() {
     return MaxLongstRANS;

@@ -209,7 +209,8 @@ setState(() {
                   Globalvireables.getDeviceType() ==
                       'tablet'
                       ? 17 * unitHeightValue
-                      : 12 * unitHeightValue)),
+                      : 12 * unitHeightValue)
+          ),
         ],
       ),
 
@@ -244,16 +245,16 @@ setState(() {
                                           ? 21 * unitHeightValue
                                           : 16 * unitHeightValue),
                                 ),
-                                onPressed: () async {
+                                onPressed: ()  async {
 
 
+                                  if(checkbrances)
+                                    await  GettAllData.GetAllBranches(context);
+                                  if(checkusers)
+                                  await GettAllData.GetAllUser(context);
 
-//if(checkcustomers)
-                                 // GettAllData.GetAllUser(context);
-                                  GettAllData.GetAllBranches(context);
 
-
-
+                               //   await Future.delayed(Duration(seconds: 1));
 
 
                                   setState(() {});

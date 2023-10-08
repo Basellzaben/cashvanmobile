@@ -1,14 +1,20 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/ManLogTransModel.dart';
+import '../Models/ManVisitsModel.dart';
 import '../Models/UsersModel.dart';
+import '../Providers/LoginProvider.dart';
 
 class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
 
-    return openDatabase(join(path, 'GalaxyCashVanDataBase.db'), version: 10,
+    return openDatabase(join(path, 'GalaxyCashVanDataBase.db'), version: 12,
         onCreate: (database, version) async {
       //companyinfo
       await database.execute(
@@ -81,39 +87,37 @@ class DatabaseHandler {
     RangeLogin INTEGER,
     Acc_Num NUMERIC(18, 0)
     )''');
-
 //branches -- customers
       await database.execute('''
     CREATE TABLE IF NOT EXISTS branches (
-      Id INTEGER PRIMARY KEY,
-    CustomerId INTEGER,
-    BranchName TEXT,
-    BranchTel TEXT,
-    BranchRepNo INTEGER,
-    LocX REAL,
-    LocY REAL,
-    Sat INTEGER,
-    Sun INTEGER,
-    Mon INTEGER,
-    Tues INTEGER,
-    Wens INTEGER,
-    Thurs INTEGER,
-    Frid INTEGER,
-    EveryWeek INTEGER,
-    VisitWeek INTEGER,
-    Acc TEXT,
-    CatNo INTEGER,
-    Pay_How TEXT,
-    Discount_Percent REAL,
-    Allow_Period INTEGER,
-    TaxSts TEXT,
-    PAYTYPE TEXT,
-    ACC_CHECK INTEGER,
-    PAMENT_PERIOD_NO INTEGER,
-    ExpirePeriod INTEGER,
-    ID_facility INTEGER,
-    AllowInviceWithFlag INTEGER,
-    CloseVisitWithoutimg INTEGER
+    customerid TEXT ,
+    branchname TEXT,
+    branchtel TEXT,
+    branchrepno TEXT,
+    locx TEXT,
+    locy TEXT,
+    sat TEXT,
+    sun TEXT,
+    mon TEXT,
+    tues TEXT,
+    wens TEXT,
+    thurs TEXT,
+    frid TEXT,
+    everyweek TEXT,
+    visitweek TEXT,
+    acc TEXT,
+    catno TEXT,
+    pay_how TEXT,
+    discount_percent TEXT,
+    allow_period TEXT,
+    taxsts TEXT,
+    paytype TEXT,
+    acc_check TEXT,
+    pament_period_no TEXT,
+    expireperiod TEXT,
+    id_facility TEXT,
+    allowinvicewithflag TEXT,
+    closevisitwithoutimg TEXT
 )
     ''');
 
@@ -132,10 +136,11 @@ class DatabaseHandler {
                 posted INTEGER
           )''');
 
-          await database.execute('''
+      await database.execute('''
       CREATE TABLE ManVisits (
-        ID INTEGER PRIMARY KEY,
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
         CusNo INTEGER,
+        CusName TEXT,
         DayNum INTEGER,
         Start_Time TEXT,
         End_Time TEXT,
@@ -144,8 +149,8 @@ class DatabaseHandler {
         no INTEGER,
         OrderNo INTEGER,
         Note TEXT,
-        X_Lat REAL,
-        Y_Long REAL,
+        X_Lat TEXT,
+        Y_Long TEXT,
         Loct TEXT,
         IsException INTEGER,
         COMPUTERNAME TEXT,
@@ -165,8 +170,8 @@ class DatabaseHandler {
       'SELECT MAX(ID) as max_id FROM $tableName',
     );
 
-    if (result.isNotEmpty) {
-      int? maxId = result[0]['max_id'] + 1;
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      int? maxId = int.parse((result[0]['max_id']).toString())+ 1;
       print("MAXID : "+maxId.toString());
       return maxId ?? 0; // Return 0 if maxId is null
 
@@ -177,8 +182,27 @@ class DatabaseHandler {
     }
   }
 
+  Future<int> getMaxIdFromTableNo(BuildContext context,String tableName) async {
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT MAX(TransNo) as max_TransNo FROM $tableName',
+    );
+
+    if (result.isNotEmpty && result[0]['max_TransNo']!=null) {
+      int? maxId = int.parse(result[0]['max_TransNo']) + 1;
+      print("max_TransNo : "+maxId.toString());
+      return maxId ?? int.parse(Loginprovider.id.toString()+"000")+1; // Return 0 if maxId is null
+      } else {
+      print("max_TransNo : return 9");
+      print(int.parse(Loginprovider.id.toString()+"0000")+1);
+      return int.parse(Loginprovider.id.toString()+"0000")+1; // Return 0 if there are no records in the table
+      }
+  }
+
   Future<void> addManLogTrans(List<ManLogTransModel> Manlogtrans) async {
-    Dropbranches();
+    //Dropbranches();
     final Database database = await initializeDB();
     for (int i = 0; i < Manlogtrans.length; i++) {
       var res = await database.insert('ManLogTrans', Manlogtrans[i].toMap());
@@ -237,24 +261,60 @@ class DatabaseHandler {
   Future<void> addbranches(List<CustomersModel> branches) async {
     Dropbranches();
     final Database database = await initializeDB();
+
+
+    print("branches.length " + branches.length.toString() );
+
+
     for (int i = 0; i < branches.length; i++) {
       var res = await database.insert('branches', branches[i].toMap());
       print("Result " + i.toString() + " :" + res.toString());
     }
   }
 
-  Future<List<CustomersModel>> retrievebranches() async {
-    final Database database = await initializeDB();
-    final List<Map<String, Object?>> queryResult =
-        await database.rawQuery('select * from  branches');
 
-    print(queryResult
-            .map((e) => CustomersModel.fromMap(e))
-            .toList()
-            .first
-            .branchName
-            .toString() +
-        "BBHBDNB");
+  Future<void> addbManVisits(List<ManVisitsModel> manvisits) async {
+  //  Dropbranches();
+    final Database database = await initializeDB();
+    for (int i = 0; i < manvisits.length; i++) {
+      var res = await database.insert('ManVisits', manvisits[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
+
+  Future<void> updateManVisits(List<ManVisitsModel> manvisits) async {
+  //  Dropbranches();
+    final Database database = await initializeDB();
+
+
+    // Calculate the maximum ID value from the ManVisits table.
+    final maxIdResult = await database.rawQuery('SELECT max(ID) as maxId FROM ManVisits');
+    final maxId = maxIdResult.first['maxId'] as int;
+
+print("maxIdmaxId  : "+maxId.toString());
+
+    await database.rawQuery(
+      'UPDATE ManVisits SET End_Time = ? , note= ? , X_Lat= ? ,Y_Long = ? , loct = ?  , posted = ? WHERE ID = $maxId ',
+      [ manvisits.first.End_Time, manvisits.first.note,manvisits.first.X_Lat,
+        manvisits.first.Y_Long, manvisits.first.loct,0],
+
+    );
+
+
+    
+  }
+
+
+
+
+
+  Future<List<CustomersModel>> retrievebranches() async {
+
+    final Database database = await initializeDB();
+
+     List<Map<String, Object?>> queryResult =
+        await database.rawQuery('select * from  branches');
 
     return queryResult.map((e) => CustomersModel.fromMap(e)).toList();
   }
@@ -268,4 +328,66 @@ class DatabaseHandler {
     final Database db = await initializeDB();
     db.delete('Representatives');
   }
+
+
+
+
+  Future<ManLogTransModel> retrieveSingelManLogTrans() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  ManLogTrans');
+    return queryResult.map((e) => ManLogTransModel.fromMap(e)).toList().last;
+  }
+
+
+
+  Future<List<CustomersModel>> retrieveSpecificbranches(int id) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  branches where customerid=$id');
+
+
+    return queryResult.map((e) => CustomersModel.fromMap(e)).toList();
+  }
+
+
+  Future<ManVisitsModel> retrieveOpenManVisitss() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  ManVisits where posted=-1');
+
+
+    return queryResult.map((e) => ManVisitsModel.fromMap(e)).toList().last;
+  }
+
+
+
+ retrieveAllOpenManVisitssASjson() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select  CusNo ,CusName ,DayNum ,Start_Time ,End_Time , ManNo,   Tr_Data,       no,   OrderNo,       Note,   X_Lat,       Y_Long,   Loct,       IsException,   COMPUTERNAME,       orderinvisit,   Duration,       posted from  ManVisits where posted=0');
+
+
+    String jsonStr = jsonEncode(queryResult);
+
+
+    return  jsonStr;
+
+  }
+
+
+  Future<void> updateManVisitsAfterpost() async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+var id=0;
+    await database.rawQuery(
+      'UPDATE ManVisits set posted = ? WHERE posted = $id ',
+      [1],
+
+    );
+
+
+
+  }
+
 }

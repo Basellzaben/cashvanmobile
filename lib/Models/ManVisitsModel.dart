@@ -9,14 +9,16 @@ class ManVisitsModel {
   int? no;
   int? orderNo;
   String? note;
-  double? X_Lat;
-  double? Y_Long;
+  String? X_Lat;
+  String? Y_Long;
   String? loct;
   int? isException;
   String? computerName;
   int? orderInVisit;
   int? duration;
   int? posted;
+  String? CusName;
+
 
   ManVisitsModel({
     this.id,
@@ -37,6 +39,7 @@ class ManVisitsModel {
     this.orderInVisit,
     this.duration,
     this.posted,
+    this.CusName
 
   });
 
@@ -59,7 +62,8 @@ class ManVisitsModel {
       computerName: map['COMPUTERNAME'],
       orderInVisit: map['orderinvisit'],
         duration: map['Duration'],
-      posted: map['posted'],
+        posted: map['posted'],
+      CusName: map['CusName'],
 
     );
   }
@@ -84,6 +88,7 @@ class ManVisitsModel {
       'orderinvisit': orderInVisit,
       'Duration': duration,
       'posted': posted,
+      'CusName': CusName,
 
     };
   }

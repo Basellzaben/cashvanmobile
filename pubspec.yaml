@@ -84,6 +84,7 @@ flutter:
     - assets/background.png
     - assets/invoices.svg
     - assets/visits.svg
+    - assets/update.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

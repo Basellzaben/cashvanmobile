@@ -1,72 +1,42 @@
 class CustomersModel {
-/*
-  CustomerId INTEGER,
-      BranchName TEXT,
-  BranchTel TEXT,
-      BranchRepNo INTEGER,
-  LocX REAL,
-      LocY REAL,
-  Sat INTEGER,
-      Sun INTEGER,
-  Mon INTEGER,
-      Tues INTEGER,
-  Wens INTEGER,
-      Thurs INTEGER,
-  Frid INTEGER,
-      EveryWeek INTEGER,
-  VisitWeek INTEGER,
-      Acc TEXT,
-  CatNo INTEGER,
-      Pay_How TEXT,
-  Discount_Percent REAL,
-      Allow_Period INTEGER,
-  TaxSts TEXT,
-      PAYTYPE TEXT,
-  ACC_CHECK INTEGER,
-      PAMENT_PERIOD_NO INTEGER,
-  ExpirePeriod INTEGER,
-      ID_facility INTEGER,
-  AllowInviceWithFlag INTEGER,
-      CloseVisitWithoutimg INTEGER
-  */
-  int? id;
-  int? customerId;
-  String? branchName;
-  String? branchTel;
-  int? branchRepNo;
-  String? locX;
-  String? locY;
-  int? sat;
-  int? sun;
-  int? mon;
-  int? tues;
-  int? wens;
-  int? thurs;
-  int? frid;
-  int? everyWeek;
-  int? visitWeek;
+
+  String? customerid;
+  String? branchname;
+  String? branchtel;
+  String? branchrepno;
+  String? locx;
+  String? locy;
+  String? sat;
+  String? sun;
+  String? mon;
+  String? tues;
+  String? wens;
+  String? thurs;
+  String? frid;
+  String? everyweek;
+  String? visitweek;
   String? acc;
-  String? catNo;
-  String? pay_How;
-  String? Discount_Percent;
-  String? Allow_Period;
-  String? taxSts;
-  String? paytype;
-  String? ACC_CHECK;
-  String? PAMENT_PERIOD_NO;
-  String? expirePeriod;
-  String? ID_facility;
-  String? AllowInviceWithFlag;
-  String? closeVisitWithoutImg;
+  String? catno;
+  String? pay_how;
+  String? discount_percent;
+  String? allow_period;
+  String? taxsts;
+  String?  paytype;
+  String?  acc_check;
+  String? pament_period_no ;
+  String? expireperiod;
+  String? id_facility;
+  String? allowinvicewithflag;
+  String? closevisitwithoutimg;
 
   CustomersModel(
-      {this.id,
-        this.customerId,
-        this.branchName,
-        this.branchTel,
-        this.branchRepNo,
-        this.locX,
-        this.locY,
+      {
+        this.customerid,
+        this.branchname,
+        this.branchtel,
+        this.branchrepno,
+        this.locx,
+        this.locy,
         this.sat,
         this.sun,
         this.mon,
@@ -74,30 +44,29 @@ class CustomersModel {
         this.wens,
         this.thurs,
         this.frid,
-        this.everyWeek,
-        this.visitWeek,
+        this.everyweek,
+        this.visitweek,
         this.acc,
-        this.catNo,
-        this.pay_How,
-        this.Discount_Percent,
-        this.Allow_Period,
-        this.taxSts,
+        this.catno,
+        this.pay_how,
+        this.discount_percent,
+        this.allow_period,
+        this.taxsts,
         this.paytype,
-        this.ACC_CHECK,
-        this.PAMENT_PERIOD_NO,
-        this.expirePeriod,
-        this.ID_facility,
-        this.AllowInviceWithFlag,
-        this.closeVisitWithoutImg});
+        this.acc_check,
+        this.pament_period_no,
+        this.expireperiod,
+        this.id_facility,
+        this.allowinvicewithflag,
+        this.closevisitwithoutimg});
   factory CustomersModel.fromMap(Map<String, dynamic> map) {
     return CustomersModel(
-      id: map['id'],
-      customerId: map['customerId'],
-      branchName: map['branchName'],
-      branchTel: map['branchTel'],
-      branchRepNo: map['branchRepNo'],
-      locX: map['locX'],
-      locY: map['locY'],
+      customerid: map['customerid'],
+      branchname: map['branchname'],
+      branchtel: map['branchtel'],
+      branchrepno: map['branchrepno'],
+      locx: map['locx'],
+      locy: map['locy'],
       sat: map['sat'],
       sun: map['sun'],
       mon: map['mon'],
@@ -105,32 +74,31 @@ class CustomersModel {
       wens: map['wens'],
       thurs: map['thurs'],
       frid: map['frid'],
-      everyWeek: map['everyWeek'],
-      visitWeek: map['visitWeek'],
+      everyweek: map['everyweek'],
+      visitweek: map['visitweek'],
       acc: map['acc'],
-      catNo: map['catNo'],
-      pay_How: map['pay_How'],
-      Discount_Percent: map['Discount_Percent'],
-      Allow_Period: map['Allow_Period'],
-      taxSts: map['taxSts'],
+      catno: map['catno'],
+      pay_how: map['pay_how'],
+      discount_percent: map['discount_percent'],
+      allow_period: map['allow_period'],
+      taxsts: map['taxsts'],
       paytype: map['paytype'],
-      ACC_CHECK: map['ACC_CHECK'],
-      PAMENT_PERIOD_NO: map['PAMENT_PERIOD_NO'],
-      expirePeriod: map['expirePeriod'],
-      ID_facility: map['ID_facility'],
-      AllowInviceWithFlag: map['AllowInviceWithFlag'],
-      closeVisitWithoutImg: map['closeVisitWithoutImg'],
+      acc_check: map['acc_check'],
+      pament_period_no: map['pament_period_no'],
+      expireperiod: map['expireperiod'],
+      id_facility: map['id_facility'],
+      allowinvicewithflag: map['allowinvicewithflag'],
+      closevisitwithoutimg: map['closevisitwithoutimg'],
     );
   }
 
   CustomersModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    customerId = json['customerId'];
-    branchName = json['branchName'];
-    branchTel = json['branchTel'];
-    branchRepNo = json['branchRepNo'];
-    locX = json['locX'];
-    locY = json['locY'];
+    customerid = json['customerid'];
+    branchname = json['branchname'];
+    branchtel = json['branchtel'];
+    branchrepno = json['branchrepno'];
+    locx = json['locx'];
+    locy = json['locy'];
     sat = json['sat'];
     sun = json['sun'];
     mon = json['mon'];
@@ -138,65 +106,64 @@ class CustomersModel {
     wens = json['wens'];
     thurs = json['thurs'];
     frid = json['frid'];
-    everyWeek = json['everyWeek'];
-    visitWeek = json['visitWeek'];
+    everyweek = json['everyweek'];
+    visitweek = json['visitweek'];
     acc = json['acc'];
-    catNo = json['catNo'];
-    pay_How = json['pay_How'];
-    Discount_Percent = json['discount_Percent'];
-    Allow_Period = json['allow_Period'];
-    taxSts = json['taxSts'];
+    catno = json['catno'];
+    pay_how = json['pay_how'];
+    discount_percent = json['discount_percent'];
+    allow_period = json['allow_period'];
+    taxsts = json['taxsts'];
     paytype = json['paytype'];
-    ACC_CHECK = json['acC_CHECK'];
-    PAMENT_PERIOD_NO = json['pamenT_PERIOD_NO'];
-    expirePeriod = json['expirePeriod'];
-    ID_facility = json['iD_facility'];
-    AllowInviceWithFlag = json['AllowInviceWithFlag'];
-    closeVisitWithoutImg = json['closeVisitWithoutImg'];
+    acc_check = json['acc_check'];
+    pament_period_no = json['pament_period_no'];
+    expireperiod = json['expireperiod'];
+    id_facility = json['id_facility'];
+    allowinvicewithflag = json['allowinvicewithflag'];
+    closevisitwithoutimg = json['closevisitwithoutimg'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['customerId'] = this.customerId;
-    data['branchName'] = this.branchName;
-    data['branchTel'] = this.branchTel;
-    data['branchRepNo'] = this.branchRepNo;
-    data['locX'] = this.locX;
-    data['locY'] = this.locY;
+    data['customerid'] = this.customerid;
+    data['branchname'] = this.branchname;
+    data['branchtel'] = this.branchtel;
+    data['branchrepno'] = this.branchrepno;
+    data['locx'] = this.locx;
+    data['locy'] = this.locy;
     data['sat'] = this.sat;
-    data['sun'] = this.sun!.toInt();
-    data['mon'] = this.mon!.toInt();
-    data['tues'] = this.tues!.toInt();
-    data['wens'] = this.wens!.toInt();
-    data['thurs'] = this.thurs!.toInt();
-    data['frid'] = this.frid!.toInt();
-    data['everyWeek'] = this.everyWeek!.toInt();
-    data['visitWeek'] = this.visitWeek!.toInt();
+    data['sun'] = this.sun;
+    data['mon'] = this.mon;
+    data['tues'] = this.tues;
+    data['wens'] = this.wens;
+    data['thurs'] = this.thurs;
+    data['frid'] = this.frid;
+    data['everyweek'] = this.everyweek;
+    data['visitweek'] = this.visitweek;
     data['acc'] = this.acc;
-    data['catNo'] = this.catNo;
-    data['pay_How'] = this.pay_How;
-    data['discount_Percent'] = this.Discount_Percent;
-    data['allow_Period'] = this.Allow_Period;
-    data['taxSts'] = this.taxSts;
+    data['catno'] = this.catno;
+    data['pay_how'] = this.pay_how;
+    data['discount_percent'] = this.discount_percent;
+    data['allow_period'] = this.allow_period;
+    data['taxsts'] = this.taxsts;
     data['paytype'] = this.paytype;
-    data['acC_CHECK'] = this.ACC_CHECK;
-    data['pamenT_PERIOD_NO'] = this.PAMENT_PERIOD_NO;
-    data['expirePeriod'] = this.expirePeriod;
-    data['iD_facility'] = this.ID_facility;
-    data['AllowInviceWithFlag'] = this.AllowInviceWithFlag;
-    data['closeVisitWithoutImg'] = this.closeVisitWithoutImg;
+
+    data['acc_check'] = this.acc_check;
+    data['pament_period_no'] = this.pament_period_no;
+    data['expireperiod'] = this.expireperiod;
+    data['id_facility'] = this.id_facility;
+    data['allowinvicewithflag'] = this.allowinvicewithflag;
+    data['closevisitwithoutimg'] = this.closevisitwithoutimg;
     return data;
   }
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'customerId': customerId,
-      'branchName': branchName,
-      'branchTel': branchTel,
-      'branchRepNo': branchRepNo,
-      'locX': locX,
-      'locY': locY,
+      'customerid': customerid,
+      'branchname': branchname,
+      'branchtel': branchtel,
+      'branchrepno': branchrepno,
+      'locx': locx,
+      'locy': locy,
       'sat': sat,
       'sun': sun,
       'mon': mon,
@@ -204,25 +171,21 @@ class CustomersModel {
       'wens': wens,
       'thurs': thurs,
       'frid': frid,
-      'everyWeek': everyWeek,
-      'visitWeek': visitWeek,
+      'everyweek': everyweek,
+      'visitweek': visitweek,
       'acc': acc,
-      'catNo': catNo,
-      'pay_How': pay_How,
-      'Discount_Percent': Discount_Percent,
-      'Allow_Period': Allow_Period,
-      'taxSts': taxSts,
+      'catno': catno,
+      'pay_how': pay_how,
+      'discount_percent': discount_percent,
+      'allow_period': allow_period,
+      'taxsts': taxsts,
       'paytype': paytype,
-      'ACC_CHECK': ACC_CHECK,
-      'PAMENT_PERIOD_NO': PAMENT_PERIOD_NO,
-      'expirePeriod': expirePeriod,
-      'ID_facility': ID_facility,
-      'AllowInviceWithFlag': AllowInviceWithFlag,
-      'closeVisitWithoutImg': closeVisitWithoutImg,
-
-      
-
-
+      'acc_check': acc_check,
+      'pament_period_no': pament_period_no,
+      'expirePeriod': expireperiod,
+      'id_facility': id_facility,
+      'allowinvicewithflag': allowinvicewithflag,
+      'closevisitwithoutimg': closevisitwithoutimg,
 
     };
   }
