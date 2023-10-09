@@ -36,26 +36,19 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
-
-
   @override
   void initState() {
     super.initState();
   }
-
 
   @override
   void dispose() {
     super.dispose();
   }
 
-
-
-
-  bool checkusers=false;
-  bool checkcustomers=false;
-  bool checkbrances=false;
-
+  bool checkusers = false;
+  bool checkitems = false;
+  bool checkbrances = false;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +90,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
             showUnselectedLabels: true,
             currentIndex: selectedIndex,
             selectedIconTheme:
-            IconThemeData(color: HexColor(Globalvireables.white)),
+                IconThemeData(color: HexColor(Globalvireables.white)),
             onTap: _onItemTapped,
           ),
           appBar: AppBar(
@@ -149,124 +142,122 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: SingleChildScrollView(
                       child: Column(
-                        children:[
-
-   /* bool checkusers=false;
+                        children: [
+                          /* bool checkusers=false;
     bool checkcustomers=false;
     bool checkbrances=false;
 */
-    Row(children: [
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkusers,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        // if(!checkusers)
 
-                            Row(
-                              children: [
-                                Checkbox(
-                                    value: checkusers,
-                                    //set variable for value
-                                    onChanged: (bool? value) async {
-
-                                     // if(!checkusers)
-
-
-                                      setState(() {
-                                        checkusers=!checkusers;
-                                      });
-                                    }),
-                                Text(
-                                   'المستخدمين',
-                                    style: ArabicTextStyle(
-                                        arabicFont: ArabicFont.tajawal,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize:
-                                        Globalvireables.getDeviceType() ==
-                                            'tablet'
-                                            ? 17 * unitHeightValue
-                                            : 12 * unitHeightValue)),
-                              ],
-                            ),
-
-
-      Row(
-        children: [
-          Checkbox(
-              value: checkbrances,
-              //set variable for value
-              onChanged: (bool? value) async {
-
-setState(() {
-  checkbrances = !checkbrances;
-
-});
-
-              }),
-          Text(
-              'الافرع',
-              style: ArabicTextStyle(
-                  arabicFont: ArabicFont.tajawal,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize:
-                  Globalvireables.getDeviceType() ==
-                      'tablet'
-                      ? 17 * unitHeightValue
-                      : 12 * unitHeightValue)
-          ),
-        ],
-      ),
-
-                          ],),
-
-
+                                        setState(() {
+                                          checkusers = !checkusers;
+                                        });
+                                      }),
+                                  Text('المستخدمين',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              Globalvireables.getDeviceType() ==
+                                                      'tablet'
+                                                  ? 17 * unitHeightValue
+                                                  : 12 * unitHeightValue)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkbrances,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        setState(() {
+                                          checkbrances = !checkbrances;
+                                        });
+                                      }),
+                                  Text('الافرع',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              Globalvireables.getDeviceType() ==
+                                                      'tablet'
+                                                  ? 17 * unitHeightValue
+                                                  : 12 * unitHeightValue)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkitems,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        setState(() {
+                                          checkitems = !checkitems;
+                                        });
+                                      }),
+                                  Text('المواد',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              Globalvireables.getDeviceType() ==
+                                                      'tablet'
+                                                  ? 17 * unitHeightValue
+                                                  : 12 * unitHeightValue)),
+                                ],
+                              ),
+                            ],
+                          ),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
                               height: 50,
-                              width:
-                              MediaQuery.of(context).size.width / 1.2,
+                              width: MediaQuery.of(context).size.width / 1.2,
                               margin: EdgeInsets.only(top: 40, bottom: 5),
                               color: HexColor(Globalvireables.white),
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     primary: HexColor(ThemP.getcolor()),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10.0),
+                                      borderRadius: BorderRadius.circular(10.0),
                                     )),
                                 child: Text(
                                   LanguageProvider.Llanguage('update'),
-
                                   style: ArabicTextStyle(
                                       arabicFont: ArabicFont.tajawal,
-                                      color:
-                                      HexColor(Globalvireables.white),
-                                      fontSize: Globalvireables
-                                          .getDeviceType() ==
-                                          'tablet'
-                                          ? 21 * unitHeightValue
-                                          : 16 * unitHeightValue),
+                                      color: HexColor(Globalvireables.white),
+                                      fontSize:
+                                          Globalvireables.getDeviceType() ==
+                                                  'tablet'
+                                              ? 21 * unitHeightValue
+                                              : 16 * unitHeightValue),
                                 ),
-                                onPressed: ()  async {
+                                onPressed: () async {
+                                  if (checkbrances)
+                                    await GettAllData.GetAllBranches(context);
+                                  if (checkusers)
+                                    await GettAllData.GetAllUser(context);
+                                  if (checkitems)
+                                      await GettAllData.GetAllInvF(context);
 
-
-                                  if(checkbrances)
-                                    await  GettAllData.GetAllBranches(context);
-                                  if(checkusers)
-                                  await GettAllData.GetAllUser(context);
-
-
-                               //   await Future.delayed(Duration(seconds: 1));
-
+                                  //   await Future.delayed(Duration(seconds: 1));
 
                                   setState(() {});
                                 },
                               ),
                             ),
                           )
-
-
-
-
-
                         ],
                       ),
                     ),
@@ -297,5 +288,4 @@ setState(() {
     Home(),
     UpdateScreen(),
   ];
-
 }

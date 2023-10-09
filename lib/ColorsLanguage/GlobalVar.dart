@@ -44,6 +44,8 @@ class Globalvireables {
   static String customerAPI=connectIPLocal+"/api/customerController/customer";
   static String PostAllVisitAPI=connectIPLocal+"/api/PostManVisitController/PostManVisit";
 
+  static String ItemsAPI=connectIPLocal+"/api/itemsController/items";
+
 
 
   static String Total='';

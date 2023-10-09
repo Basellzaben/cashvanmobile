@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cashvanmobile/Models/ItemModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -129,7 +130,7 @@ class DatabaseHandler {
               ScreenCode INTEGER,
               ActionNo INTEGER,
               TransNo TEXT,
-              Trans_Date DATETIME,
+              Trans_Date TEXT,
               TabletId TEXT,
               BattryCharge TEXT,
               Notes TEXT,
@@ -161,8 +162,102 @@ class DatabaseHandler {
     ''');
 
 
+
+          await database.execute('''
+      CREATE TABLE invf (
+        Item_No TEXT PRIMARY KEY,
+        Item_Name TEXT,
+        Ename TEXT,
+        Unit TEXT,
+        Price REAL,
+        OL REAL,
+        OQ1 REAL,
+        Type_No TEXT,
+        Pack INTEGER,
+        QOH REAL,
+        OQ2 REAL,
+        Place TEXT,
+        Wcost REAL,
+        Ecost REAL,
+        Hcost REAL,
+        Lcost REAL,
+        dno TEXT,
+        enqty REAL,
+        inqty REAL,
+        resqty REAL,
+        offerqty REAL,
+        Country TEXT,
+        Original INTEGER,
+        tax REAL,
+        UnitIn INTEGER,
+        UnitOut INTEGER,
+        Convert INTEGER,
+        barcode TEXT,
+        TaxCheck INTEGER,
+        Expired INTEGER,
+        AllowExp INTEGER,
+        Packitem TEXT,
+        P_local TEXT,
+        P_export TEXT,
+        S_cash TEXT,
+        S_debt TEXT,
+        Flavor_No REAL,
+        Composition REAL,
+        Packing TEXT,
+        Carton TEXT,
+        Lable TEXT,
+        Bottle TEXT,
+        Shrink TEXT,
+        Binding TEXT,
+        Active REAL,
+        NotActive REAL,
+        density REAL,
+        ORdQty REAL,
+        ExpiryPeriod TEXT,
+        ItemSpec TEXT,
+        originno INTEGER,
+        pack40 REAL,
+        pack20 REAL,
+        brandno INTEGER,
+        PrPer REAL ,
+        Type INTEGER,
+        ITEM_DESC TEXT,
+        TaxNo INTEGER,
+        smallPrice REAL,
+        accf_no INTEGER,
+        Status INTEGER,
+        FamilieNo INTEGER,
+        accinvf INTEGER,
+        storinvf INTEGER,
+        ItemWeight REAL,
+        IsActive INTEGER,
+        QRCODE TEXT,
+        UseSerial INTEGER,
+        Unitsale INTEGER,
+        Cus_Price INTEGER,
+        IsServiceItem INTEGER,
+        Is_Kit INTEGER,
+        Item_Type INTEGER,
+        Serial_no INTEGER,
+        Shortcut_Name TEXT,
+        CurrNo INTEGER,
+        StartSerial TEXT
+      )
+    ''');
+
     });
   }
+
+  Future<void> addinvfe(List<ItemModel> items) async {
+    DropRepresentatives();
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res =
+      await database.insert('invf', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
 
   Future<int> getMaxIdFromTable(String tableName) async {
     final Database database = await initializeDB();
@@ -319,6 +414,31 @@ print("maxIdmaxId  : "+maxId.toString());
     return queryResult.map((e) => CustomersModel.fromMap(e)).toList();
   }
 
+
+  Future<List<ItemModel>> reterveInvf() async {
+
+    final Database database = await initializeDB();
+
+    List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  invf');
+
+    return queryResult.map((e) => ItemModel.fromMap(e)).toList();
+  }
+
+
+   retrievebrancheswithID(String id) async {
+
+    final Database database = await initializeDB();
+
+    List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  branches where customerid = $id');
+
+    return queryResult.map((e) => CustomersModel.fromMap(e)).toList().first;
+  }
+
+
+
+
   Future<void> Dropbranches() async {
     final Database db = await initializeDB();
     db.delete('branches');
@@ -376,6 +496,16 @@ print("maxIdmaxId  : "+maxId.toString());
   }
 
 
+  retrieveAllManLongTransnotposted() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select  ManNo ,CustNo ,ScreenCode ,ActionNo ,TransNo , Trans_Date,   TabletId,       BattryCharge,   Notes,       Notes from  ManLogTrans where posted!=1');
+
+    String jsonStr = jsonEncode(queryResult);
+    return  jsonStr;
+  }
+
+
   Future<void> updateManVisitsAfterpost() async {
     //  Dropbranches();
     final Database database = await initializeDB();
@@ -389,5 +519,20 @@ var id=0;
 
 
   }
+
+  Future<void> updateManManLogTrans() async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+    var id=0;
+    await database.rawQuery(
+      'UPDATE ManLogTrans set posted = ? WHERE posted = $id ',
+      [1],
+
+    );
+
+
+
+  }
+
 
 }

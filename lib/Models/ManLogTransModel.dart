@@ -5,7 +5,7 @@ class ManLogTransModel {
   int? screenCode;
   int? actionNo;
   String? transNo;
-  DateTime? transDate;
+  String? transDate;
   String? tabletId;
   String? batteryCharge;
   String? notes;
@@ -34,7 +34,7 @@ class ManLogTransModel {
       screenCode: map['ScreenCode'],
       actionNo: map['ActionNo'],
       transNo: map['TransNo'],
-      transDate: DateTime.parse(map['Trans_Date']),
+      transDate: map['Trans_Date'],
       tabletId: map['TabletId'],
       batteryCharge: map['BattryCharge'],
         notes: map['Notes'],
@@ -52,7 +52,7 @@ class ManLogTransModel {
       'ScreenCode': screenCode,
       'ActionNo': actionNo,
       'TransNo': transNo,
-      'Trans_Date': transDate?.toIso8601String(), // Convert DateTime to ISO 8601 string
+      'Trans_Date': transDate, // Convert DateTime to ISO 8601 string
       'TabletId': tabletId,
       'BattryCharge': batteryCharge,
       'Notes': notes,

@@ -10,16 +10,13 @@ class StoreShared{
     prefs.setString(key, json);
   }
 
-
  static getJson(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String stringValue = prefs.getString(key)??'';
     return stringValue;
   }
 
-
-
- static  checkNetwork() async {
+ static checkNetwork() async {
    bool isConnected = false;
    try {
      final result = await InternetAddress.lookup('google.com');
@@ -31,5 +28,17 @@ class StoreShared{
    }
    return isConnected;
  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -473,7 +473,7 @@ class _VisitsState extends State<Visits> {
                                                                                     StoreShared.SaveJson('OpenTime', DateTime.now().toString().substring(10,16));
 
                                                                                     StoreShared.SaveJson('OpendCustomerId', v.customerid.toString());
-                                                                                    Manlogtrans.add(new ManLogTransModel(manNo: int.parse(Loginprovider.id), id: Loginprovider.MaxLongstRANS, custNo: int.parse(v.customerid.toString()), screenCode: 1123, actionNo: 18, transNo: (Loginprovider.MaxLongstRANSNo).toString(), transDate: DateTime.now(), tabletId: 'Mobile', batteryCharge: "88", notes: "", posted: 0));
+                                                                                    Manlogtrans.add(new ManLogTransModel(manNo: int.parse(Loginprovider.id), id: Loginprovider.MaxLongstRANS, custNo: int.parse(v.customerid.toString()), screenCode: 1123, actionNo: 18, transNo: (Loginprovider.MaxLongstRANSNo).toString(), transDate: DateTime.now().toString().substring(0,10).toString(), tabletId: 'Mobile', batteryCharge: "88", notes: "", posted: 0));
                                                                                     dateinput.text = v.branchname.toString();
                                                                                     latCustomer = v.locx.toString();
                                                                                     longCustomer = v.locy.toString();
@@ -491,8 +491,9 @@ class _VisitsState extends State<Visits> {
                                                                                     child: SizedBox(
                                                                                         child: Row(
                                                                                       children: [
+                                                                                        Spacer(),
                                                                                         SizedBox(
-                                                                                          width: MediaQuery.of(context).size.width / 1.4,
+                                                                                          width: MediaQuery.of(context).size.width / 3,
                                                                                           child: Text(
                                                                                             textAlign: TextAlign.center,
                                                                                             v.branchname.toString(),
@@ -500,9 +501,12 @@ class _VisitsState extends State<Visits> {
                                                                                           ),
                                                                                         ),
                                                                                         Spacer(),
-                                                                                        Text(
-                                                                                          v.customerid.toString(),
-                                                                                          style: ArabicTextStyle(arabicFont: ArabicFont.tajawal, color: Colors.black, fontSize: Globalvireables.getDeviceType() == 'tablet' ? 18 * unitHeightValue : 13 * unitHeightValue, fontWeight: FontWeight.w700),
+                                                                                        Container(
+                                                                                          width: MediaQuery.of(context).size.width / 5.5,
+                                                                                          child: Text(
+                                                                                            v.customerid.toString(),
+                                                                                            style: ArabicTextStyle(arabicFont: ArabicFont.tajawal, color: Colors.black, fontSize: Globalvireables.getDeviceType() == 'tablet' ? 18 * unitHeightValue : 13 * unitHeightValue, fontWeight: FontWeight.w700),
+                                                                                          ),
                                                                                         ),
                                                                                       ],
                                                                                     )),
@@ -1087,7 +1091,7 @@ class _VisitsState extends State<Visits> {
                    .MaxLongstRANSNo -
                    1)
                    .toString(),
-               transDate: DateTime.now(),
+               transDate: DateTime.now().toString().substring(0,10).toString(),
                tabletId: 'Mobile',
                batteryCharge: "88",
                notes: "",
@@ -1101,14 +1105,22 @@ class _VisitsState extends State<Visits> {
            var opentime= await StoreShared.getJson('OpenTime');
            var endtime= DateTime.now().toString();
 
+try {
+  manvisitsmodel.add(new ManVisitsModel(
+      End_Time: DateTime.now().toString().substring(10, 19),
+      note: '',
+      X_Lat: double.parse(Currentlat.toString()).toString(),
+      Y_Long: double.parse(Currentlong.toString()).toString(),
+      loct: ""));
+}catch(_){
 
-           manvisitsmodel.add(new ManVisitsModel(
-               End_Time:  DateTime.now().toString().substring(10,19),
-               note: '',
-               X_Lat: double.parse(Currentlat.toString()).toString(),
-               Y_Long:double.parse(Currentlong.toString()).toString(),
-               loct: ""));
-
+  manvisitsmodel.add(new ManVisitsModel(
+      End_Time: DateTime.now().toString().substring(10, 19),
+      note: '',
+      X_Lat: "0.0",
+      Y_Long: '0.0',
+      loct: ""));
+}
 
            handler.updateManVisits(manvisitsmodel);
 
@@ -1120,6 +1132,7 @@ class _VisitsState extends State<Visits> {
      dateinput.clear();
      setState(() {});
 
+
      Future.delayed(
          const Duration(
              milliseconds: 1000),
@@ -1128,6 +1141,16 @@ class _VisitsState extends State<Visits> {
 
        PostAllData.PostAllManVisit(context);
      }});
+
+
+     Future.delayed(
+         const Duration(
+             milliseconds: 1000),
+             () async {
+           if(await StoreShared.checkNetwork()) {
+
+             PostAllData.PostAllManLongTrans(context);
+           }});
 
 
 
@@ -1154,26 +1177,53 @@ OpenVisit() async {
         await StoreShared.getJson(
             'OpendCustomerId');
         manvisitsmodel.clear();
-        manvisitsmodel.add(new ManVisitsModel(
-            cusNo: int.parse(custno),
-            dayNum: DateTime.now().weekday,
-            CusName:dateinput.text,
-            Start_Time: DateTime.now().toString().substring(10, 19),
-            manNo: int.parse(
-                Loginprovider.id),
-            Tr_Data: DateTime.now().toString().substring(0, 10),
-            no: 0,
-            orderNo: (Loginprovider.MaxLongstRANSNo - 1),
-            note: '',
-            X_Lat: double.parse(Currentlat).toString(),
-            Y_Long:double.parse(Currentlong).toString(),
-            loct: "",
-            isException: check2 ? 1 : 0,
-            computerName: "Mobile",
-            orderInVisit: null,
-            duration: null,
-            posted: -1));
 
+        try {
+          manvisitsmodel.add(new ManVisitsModel(
+              cusNo: int.parse(custno),
+              dayNum: DateTime
+                  .now()
+                  .weekday,
+              CusName: dateinput.text,
+              Start_Time: DateTime.now().toString().substring(10, 19),
+              manNo: int.parse(
+                  Loginprovider.id),
+              Tr_Data: DateTime.now().toString().substring(0, 10),
+              no: 0,
+              orderNo: (Loginprovider.MaxLongstRANSNo - 1),
+              note: '',
+              X_Lat: double.parse(Currentlat).toString(),
+              Y_Long: double.parse(Currentlong).toString(),
+              loct: "",
+              isException: check2 ? 1 : 0,
+              computerName: "Mobile",
+              orderInVisit: null,
+              duration: null,
+              posted: -1));
+        }catch(_){
+
+          manvisitsmodel.add(new ManVisitsModel(
+              cusNo: int.parse(custno),
+              dayNum: DateTime
+                  .now()
+                  .weekday,
+              CusName: dateinput.text,
+              Start_Time: DateTime.now().toString().substring(10, 19),
+              manNo: int.parse(
+                  Loginprovider.id),
+              Tr_Data: DateTime.now().toString().substring(0, 10),
+              no: 0,
+              orderNo: (Loginprovider.MaxLongstRANSNo - 1),
+              note: '',
+              X_Lat: "0.0",
+              Y_Long: "0.0",
+              loct: "",
+              isException: check2 ? 1 : 0,
+              computerName: "Mobile",
+              orderInVisit: null,
+              duration: null,
+              posted: -1));
+        }
 
         handler.addbManVisits(manvisitsmodel);
 
