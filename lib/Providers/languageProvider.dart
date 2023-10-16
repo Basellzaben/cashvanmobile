@@ -44,10 +44,22 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+      "edititem":"تعديل",
+      "bounce":"البونص",
+      "discount":"نسبة الخصم",
+      "tax":"نسبة الضريبة",
+"post":"اعتماد",
+      "additem":"اضافة الماده",
+      "itemexisit":"المادة مضافة مسبقا",
       "updatedata":"تحديث البيانات",
       "bestlinedesc":"أفضل مسار هي ميزة تمكنك من معرفة أفضل طريقة لزيارة جميع عملائك في أقصر مسافة وأسرع وقت، لذا يجب عليك زيارة عملائك بالترتيب بدءاً من العميل رقم واحد.",
       "Total":"  المجموع  ",
       "Add":"إضافة",
+      "delete":"حذف",
+      "deletetxt":"هل أنت متأكد أنك تريد حذف المادة؟",
+      "save":"حفظ",
+
+
       "allInvoices": "الفواتير",
       "Invoicesid": "رقم الفاتورة",
 "bestline":"المسار الأفضل",
@@ -228,7 +240,21 @@ class Language extends ChangeNotifier {
 
   static Map<String, Object?> en = {
       "Clientceiling":"Client ceiling",
-    "Show":"Show",
+      "Show":"Show",
+      "tax":"Tax",
+      "post":"post",
+
+      "bounce":"bounce",
+      "discount":"discount",
+
+      "save":"save",
+      "edititem":"Edit",
+
+      "additem":"Add Item",
+      "itemexisit":"The item is already added",
+
+      "delete":"delete",
+      "deletetxt":"Are you sure you want to delete the material?",
       "updatedata":"Update Data",
 
       "bestline":"The best path",

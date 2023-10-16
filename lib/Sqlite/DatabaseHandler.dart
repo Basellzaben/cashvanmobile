@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:cashvanmobile/Models/ItemModel.dart';
+import 'package:cashvanmobile/Models/ItemsCategModel.dart';
+import 'package:cashvanmobile/Models/UnitItemModel.dart';
+import 'package:cashvanmobile/Models/UnitesModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,6 +11,9 @@ import 'package:path/path.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/ManLogTransModel.dart';
 import '../Models/ManVisitsModel.dart';
+import '../Models/PriceModel.dart';
+import '../Models/SalesInvoiceDModel.dart';
+import '../Models/SalesInvoiceHModel.dart';
 import '../Models/UsersModel.dart';
 import '../Providers/LoginProvider.dart';
 
@@ -245,11 +251,154 @@ class DatabaseHandler {
       )
     ''');
 
-    });
+
+          await database.execute('''
+           CREATE TABLE Items_Categ (
+              ItemCode TEXT ,
+              CategNo INTEGER,
+              Price TEXT,
+              MinPrice TEXT,
+              dis TEXT,
+              bounce TEXT,
+              UnitNo TEXT
+          )''');
+
+          await database.execute(
+            "CREATE TABLE Unites(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "Unitno TEXT,"
+                "UnitName TEXT,"
+                "UnitEname TEXT)",
+          );
+
+
+          await database.execute(
+            "CREATE TABLE UnitItem(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "item_no TEXT,"
+                "barcode TEXT,"
+                "unitno TEXT,"
+                "Operand TEXT,"
+                "price TEXT,"
+                "Max TEXT,"
+                "Min TEXT)",
+          );
+
+
+          await database.execute(
+            "CREATE TABLE SalesInvoiceD(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "Bounce TEXT,"
+                "Dis_Amt TEXT,"
+                "Discount TEXT,"
+                "ItemOrgPrice TEXT,"
+                "Operand TEXT,"
+                "ProID TEXT,"
+                "Pro_amt TEXT,"
+                "Pro_bounce TEXT,"
+                "Pro_dis_Per TEXT,"
+                "Unite TEXT,"
+                "no TEXT ,"
+                "price TEXT,"
+                "pro_Total TEXT,"
+                "qty TEXT,"
+                "tax TEXT,"
+                "tax_Amt TEXT,"
+                "total TEXT,"
+                "name TEXT,"
+                "unitname TEXT,"
+                "orderno TEXT)",
+          );
+
+          await database.execute(
+              "CREATE TABLE SalesInvoiceH(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "Cust_No TEXT,"
+                  "Date TEXT,"
+                  "UserID TEXT,"
+                  "OrderNo TEXT UNIQUE not null,"
+                  "hdr_dis_per TEXT,"
+                  "hdr_dis_value TEXT,"
+                  "Total TEXT,"
+                  "Net_Total TEXT,"
+                  "Tax_Total TEXT,"
+                  "include_Tax TEXT,"
+                  "inovice_type TEXT,"
+                  "V_OrderNo TEXT,"
+                  "posted TEXT )"
+
+          );
+
+
+        });
+  }
+  Future<List<SalesInvoiceHModel>> retrieveIDS() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  SalesInvoiceH');
+    return queryResult.map((e) => SalesInvoiceHModel.fromMap(e)).toList();
   }
 
+
+  Future<void> addSalesInvoiceD(List<SalesInvoiceDModel> items) async {
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('SalesInvoiceD', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
+  Future<void> addSalesInvoiceH(List<SalesInvoiceHModel> items) async {
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('SalesInvoiceH', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
+  Future<int> getMaxInvoice(BuildContext context) async {
+    int maxId=0;
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT MAX(OrderNo) as max_id FROM SalesInvoiceH',
+    );
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+       maxId = int.parse((result[0]['max_id']).toString())+ 1;
+      print("MAXID : "+maxId.toString());
+
+    } else {
+       maxId = int.parse(Loginprovider.id.toString()+'000')+1;
+      print("MAXfromdatabaselocal"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+  Future<void> addUnitItem(List<UnitItemModel> items) async{
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('UnitItem', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+
+  }
+
+  Future<void> addUnites(List<UnitesModel> items) async {
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res =
+      await database.insert('Unites', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
+  Future<void> addItemsCateg(List<ItemsCategModel> items) async {
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res =
+      await database.insert('Items_Categ', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
   Future<void> addinvfe(List<ItemModel> items) async {
-    DropRepresentatives();
     final Database database = await initializeDB();
     for (int i = 0; i < items.length; i++) {
       var res =
@@ -534,5 +683,24 @@ var id=0;
 
   }
 
+  Future<List<PriceModel>> getUnitOfItem(String itemId ,String cat) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery(
+        '''select U.UnitName,U.Unitno ,IC.Price AS price ,IC.dis ,IC.bounce ,UI.Operand  from Unites as U inner join UnitItem as UI on U.Unitno=UI.unitno
+          inner join Items_Categ as IC on UI.item_no=IC.ItemCode
+        where UI.item_no= $itemId and IC.CategNo=$cat'''
+    );
+
+    if(queryResult.map((e) => PriceModel.fromMap(e)).toList().length<1)
+      await database.rawQuery(
+          '''     select U.UnitName,U.Unitno ,UI.Price AS price ,0.0 AS dis ,0.0 as bounce ,UI.Operand  from Unites as U inner join UnitItem as UI on U.Unitno=UI.unitno
+                where UI.item_no=$itemId '''
+      );
+
+
+    return queryResult.map((e) => PriceModel.fromMap(e)).toList();
+
+  }
 
 }

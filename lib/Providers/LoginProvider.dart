@@ -14,6 +14,31 @@ class LoginProvider extends ChangeNotifier {
   //max id's
   int MaxLongstRANS=0;
   int MaxLongstRANSNo=0;
+
+
+  String MaxBounce="";
+  String MaxDiscount="";
+
+  getMaxDiscount() {
+    return MaxDiscount;
+  }
+
+  setMaxDiscount(String MaxDiscount) {
+    this.MaxDiscount = MaxDiscount;
+    notifyListeners();
+  }
+
+  getMaxBounce() {
+    return MaxBounce;
+  }
+
+  setMaxBounce(String MaxBounce) {
+    this.MaxBounce = MaxBounce;
+    notifyListeners();
+  }
+
+
+
   getMaxLongstRANSNo() {
     return MaxLongstRANSNo;
   }

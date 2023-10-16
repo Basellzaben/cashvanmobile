@@ -590,6 +590,16 @@ class _LoginScreenState extends State<LoginScreen> {
           Loginprovider.setnameE(login.first.englishName.toString());
           Loginprovider.setid(login.first.id.toString());
 
+          if(login.first.maxBouns.toString()!='null')
+          Loginprovider.setMaxBounce(login.first.maxBouns.toString());
+          else
+            Loginprovider.setMaxBounce('0.0');
+
+          if(login.first.maxDiscount.toString()!='null')
+            Loginprovider.setid(login.first.maxDiscount.toString());
+          else
+            Loginprovider.setMaxDiscount('0.0');
+
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (context) => Home(),

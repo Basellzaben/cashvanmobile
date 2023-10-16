@@ -16,7 +16,6 @@ import 'package:http/http.dart' as http;
 
 class PostAllData {
 
-
   static PostAllManVisit(BuildContext context) async {
     var LanguageProvider = Provider.of<Language>(context, listen: false);
 
@@ -81,7 +80,6 @@ class PostAllData {
     }
 
   }
-
   static PostAllManLongTrans(BuildContext context) async {
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     try{
@@ -150,8 +148,4 @@ class PostAllData {
 
   }
 
-
-
-
-
-}
+ }

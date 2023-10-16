@@ -45,6 +45,10 @@ class Globalvireables {
   static String PostAllVisitAPI=connectIPLocal+"/api/PostManVisitController/PostManVisit";
 
   static String ItemsAPI=connectIPLocal+"/api/itemsController/items";
+  static String GetItemsCategAPI=connectIPLocal+"/api/ItemCategController/ItemCateg";
+  static String GetUnitesAPI=connectIPLocal+"/api/UnitesController/Unites";
+  static String GetUniteItemAPI=connectIPLocal+"/api/UniteItemController/UniteItem";
+  static String GetMaxInvoice=connectIPLocal+"/api/InvoiceMaxController/InvoiceMax";
 
 
 

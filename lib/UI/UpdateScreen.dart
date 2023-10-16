@@ -49,6 +49,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
   bool checkusers = false;
   bool checkitems = false;
   bool checkbrances = false;
+  bool checkitemcat = false;
+  bool checkunites = false;
+  bool checkunititem = false;
 
   @override
   Widget build(BuildContext context) {
@@ -219,6 +222,84 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               ),
                             ],
                           ),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkitemcat,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        // if(!checkusers)
+
+                                        setState(() {
+                                          checkitemcat = !checkitemcat;
+                                        });
+                                      }),
+                                  Text('فئات المستخدمين',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                              Globalvireables.getDeviceType() ==
+                                                      'tablet'
+                                                  ? 17 * unitHeightValue
+                                                  : 12 * unitHeightValue)),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkunites,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        // if(!checkusers)
+
+                                        setState(() {
+                                          checkunites = !checkunites;
+                                        });
+                                      }),
+                                  Text('الوحدات',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                          Globalvireables.getDeviceType() ==
+                                              'tablet'
+                                              ? 17 * unitHeightValue
+                                              : 12 * unitHeightValue)),
+                                ],
+                              ),
+
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkunititem,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        // if(!checkusers)
+
+                                        setState(() {
+                                          checkunititem = !checkunititem;
+                                        });
+                                      }),
+                                  Text('الاسعار',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                          Globalvireables.getDeviceType() ==
+                                              'tablet'
+                                              ? 17 * unitHeightValue
+                                              : 12 * unitHeightValue)),
+                                ],
+                              ),
+                              Spacer(),
+                            ],
+                          ),
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
@@ -249,7 +330,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   if (checkusers)
                                     await GettAllData.GetAllUser(context);
                                   if (checkitems)
-                                      await GettAllData.GetAllInvF(context);
+                                    await GettAllData.GetAllInvF(context);
+                                  if (checkitemcat)
+                                    await GettAllData.GetAllItemCat(context);
+                                  if (checkunites)
+                                    await GettAllData.GetUnites(context);
+                                  if (checkunititem)
+                                    await GettAllData.GetUniteItem(context);
 
                                   //   await Future.delayed(Duration(seconds: 1));
 
