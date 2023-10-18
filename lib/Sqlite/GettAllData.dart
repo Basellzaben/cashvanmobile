@@ -32,7 +32,7 @@ class GettAllData {
         context: context,
         builder: (_) =>
             AlertDialog(
-              title: Text(LanguageProvider.Llanguage('login')),
+              title: Text(LanguageProvider.Llanguage('updatedata')),
               content: Text(LanguageProvider.Llanguage('loading')),
             ));
 try{
@@ -81,7 +81,7 @@ try{
       context: context,
       builder: (_) =>
           AlertDialog(
-            title: Text(LanguageProvider.Llanguage('login')),
+            title: Text(LanguageProvider.Llanguage('updatedata')),
             content: Text(e.toString()),
           ));
 
@@ -102,7 +102,7 @@ try{
         context: context,
         builder: (_) =>
             AlertDialog(
-              title: Text(LanguageProvider.Llanguage('login')),
+              title: Text(LanguageProvider.Llanguage('updatedata')),
               content: Text(LanguageProvider.Llanguage('loading')),
             ));
     try{
@@ -146,7 +146,7 @@ try{
             context: context,
             builder: (_) =>
                 AlertDialog(
-                  title: Text(LanguageProvider.Llanguage('login')),
+                  title: Text(LanguageProvider.Llanguage('updatedata')),
                   content: Text(res.statusCode.toString()),
                 ));
 
@@ -159,7 +159,7 @@ try{
           context: context,
           builder: (_) =>
               AlertDialog(
-                title: Text(LanguageProvider.Llanguage('login')),
+                title: Text(LanguageProvider.Llanguage('updatedata')),
                 content: Text(e.toString()),
               ));
 
@@ -203,7 +203,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
         context: context,
         builder: (_) =>
             AlertDialog(
-              title: Text(LanguageProvider.Llanguage('login')),
+              title: Text(LanguageProvider.Llanguage('updatedata')),
               content: Text(LanguageProvider.Llanguage('loading')),
             ));
     try{
@@ -246,7 +246,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
             context: context,
             builder: (_) =>
                 AlertDialog(
-                  title: Text(LanguageProvider.Llanguage('login')),
+                  title: Text(LanguageProvider.Llanguage('updatedata')),
                   content: Text(res.statusCode.toString()),
                 ));
 
@@ -259,7 +259,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
           context: context,
           builder: (_) =>
               AlertDialog(
-                title: Text(LanguageProvider.Llanguage('login')),
+                title: Text(LanguageProvider.Llanguage('updatedata')),
                 content: Text(e.toString()),
               ));
 
@@ -280,7 +280,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
         context: context,
         builder: (_) =>
             AlertDialog(
-              title: Text(LanguageProvider.Llanguage('login')),
+              title: Text(LanguageProvider.Llanguage('updatedata')),
               content: Text(LanguageProvider.Llanguage('loading')),
             ));
     try{
@@ -318,7 +318,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
             context: context,
             builder: (_) =>
                 AlertDialog(
-                  title: Text(LanguageProvider.Llanguage('login')),
+                  title: Text(LanguageProvider.Llanguage('updatedata')),
                   content: Text(res.statusCode.toString()),
                 ));
 
@@ -331,7 +331,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
           context: context,
           builder: (_) =>
               AlertDialog(
-                title: Text(LanguageProvider.Llanguage('login')),
+                title: Text(LanguageProvider.Llanguage('updatedata')),
                 content: Text(e.toString()),
               ));
 
@@ -352,7 +352,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
         context: context,
         builder: (_) =>
             AlertDialog(
-              title: Text(LanguageProvider.Llanguage('login')),
+              title: Text(LanguageProvider.Llanguage('updatedata')),
               content: Text(LanguageProvider.Llanguage('loading')),
             ));
     try{
@@ -390,7 +390,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
             context: context,
             builder: (_) =>
                 AlertDialog(
-                  title: Text(LanguageProvider.Llanguage('login')),
+                  title: Text(LanguageProvider.Llanguage('updatedata')),
                   content: Text(res.statusCode.toString()),
                 ));
 
@@ -403,7 +403,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
           context: context,
           builder: (_) =>
               AlertDialog(
-                title: Text(LanguageProvider.Llanguage('login')),
+                title: Text(LanguageProvider.Llanguage('updatedata')),
                 content: Text(e.toString()),
               ));
 
@@ -416,54 +416,40 @@ return await handler.getMaxIdFromTable('ManLogTrans');
   static Future<List<UnitItemModel>> GetUniteItem(BuildContext context) async {
     await Future.delayed(Duration(seconds: 1));
     var LanguageProvider = Provider.of<Language>(context, listen: false);
-    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 
     showDialog(
         context: context,
         builder: (_) =>
             AlertDialog(
-              title: Text(LanguageProvider.Llanguage('login')),
+              title: Text(LanguageProvider.Llanguage('updatedata')),
               content: Text(LanguageProvider.Llanguage('loading')),
             ));
     try{
-
       Uri apiUrl = Uri.parse(Globalvireables.GetUniteItemAPI);
-
-
       final handler = DatabaseHandler();
-
-
       http.Response res = await http.post(
         apiUrl,
       );
-
       if (res.statusCode == 200) {
         print("Invoices" + res.body.toString());
-
         List<dynamic> body = jsonDecode(res.body);
-
         List<UnitItemModel> Invoices = body
             .map(
               (dynamic item) => UnitItemModel.fromJson(item),
         )
             .toList();
-
-
         handler.addUnitItem( Invoices).whenComplete(() =>  Navigator.pop(context));
 
         return Invoices;
       } else {
         Navigator.pop(context);
-
-
         showDialog(
             context: context,
             builder: (_) =>
                 AlertDialog(
-                  title: Text(LanguageProvider.Llanguage('login')),
+                  title: Text(LanguageProvider.Llanguage('updatedata')),
                   content: Text(res.statusCode.toString()),
                 ));
-
 
         throw "Unable to retrieve Invoices." + res.statusCode.toString();
       }}catch(e){
@@ -473,7 +459,7 @@ return await handler.getMaxIdFromTable('ManLogTrans');
           context: context,
           builder: (_) =>
               AlertDialog(
-                title: Text(LanguageProvider.Llanguage('login')),
+                title: Text(LanguageProvider.Llanguage('updatedata')),
                 content: Text(e.toString()),
               ));
 

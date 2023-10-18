@@ -50,6 +50,7 @@ class Globalvireables {
   static String GetUniteItemAPI=connectIPLocal+"/api/UniteItemController/UniteItem";
   static String GetMaxInvoice=connectIPLocal+"/api/InvoiceMaxController/InvoiceMax";
 
+  static String PostInvoiceAPI=connectIPLocal+"/api/PostInvoiceController/PostInvoice";
 
 
   static String Total='';

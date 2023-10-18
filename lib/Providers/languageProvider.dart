@@ -44,6 +44,9 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+      "Invoicesnotupdateposted":"الفاتوره معتمده ولا يمكن تعديلها",
+      "done":"ارسال البيانات",
+      "donetxt":"تم ارسال البيانات بنجاح",
       "edititem":"تعديل",
       "bounce":"البونص",
       "discount":"نسبة الخصم",
@@ -229,7 +232,7 @@ class Language extends ChangeNotifier {
     "SGangepasswor": "تم تحديث كلمة السر بنجاح",
     "oldpass": "كلمة المرور القديمة",
     "newpass": "كلمة المرور الجديدة",
-    "newpassconfirm": "تاكيد كلمة المرور الجديدة",
+    "newpassconfirm": "جديد",
     "EGangepasswor": "لم يتم تحديث كلمة المرور",
     "dsuccessfully": "تم تنزيل الصوره بنجاح",
     "phone": "رقم الهاتف",
@@ -243,6 +246,10 @@ class Language extends ChangeNotifier {
       "Show":"Show",
       "tax":"Tax",
       "post":"post",
+      "Invoicesnotupdateposted":"The invoice is approved and cannot be modified",
+
+      "done":"Send data",
+      "donetxt":"Data was sent successfully",
 
       "bounce":"bounce",
       "discount":"discount",
@@ -307,7 +314,7 @@ class Language extends ChangeNotifier {
     "openimageusebrowser": "open image use browser",
     "oldpass": "Old Password",
     "newpass": "New Password",
-    "newpassconfirm": "Confirm new Password",
+    "newpassconfirm": "New",
     "EGangepasswor": "Password has not been updated",
     "SGangepasswor": "Password updated successfully",
     "HospitalInfoS": "About Hospital",

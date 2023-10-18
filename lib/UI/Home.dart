@@ -866,7 +866,7 @@ var CustomerName='';
   final List<Widget> nav = [
     Settings(),
     Home(),
-    profile(),
+    Invoice(),
   ];
 
 

@@ -19,6 +19,17 @@ class LoginProvider extends ChangeNotifier {
   String MaxBounce="";
   String MaxDiscount="";
 
+  String VisitId='';
+  getVisitId() {
+    return VisitId;
+  }
+
+  setVisitId(String VisitId) {
+    this.VisitId = VisitId;
+    notifyListeners();
+  }
+
+
   getMaxDiscount() {
     return MaxDiscount;
   }

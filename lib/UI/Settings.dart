@@ -17,6 +17,7 @@ import 'Home.dart';
 import 'package:arabic_font/arabic_font.dart';
 import 'package:http/http.dart' as http;
 
+import 'Invoice.dart';
 import 'LoginScreen.dart';
 
 class Settings extends StatefulWidget {
@@ -593,7 +594,7 @@ Spacer(),
   final List<Widget> nav = [
     Settings(),
     Home(),
-    profile(),
+    Invoice(),
   ];
 
 

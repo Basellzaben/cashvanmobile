@@ -16,6 +16,7 @@ import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
 import '../widget/Widgets.dart';
 import 'Home.dart';
+import 'Invoice.dart';
 import 'Settings.dart';
 import 'package:http/http.dart' as http;
 
@@ -152,7 +153,7 @@ class _profileState extends State<profile> {
   final List<Widget> nav = [
     Settings(),
     Home(),
-    profile(),
+    Invoice(),
   ];
 
 

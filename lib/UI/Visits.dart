@@ -32,6 +32,7 @@ import '../Sqlite/DatabaseHandler.dart';
 import '../Sqlite/GettAllData.dart';
 import '../widget/Widgets.dart';
 import 'Home.dart';
+import 'Invoice.dart';
 import 'Settings.dart';
 import 'package:http/http.dart' as http;
 
@@ -805,7 +806,7 @@ class _VisitsState extends State<Visits> {
   final List<Widget> nav = [
     Settings(),
     Home(),
-    Visits(),
+    Invoice(),
   ];
 
   Future<List<CustomersModel>> getCustomers() async {
@@ -1179,6 +1180,10 @@ OpenVisit() async {
         manvisitsmodel.clear();
 
         try {
+
+          Loginprovider.setVisitId((Loginprovider.MaxLongstRANSNo - 1).toString()) ;
+          StoreShared.SaveJson('VisitId', (Loginprovider.MaxLongstRANSNo - 1).toString());
+
           manvisitsmodel.add(new ManVisitsModel(
               cusNo: int.parse(custno),
               dayNum: DateTime

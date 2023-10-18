@@ -27,6 +27,7 @@ import '../SharedPrefrence/StoreShared.dart';
 import '../Sqlite/GettAllData.dart';
 import '../widget/Widgets.dart';
 import 'Home.dart';
+import 'Invoice.dart';
 import 'Settings.dart';
 import 'package:http/http.dart' as http;
 
@@ -326,17 +327,31 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                 ),
                                 onPressed: () async {
                                   if (checkbrances)
-                                    await GettAllData.GetAllBranches(context);
+                                  {  await GettAllData.GetAllBranches(context);
+                                  checkbrances=false;
+                                  }
                                   if (checkusers)
-                                    await GettAllData.GetAllUser(context);
+                                  {  await GettAllData.GetAllUser(context);
+                                  checkusers=false;
+                                  }
                                   if (checkitems)
-                                    await GettAllData.GetAllInvF(context);
+                                   { await GettAllData.GetAllInvF(context);
+                                   checkitems=false;
+                                   }
                                   if (checkitemcat)
-                                    await GettAllData.GetAllItemCat(context);
+                                   { await GettAllData.GetAllItemCat(context);
+                                   checkitemcat=false;
+                                   }
                                   if (checkunites)
-                                    await GettAllData.GetUnites(context);
+                                  {
+                                    await
+                                 GettAllData.GetUnites(context);
+                                    checkunites=false;
+                                  }
                                   if (checkunititem)
-                                    await GettAllData.GetUniteItem(context);
+                                  {await GettAllData.GetUniteItem(context);
+                                  checkunititem=false;
+                                  }
 
                                   //   await Future.delayed(Duration(seconds: 1));
 
@@ -373,6 +388,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final List<Widget> nav = [
     Settings(),
     Home(),
-    UpdateScreen(),
+    Invoice(),
   ];
 }

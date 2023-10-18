@@ -328,6 +328,35 @@ class DatabaseHandler {
 
         });
   }
+
+
+  Future<void> updateIncPost(String OrderNo) async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+
+    await database.rawQuery(
+      'UPDATE SalesInvoiceH set posted = ? WHERE OrderNo = $OrderNo ',
+      ['1'],
+
+    );
+  }
+
+  Future<List<SalesInvoiceDModel>> retrieveSingleDTL(String orderno) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  SalesInvoiceD where orderno = $orderno');
+    return queryResult.map((e) => SalesInvoiceDModel.fromMap(e)).toList();
+  }
+
+  Future<SalesInvoiceHModel> retrieveSingleHDR(String orderno) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  SalesInvoiceH where OrderNo = $orderno');
+    return queryResult.map((e) => SalesInvoiceHModel.fromMap(e)).toList().first;
+  }
+
+
+
   Future<List<SalesInvoiceHModel>> retrieveIDS() async {
     final Database database = await initializeDB();
     final List<Map<String, Object?>> queryResult =
@@ -336,20 +365,67 @@ class DatabaseHandler {
   }
 
 
-  Future<void> addSalesInvoiceD(List<SalesInvoiceDModel> items) async {
+  Future<String> addSalesInvoiceD(String orderno,List<SalesInvoiceDModel> items, bool isnew) async {
     final Database database = await initializeDB();
+    var res;
+
+    if(isnew)
     for (int i = 0; i < items.length; i++) {
-      var res = await database.insert('SalesInvoiceD', items[i].toMap());
+       res = await database.insert('SalesInvoiceD', items[i].toMap());
       print("Result " + i.toString() + " :" + res.toString());
     }
+    else{
+
+      res = await database.delete('SalesInvoiceD', where: 'orderno = ?',
+        whereArgs: [orderno]);
+
+      print("resoooooooof : "+res.toString());
+
+      if(res>0)
+        for (int i = 0; i < items.length; i++) {
+          res = await database.insert('SalesInvoiceD', items[i].toMap());
+          print("Result " + i.toString() + " :" + res.toString());
+        }
+     /* for (int i = 0; i < items.length; i++) {
+        res = await database.update('SalesInvoiceD', items[i].toMap(),
+          where: 'orderno = ?',
+          whereArgs: [orderno],
+        );
+        print("Result " + i.toString() + " :" + res.toString());
+      }*/
+
+    }
+    return res.toString();
+
+
+
+
+
   }
 
-  Future<void> addSalesInvoiceH(List<SalesInvoiceHModel> items) async {
+  Future<String> addSalesInvoiceH(String orderno,List<SalesInvoiceHModel> items , bool isnew) async {
     final Database database = await initializeDB();
+    var res;
+
+    print("maapppppp : "+items[0].toMap().toString());
+
+print("isnew : "+isnew.toString());
+    if(isnew)
     for (int i = 0; i < items.length; i++) {
-      var res = await database.insert('SalesInvoiceH', items[i].toMap());
+       res = await database.insert('SalesInvoiceH', items[i].toMap());
       print("Result " + i.toString() + " :" + res.toString());
     }
+    else
+      for (int i = 0; i < items.length; i++) {
+        res = await database.update('SalesInvoiceH',
+          items[i].toMap(),
+          where: 'OrderNo = ?',
+          whereArgs: [orderno],);
+        print("Result " + i.toString() + " :" + res.toString());
+      }
+
+
+    return res.toString();
   }
 
   Future<int> getMaxInvoice(BuildContext context) async {
@@ -551,7 +627,15 @@ print("maxIdmaxId  : "+maxId.toString());
 
 
 
+  Future<CustomersModel> retrieveSingelbranches(String customerid) async {
 
+    final Database database = await initializeDB();
+
+    List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  branches where customerid =$customerid');
+
+    return queryResult.map((e) => CustomersModel.fromMap(e)).toList().first;
+  }
 
   Future<List<CustomersModel>> retrievebranches() async {
 
@@ -678,10 +762,10 @@ var id=0;
       [1],
 
     );
-
-
-
   }
+
+
+
 
   Future<List<PriceModel>> getUnitOfItem(String itemId ,String cat) async {
     final Database database = await initializeDB();
