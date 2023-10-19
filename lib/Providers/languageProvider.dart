@@ -44,6 +44,7 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+      "ReturnedItems" : "مرتجع المواد",
       "Invoicesnotupdateposted":"الفاتوره معتمده ولا يمكن تعديلها",
       "done":"ارسال البيانات",
       "donetxt":"تم ارسال البيانات بنجاح",
@@ -244,6 +245,8 @@ class Language extends ChangeNotifier {
   static Map<String, Object?> en = {
       "Clientceiling":"Client ceiling",
       "Show":"Show",
+      "ReturnedItems" : "Returned Items",
+
       "tax":"Tax",
       "post":"post",
       "Invoicesnotupdateposted":"The invoice is approved and cannot be modified",

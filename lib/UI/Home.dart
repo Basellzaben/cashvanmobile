@@ -7,7 +7,7 @@ import 'package:arabic_font/arabic_font.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cashvanmobile/Calculator.dart';
 import 'package:cashvanmobile/UI/Invoice.dart';
-import 'package:cashvanmobile/UI/profile.dart';
+import 'package:cashvanmobile/UI/ReturnedItems.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -824,8 +824,96 @@ var CustomerName='';
                              ),
                            ),
                            Spacer(),
-                         ],)
+                         ],),
+SizedBox(height: 20,),
+                        Row(
+                          children: [
+                            Spacer(),
+                            GestureDetector(
+                              onTap: () async {
 
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ReturnedItems()),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: HexColor(ThemP.getcolor())),
+                                      borderRadius: BorderRadius.circular(15.0),
+
+                                    ),
+                                    width: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        6:MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        4.5,
+                                    height: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        6:MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        4.5,
+                                    child: Column(
+                                      children: [
+                                        Spacer(),
+                                        SvgPicture.asset("assets/returnedItems.svg",color: HexColor(ThemP.getcolor()),
+                                          height: 50 * unitHeightValue,
+                                          width: 50 * unitHeightValue,
+                                        ),
+
+                                        Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      LanguageProvider.Llanguage("ReturnedItems"),
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: HexColor(ThemP.getcolor()),
+                                          fontSize:
+
+                                          Globalvireables.getDeviceType()=='tablet'?22 * unitHeightValue:13 * unitHeightValue,
+                                          fontWeight: FontWeight.w700
+                                      )
+
+
+
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                            Spacer(),
+                          ],)
 
                         ,
                         SizedBox(

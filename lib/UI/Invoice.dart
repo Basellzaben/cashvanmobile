@@ -2834,6 +2834,7 @@ bouncetotal=0;
      CustomerLimite = CM.discount_percent.toString();
      Receivables = CM.pay_how.toString();
 
+    Navigator.of(context).pop();
 
     setState(() {
     //  print("xxx " + cart![0].unitname.toString());
