@@ -29,7 +29,7 @@ Future<void> main() async {
         ChangeNotifierProvider<RoundProvider>(create: (_) => RoundProvider()),
 
       ],
-      child:DevicePreview(enabled: true,builder:(context)=> const MyApp(),)));
+      child:DevicePreview(enabled: false,builder:(context)=> const MyApp(),)));
 }
 
 class MyApp extends StatelessWidget {

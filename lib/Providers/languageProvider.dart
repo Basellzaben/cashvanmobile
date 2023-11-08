@@ -16,12 +16,14 @@ class Language extends ChangeNotifier {
     notifyListeners();
   }
 
+
   TextDirection getDirection() {
     String languageCode = getLanguage(); //Platform.localeName.split('_')[0];
 
     if (languageCode == "AR") return TextDirection.rtl;
     return TextDirection.ltr;
   }
+
 
   TextDirection getDirectionPres() {
     String languageCode = getLanguage(); //Platform.localeName.split('_')[0];
@@ -44,6 +46,7 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+      "returnedid":"رقم المرتجع",
       "ReturnedItems" : "مرتجع المواد",
       "Invoicesnotupdateposted":"الفاتوره معتمده ولا يمكن تعديلها",
       "done":"ارسال البيانات",
@@ -92,7 +95,8 @@ class Language extends ChangeNotifier {
     "openbrowser": "فتح من خلال المتصفح",
     "drugH": "العلاجات",
     "Search": "بحث",
-    "qt": "الكمية",
+      "qt": "الكمية",
+      "unit": "الوحدة",
     "Dosageinstructions": "تعليمات الجرعة",
     "openimageusebrowser": "فتح من خلال المتصفح",
     "Gangepasswormost": "يجب تحديث كلمة المرور عند تسجيل الدخول لأول مرة",
@@ -245,7 +249,10 @@ class Language extends ChangeNotifier {
   static Map<String, Object?> en = {
       "Clientceiling":"Client ceiling",
       "Show":"Show",
+      "unit": "unit",
+
       "ReturnedItems" : "Returned Items",
+      "returnedid":"Return number",
 
       "tax":"Tax",
       "post":"post",

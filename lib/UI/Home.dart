@@ -115,18 +115,19 @@ var CustomerName='';
     ),
     BottomNavigationBarItem(
     icon: Icon(Icons.home),
-    label: LanguageProvider.Llanguage('Home')),
+    label: LanguageProvider.Llanguage('Home')
+    ),
     BottomNavigationBarItem(
     icon: Icon(Icons.inventory_2_outlined),
-    label: LanguageProvider.Llanguage('Invoices')),
+    label: LanguageProvider.Llanguage('Invoices')
+    ),
     ],
     iconSize: 30 * unitHeightValue,
     unselectedFontSize: 12 * unitHeightValue,
     selectedFontSize: 16 * unitHeightValue,
     showUnselectedLabels: true,
     currentIndex: selectedIndex,
-    selectedIconTheme:
-    IconThemeData(color: HexColor(Globalvireables.white)),
+    selectedIconTheme:IconThemeData(color: HexColor(Globalvireables.white)),
     onTap: _onItemTapped,
     ),
     backgroundColor: HexColor(ThemP.getcolor()),
@@ -258,7 +259,7 @@ var CustomerName='';
                                 CustomerName,
                                   style: ArabicTextStyle(
                                       arabicFont: ArabicFont.tajawal,
-                                      color: Colors.green,
+                                      color: HexColor(ThemP.getcolor()),
                                       fontSize: 18 * unitHeightValue,
                                       fontWeight: FontWeight.w900)
                               ),
@@ -650,7 +651,7 @@ var CustomerName='';
                                      context: context,
                                      builder: (_) =>
                                          AlertDialog(
-                                           title: Text(LanguageProvider.Llanguage('Invoices')),
+                                           title: Text(LanguageProvider.Llanguage('openvisit')),
                                            content: Text(LanguageProvider.Llanguage('selectvisitno')),
                                            actions: [
                                              TextButton(
@@ -832,10 +833,22 @@ SizedBox(height: 20,),
                             GestureDetector(
                               onTap: () async {
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => ReturnedItems()),
-                                );
+                                if(IsOpen){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ReturnedItems()),
+                                  );
+                                }else{
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) =>
+                                          AlertDialog(
+                                            title: Text(LanguageProvider.Llanguage('openvisit')),
+                                            content: Text(LanguageProvider.Llanguage('selectvisitno')),
+                                          ));
+                                }
+
+
                               },
                               child: Column(
                                 children: [

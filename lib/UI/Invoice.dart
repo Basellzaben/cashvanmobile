@@ -141,7 +141,7 @@ newInv=true;
                       });
 
                     },
-                    child: Container(
+                    child: cart!.length>0 ? Container(
                       width: 66,
                       color: HexColor(ThemP.color),
                       child: Column(
@@ -152,7 +152,7 @@ newInv=true;
                               style: TextStyle(color: Colors.white))
                         ],
                       ),
-                    ),
+                    ):Container(),
                   ),
                 ),
                 SizedBox(
@@ -161,7 +161,7 @@ newInv=true;
                 GestureDetector(
                   onTap: () {
                     try {
-                      if (cartHdr![0].posted.toString() != '1') {
+                      if (cartHdr![0].posted.toString() != '1' && cart!.length>0) {
                         SaveInvoice(cart);
                       }
                       else {
@@ -183,7 +183,7 @@ newInv=true;
 
                     }
                   },
-                  child: Container(
+                  child: cart!.length>0 ?Container(
                     width: 90,
                     color: HexColor(ThemP.color),
                     child: Column(
@@ -194,7 +194,7 @@ newInv=true;
                             style: TextStyle(color: Colors.white))
                       ],
                     ),
-                  ),
+                  ):Container(),
                 ),
                 SizedBox(
                   width: 3,
@@ -220,7 +220,7 @@ try {
 
 }
                   },
-                  child: Container(
+                  child: cart!.length>0 ? Container(
                     width: 90,
                     color: HexColor(ThemP.color),
                     child: Column(
@@ -231,7 +231,7 @@ try {
                             style: TextStyle(color: Colors.white))
                       ],
                     ),
-                  ),
+                  ):Container(),
                 ),
                 Expanded(
                   child: Container(
@@ -1895,6 +1895,7 @@ bouncetotal=0;
   }
 
   updataScreen() {
+    setState(() {});
     setState(() {});
   }
 

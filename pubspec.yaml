@@ -54,6 +54,7 @@ dependencies:
   google_maps_flutter:
   sqflite: ^2.3.0
   google_fonts: ^6.1.0
+  animated_bottom_navigation_bar: ^1.3.0
 
 dev_dependencies:
   flutter_test:

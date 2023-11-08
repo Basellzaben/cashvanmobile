@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class Them extends ChangeNotifier {
-  String color="#3268BA";
+  String color="#138B79";
 
   getcolor() {
     return color;

@@ -23,7 +23,7 @@ class Globalvireables {
 
   static String them3="#8E44AD";
   static String them4="#2E4053";
-  static String them5="#D35400";
+  static String them5="#138B79";
 
 
 //Store Data into Shared Keys
@@ -53,8 +53,12 @@ class Globalvireables {
   static String PostInvoiceAPI=connectIPLocal+"/api/PostInvoiceController/PostInvoice";
 
 
-  static String Total='';
+  static String invforReturnedsURL=connectIPLocal+"/api/getInvoicehdrController/getInvoicehdr";
+  static String invdtlforReturnedsURL=connectIPLocal+"/api/getInvoicedtlController/getInvoicedtl";
 
+
+
+  static String Total='';
 
 
   static String getDeviceType() {

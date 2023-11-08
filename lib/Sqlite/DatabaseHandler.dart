@@ -12,6 +12,8 @@ import '../Models/CustomersModel.dart';
 import '../Models/ManLogTransModel.dart';
 import '../Models/ManVisitsModel.dart';
 import '../Models/PriceModel.dart';
+import '../Models/ReturnedDtlModel.dart';
+import '../Models/ReturnedHlModel.dart';
 import '../Models/SalesInvoiceDModel.dart';
 import '../Models/SalesInvoiceHModel.dart';
 import '../Models/UsersModel.dart';
@@ -326,8 +328,85 @@ class DatabaseHandler {
           );
 
 
+          await database.execute(
+              "CREATE TABLE ReturnH(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "Net_Tax_Total TEXT,"
+                  "Cust_No TEXT,"
+                  "bill TEXT,"
+                  "CashCustNm TEXT,"
+                  "V_OrderNo TEXT,"
+                  "return_type TEXT,"
+                  "OrderNo TEXT,"
+                  "Date TEXT,"
+                  "bounce_Total TEXT,"
+                  "Tax_Total TEXT,"
+                  "include_Tax TEXT,"
+                  "Total TEXT,"
+                  "UserID TEXT )"
+          );
+
+          await database.execute(
+              "CREATE TABLE ReturnD(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "Bounce TEXT,"
+                  "Unite TEXT,"
+                  "no TEXT,"
+                  "price TEXT,"
+                  "ItemOrgPrice,"
+                  "Qty TEXT,"
+                  "Tax TEXT,"
+                  "Tax_Amt TEXT,"
+                  "Total TEXT,"
+                  "Note TEXT,"
+                  "Damaged TEXT )"
+          );
+
+
+
         });
   }
+
+
+  Future<List<Map<String, Object?>>> getItemName(String itemno) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select Item_Name from  invf where Item_No = $itemno');
+    return queryResult;
+  }
+
+
+
+
+  Future<List<ReturnedDtlModel>> retrieveSingleReturnDTL(String orderno) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  ReturnD where OrderNo = $orderno');
+    return queryResult.map((e) => ReturnedDtlModel.fromMap(e)).toList();
+  }
+
+  Future<List<ReturnedHlModel>> retrieveReturnIDS() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  ReturnH');
+    return queryResult.map((e) => ReturnedHlModel.fromMap(e)).toList();
+  }
+
+  Future<void> addReturnD(List<ReturnedDtlModel> items) async{
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('ReturnD', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
+
+  Future<void> addReturnH(List<ReturnedHlModel> items) async{
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('ReturnH', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+  }
+
 
 
   Future<void> updateIncPost(String OrderNo) async {
@@ -340,6 +419,10 @@ class DatabaseHandler {
 
     );
   }
+
+
+
+
 
   Future<List<SalesInvoiceDModel>> retrieveSingleDTL(String orderno) async {
     final Database database = await initializeDB();
@@ -363,6 +446,8 @@ class DatabaseHandler {
     await database.rawQuery('select * from  SalesInvoiceH');
     return queryResult.map((e) => SalesInvoiceHModel.fromMap(e)).toList();
   }
+
+
 
 
   Future<String> addSalesInvoiceD(String orderno,List<SalesInvoiceDModel> items, bool isnew) async {
@@ -447,6 +532,27 @@ print("isnew : "+isnew.toString());
     return maxId; // Return 0 if there are no records in the table
 
   }
+  Future<int> getMaxReturn(BuildContext context) async {
+    int maxId=0;
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT MAX(OrderNo) as max_id FROM ReturnH',
+    );
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      maxId = int.parse((result[0]['max_id']).toString())+ 1;
+      print("MAXID : "+maxId.toString());
+
+    } else {
+      maxId = int.parse(Loginprovider.id.toString()+'000')+1;
+      print("MAXfromdatabaselocal"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+
 
   Future<void> addUnitItem(List<UnitItemModel> items) async{
     final Database database = await initializeDB();
@@ -746,12 +852,10 @@ var id=0;
     await database.rawQuery(
       'UPDATE ManVisits set posted = ? WHERE posted = $id ',
       [1],
-
     );
-
-
-
   }
+
+
 
   Future<void> updateManManLogTrans() async {
     //  Dropbranches();
@@ -759,9 +863,7 @@ var id=0;
     var id=0;
     await database.rawQuery(
       'UPDATE ManLogTrans set posted = ? WHERE posted = $id ',
-      [1],
-
-    );
+      [1],  );
   }
 
 
@@ -779,12 +881,39 @@ var id=0;
     if(queryResult.map((e) => PriceModel.fromMap(e)).toList().length<1)
       await database.rawQuery(
           '''     select U.UnitName,U.Unitno ,UI.Price AS price ,0.0 AS dis ,0.0 as bounce ,UI.Operand  from Unites as U inner join UnitItem as UI on U.Unitno=UI.unitno
-                where UI.item_no=$itemId '''
-      );
+                where UI.item_no=$itemId ''');
 
 
     return queryResult.map((e) => PriceModel.fromMap(e)).toList();
 
   }
+
+  Future<List<PriceModel>> getUnitOfItemFromUnitItem(String itemId ) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+
+      await database.rawQuery(
+          '''     select U.UnitName,U.Unitno ,UI.Price AS price ,0.0 AS dis ,0.0 as bounce ,UI.Operand  from Unites as U inner join UnitItem as UI on U.Unitno=UI.unitno
+                where UI.item_no=$itemId ''');
+
+
+    return queryResult.map((e) => PriceModel.fromMap(e)).toList();
+
+  }
+
+
+  Future<List<PriceModel>> getsaleUnit(String itemId,String unitno ) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+
+    await database.rawQuery(
+        '''     select U.UnitName,U.Unitno ,UI.Price AS price ,0.0 AS dis ,0.0 as bounce ,UI.Operand  from Unites as U inner join UnitItem as UI on U.Unitno=UI.unitno
+                where UI.item_no=$itemId and U.Unitno=$unitno ''');
+
+
+    return queryResult.map((e) => PriceModel.fromMap(e)).toList();
+
+  }
+
 
 }

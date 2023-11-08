@@ -196,38 +196,7 @@ var Terms='';
                                 SizedBox(
                                   height: 6,
                                 ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                Divider(thickness: 1.0, color: Colors.black),
-                                GestureDetector(
-                                  onTap: () async {
 
-
-
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.change_circle_outlined,
-                                        color:
-                                            HexColor(ThemP.getcolor()),
-                                        size: 35 * unitHeightValue,
-                                      ),
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        LanguageProvider.Llanguage('Gangepasswor'),
-                                        style: ArabicTextStyle(
-            arabicFont: ArabicFont.tajawal,
-                                            fontSize: 17.5 * unitHeightValue,
-                                            color:HexColor(Globalvireables.black),
-                                            fontWeight: FontWeight.w400),
-                                      )
-                                    ],
-                                  ),
-                                ),
                                 SizedBox(
                                   height: 6,
                                 ),
@@ -471,34 +440,6 @@ Spacer(),
                                 SizedBox(
                                   height: 6,
                                 ),
-                                Divider(thickness: 1.0, color: Colors.black),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-
-                                  },
-                                  child: Row(children: [
-                                    Icon(
-                                      Icons.message_outlined,
-                                      color: HexColor(ThemP.getcolor()),
-                                      size: 35 * unitHeightValue,
-                                    ),
-                                    SizedBox(
-                                      width: 6,
-                                    ),
-                                    Text(
-                                      LanguageProvider.Llanguage("HospitalInfoS"),
-                                      style: ArabicTextStyle(
-            arabicFont: ArabicFont.tajawal,
-                                          fontSize: 17.5 * unitHeightValue,
-                                          color: HexColor(Globalvireables.black),
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ]),
-                                )
-,
 
                                 Divider(thickness: 1.0, color: Colors.black),
                                 SizedBox(
