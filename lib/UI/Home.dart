@@ -35,8 +35,10 @@ import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
 import '../SharedPrefrence/StoreShared.dart';
 import '../Sqlite/DatabaseHandler.dart';
+import 'CustomerInventory.dart';
 import 'MapScreen.dart';
 import 'Settings.dart';
+import 'SupplyDocument .dart';
 import 'UpdateScreen.dart';
 import 'Visits.dart';
 
@@ -910,22 +912,160 @@ SizedBox(height: 20,),
                             ),
                             Spacer(),
                             Spacer(),
+
+                            GestureDetector(
+                              onTap: () async {
+
+                                if(IsOpen){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CustomerInventory()),
+                                  );
+                                }else{
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) =>
+                                          AlertDialog(
+                                            title: Text(LanguageProvider.Llanguage('openvisit')),
+                                            content: Text(LanguageProvider.Llanguage('selectvisitno')),
+                                          ));
+                                }
+
+
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: HexColor(ThemP.getcolor())),
+                                      borderRadius: BorderRadius.circular(15.0),
+
+                                    ),
+                                    width: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        6:MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        4.5,
+                                    height: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        6:MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        4.5,
+                                    child: Column(
+                                      children: [
+                                        Spacer(),
+                                        SvgPicture.asset("assets/inventory.svg",color: HexColor(ThemP.getcolor()),
+                                          height: 50 * unitHeightValue,
+                                          width: 50 * unitHeightValue,
+                                        ),
+
+                                        Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      LanguageProvider.Llanguage("CustomerInventory"),
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: HexColor(ThemP.getcolor()),
+                                          fontSize:
+
+                                          Globalvireables.getDeviceType()=='tablet'?22 * unitHeightValue:13 * unitHeightValue,
+                                          fontWeight: FontWeight.w700
+                                      )
+
+
+
+                                  ),
+                                ],
+                              ),
+                            ),
+
                             Spacer(),
                             Spacer(),
+
+                            GestureDetector(
+                              onTap: () async {
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => SupplyDocument ()),);
+
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: HexColor(ThemP.getcolor())),
+                                      borderRadius: BorderRadius.circular(15.0),
+
+                                    ),
+                                    width: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        6:MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        4.5,
+                                    height: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        6:MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width /
+                                        4.5,
+                                    child: Column(
+                                      children: [
+                                        Spacer(),
+                                        SvgPicture.asset("assets/supp.svg",color: HexColor(ThemP.getcolor()),
+                                          height: 50 * unitHeightValue,
+                                          width: 50 * unitHeightValue,
+                                        ),
+
+                                        Spacer(),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      LanguageProvider.Llanguage("Supplydocument"),
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: HexColor(ThemP.getcolor()),
+                                          fontSize:
+
+                                          Globalvireables.getDeviceType()=='tablet'?22 * unitHeightValue:13 * unitHeightValue,
+                                          fontWeight: FontWeight.w700
+                                      )
+
+
+
+                                  ),
+                                ],
+                              ),
+                            ),
                             Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
-                            Spacer(),
+
+
+
+
                           ],)
 
                         ,

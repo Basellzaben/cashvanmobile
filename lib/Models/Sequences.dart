@@ -12,9 +12,7 @@ class Sequences {
   // Factory constructor to create a ManLogTransModel object from a map
   factory Sequences.fromMap(Map<String, dynamic> map) {
     return Sequences(
-
       salesOrderMax: map['salesOrderMax'],
-
 
     );
   }

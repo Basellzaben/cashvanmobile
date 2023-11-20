@@ -103,7 +103,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
             elevation: 4.0,
             title: Widgets.Appbar(
                 context,
-                LanguageProvider.Llanguage('openvisit'),
+                LanguageProvider.Llanguage('updatescreen'),
                 unitHeightValue,
                 LanguageProvider.langg,
                 LanguageProvider.getDirection()),

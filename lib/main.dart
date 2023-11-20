@@ -26,9 +26,7 @@ Future<void> main() async {
         ChangeNotifierProvider<Language>(create: (_) => Language()),
         ChangeNotifierProvider<Them>(create: (_) => Them()),
         ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
-        ChangeNotifierProvider<RoundProvider>(create: (_) => RoundProvider()),
-
-      ],
+        ChangeNotifierProvider<RoundProvider>(create: (_) => RoundProvider()),],
       child:DevicePreview(enabled: false,builder:(context)=> const MyApp(),)));
 }
 
@@ -40,7 +38,6 @@ class MyApp extends StatelessWidget {
   void initState() async {
     final handler = DatabaseHandler();
     handler.initDatabase();
-
   }
 
 

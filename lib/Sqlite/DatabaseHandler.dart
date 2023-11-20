@@ -16,6 +16,7 @@ import '../Models/ReturnedDtlModel.dart';
 import '../Models/ReturnedHlModel.dart';
 import '../Models/SalesInvoiceDModel.dart';
 import '../Models/SalesInvoiceHModel.dart';
+import '../Models/StockModel.dart';
 import '../Models/UsersModel.dart';
 import '../Providers/LoginProvider.dart';
 
@@ -360,10 +361,147 @@ class DatabaseHandler {
                   "Damaged TEXT )"
           );
 
+          await database.execute(
+              "CREATE TABLE Stock(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "TransNo TEXT,"
+                  "TransDate TEXT,"
+                  "CustId TEXT,"
+                  "ManId TEXT,"
+                  "unit TEXT,"
+                  "ItemNo,"
+
+                  "unitname,"
+                  "itemname,"
+                  "customername,"
+
+
+                  "Qty TEXT,"
+                  "OrderQty TEXT,"
+                  "VisitOrderNo TEXT,"
+                  "posted TEXT,"
+                  "ExpiryDate TEXT)"
+            );
+
 
 
         });
   }
+///////////////////////////////////////
+  Future<void> updateStockposted(String id) async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+    var gg=0;
+    await database.rawQuery(
+      'UPDATE Stock set posted = ? WHERE posted = $gg and TransNo = $id ',
+      [1],  );
+  }
+  retrieveSTOCKposted(String id) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select  TransNo ,TransDate ,CustId ,ManId ,ItemNo , Qty,   OrderQty,       ExpiryDate,   VisitOrderNo,       unit from  Stock where posted!=1 and TransNo = $id');
+
+    String jsonStr = jsonEncode(queryResult);
+    return  jsonStr;
+  }
+
+
+
+  Future<String> GetItemName(String customerId) async {
+    var maxId='';
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT Item_Name as max_id FROM invf where Item_No = $customerId ',
+    );
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      maxId = (result[0]['max_id']).toString();
+      print("MAXID : "+maxId.toString());
+
+    } else {
+      maxId = '';
+      print("MAXfromdatabaselocal"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+  Future<String> GetCustomerName(String customerId) async {
+    var maxId='';
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT branchname as max_id FROM branches where customerid = $customerId ',
+    );
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      maxId = (result[0]['max_id']).toString();
+      print("MAXID : "+maxId.toString());
+
+    } else {
+      maxId = '';
+      print("MAXfromdatabaselocal"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+
+  ////////////////////////////////////
+  Future<List<StockModel>> retrieveStock(String TransNo) async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  Stock where TransNo = $TransNo');
+    return queryResult.map((e) => StockModel.fromMap(e)).toList();
+  }
+
+
+  Future<List<StockModel>> retrieveStockIDS() async {
+    final Database database = await initializeDB();
+    final List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select DISTINCT TransNo,TransDate,CustId from  Stock ');
+    return queryResult.map((e) => StockModel.fromMap(e)).toList();
+  }
+
+  Future<int> addStock(List<StockModel> items,bool isnew,String transno) async{
+    final Database database = await initializeDB();
+    var res=0;
+
+        res = await database.delete('Stock', where: 'TransNo = ?',
+            whereArgs: [transno]);
+        print("Result " + ''+ " :" + res.toString());
+
+      print("deleted " +res.toString());
+
+
+
+     res=0;
+    for (int i = 0; i < items.length; i++) {
+       res = await database.insert('Stock', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+    return res;
+  }
+
+  Future<int> getMaxStock(BuildContext context) async {
+    int maxId=0;
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT MAX(TransNo) as max_id FROM Stock',
+    );
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      maxId = int.parse((result[0]['max_id']).toString())+ 1;
+      print("MAXID : "+maxId.toString());
+
+    } else {
+      maxId = int.parse(Loginprovider.id.toString()+'000')+1;
+      print("maxstock"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+
 
 
   Future<List<Map<String, Object?>>> getItemName(String itemno) async {
@@ -843,6 +981,9 @@ print("maxIdmaxId  : "+maxId.toString());
     String jsonStr = jsonEncode(queryResult);
     return  jsonStr;
   }
+
+
+
 
 
   Future<void> updateManVisitsAfterpost() async {
