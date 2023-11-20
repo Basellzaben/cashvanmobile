@@ -308,6 +308,81 @@ class PostAllData {
 
   }
 
+  static PostSupply(BuildContext context,String json) async {
+
+
+    var LanguageProvider = Provider.of<Language>(context, listen: false);
+    try{
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('SupplyDocument')),
+                content: Text(LanguageProvider.Llanguage('loading')),
+              ));
+
+      Uri apiUrl = Uri.parse(Globalvireables.PostInvoiceAPI);
+
+      var map = new Map<String, dynamic>();
+      map['JsonStr'] = json;
+      map['type'] = 'Postsupply';
+
+
+
+      http.Response res = await http.post(
+        apiUrl,
+        body: map,
+      );
+
+
+      if (res.statusCode == 200) {
+        print("OUTPUT : "+res.body);
+        List< dynamic> data = jsonDecode(res.body);
+
+        double transID = double.parse(data[0]["transID"].toString());
+
+        print("transID : "+transID.toString());
+
+
+        if(transID>0) {
+          Navigator.pop(context);
+          await showDialog(
+            context: context,
+            builder: (context) =>
+            new AlertDialog(
+              title: new Text(LanguageProvider.Llanguage('done')),
+              content: Text(LanguageProvider.Llanguage('donetxt')),
+              actions: <Widget>[],
+            ),
+          );
+        }
+      } else {
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (_) =>
+                AlertDialog(
+                  title: Text(LanguageProvider.Llanguage('anerror') +res.statusCode.toString()),
+                  content: Text(LanguageProvider.Llanguage('anerrortitle')),
+                ));
+      }}catch(e){
+
+      print(e.toString());
+
+      Navigator.pop(context);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('anerror')),
+                content: Text(LanguageProvider.Llanguage('anerrortitle')+e.toString()),
+              ));
+
+
+    }
+
+  }
 
 
   static PostStock(BuildContext context,String id) async {

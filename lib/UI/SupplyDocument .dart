@@ -135,7 +135,19 @@ class _SupplyDocument extends State<SupplyDocument> {
                 GestureDetector(
                   onTap: () {},
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+
+
+                      cartToPost_H!.clear();
+                      cartToPost_D!.clear();
+                      cart!.clear();
+
+                      GetMax();
+                      setState(() {
+
+                      });
+
+                    },
                     child: cart!.length > 0
                         ? Container(
                             width: 66,
@@ -1845,31 +1857,46 @@ class _SupplyDocument extends State<SupplyDocument> {
 
   postSupply() {
 
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
     print ("cart length : "+cart!.length.toString());
 
 
+    cartToPost_D!.clear();
+    cartToPost_H!.clear();
+
     for (int i = 0; i < cart!.length; i++) {
 
-      cartToPost_D![i].ItemNo=cart![i].no;
-      cartToPost_D![i].Qty=cart![i].qty;
-      cartToPost_D![i].Total='';
-      cartToPost_D![i].Unit=cart![i].Unite;
-      cartToPost_D![i].Price='0';
-      
+      cartToPost_D!.add(new Supply_D_Model(Unite: double.parse(cart![i].Unite.toString()).toInt().toString(), no: cart![i].no.toString()
+          , Price: '0', Qty: cart![i].qty, Total: '0'));
+
       
     }
-    cartToPost_H![0].OrderNo=max.toString();
-    cartToPost_H![0].UserId=max.toString();
-    cartToPost_H![0].CustNo='0';
+
+    cartToPost_H!.add(new Supply_H_Model(CustNo: '0',
+        OrderNo: max.toString(), UserId: Loginprovider.getid()));
+
+    var jsonH = jsonEncode(cartToPost_H);
+    var jsonD = jsonEncode(cartToPost_D);
+
+    jsonH=jsonH.replaceAll('[', '');
+    jsonH=jsonH.replaceAll(']', '');
 
 
-    var jsonH = jsonEncode(cartToPost_D);
-    var jsonD = jsonEncode(cartToPost_H);
+    String json=jsonH+jsonD;
 
-    print ("jsonH : "+jsonH);
-    print ("jsonD : "+jsonD);
+    print("json : "+json);
 
+   // PostSupply
+    PostAllData.PostSupply(context, json);
 
+    cartToPost_H!.clear();
+    cartToPost_D!.clear();
+    cart!.clear();
 
+    GetMax();
+setState(() {
+
+});
   }
 }

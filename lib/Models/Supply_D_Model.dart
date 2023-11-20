@@ -1,7 +1,7 @@
 
 class Supply_D_Model {
-  String? Unit;
-  String? ItemNo;
+  String? Unite;
+  String? no;
   String? Price;
   String? Qty;
   String? Total;
@@ -9,8 +9,8 @@ class Supply_D_Model {
 
   Supply_D_Model(
    {
-    required this.Unit,
-    required this.ItemNo,
+    required this.Unite,
+    required this.no,
     required this.Price,
     required this.Qty,
     required this.Total,
@@ -20,8 +20,8 @@ class Supply_D_Model {
 
   Supply_D_Model.fromMap(Map<dynamic, dynamic> res)
       :
-        Unit = res["Unit"].toString(),
-        ItemNo = res["ItemNo"].toString(),
+        Unite = res["Unite"].toString(),
+        no = res["no"].toString(),
         Price = res["Price"].toString(),
         Qty = res["Qty"].toString(),
         Total = res["Total"].toString();
@@ -29,8 +29,8 @@ class Supply_D_Model {
 
   Map<String, Object?> toMap() {
     return {
-      'Unit': Unit,
-      'ItemNo': ItemNo,
+      'Unite': Unite,
+      'no': no,
       'Price': Price,
       'Qty': Qty,
       'Total': Total,
@@ -39,13 +39,22 @@ class Supply_D_Model {
 
 
   Supply_D_Model.fromJson(Map<String, dynamic> json) {
-    Unit = json['Unit'];
-    ItemNo = json['ItemNo'];
+    Unite = json['Unite'];
+    no = json['no'];
     Price = json['Price'];
     Qty = json['Qty'];
     Total = json['Total'];
   }
 
-
+  Map<String, dynamic> toJson() {
+    return {
+      'Unite': Unite,
+      'no': no,
+      'Price': Price,
+      'Qty': Qty,
+      'Total': Total,
+      // Add other fields as needed
+    };
+  }
 
 }

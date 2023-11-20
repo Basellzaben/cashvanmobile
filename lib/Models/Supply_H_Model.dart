@@ -35,4 +35,13 @@ class Supply_H_Model {
   }
 
 
+  Map<String, dynamic> toJson() {
+    return {
+      'CustNo': CustNo,
+      'OrderNo': OrderNo,
+      'UserId': UserId,
+      // Add other fields as needed
+    };
+  }
+
 }
