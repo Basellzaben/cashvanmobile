@@ -56,6 +56,9 @@ class Globalvireables {
   static String invforReturnedsURL=connectIPLocal+"/api/getInvoicehdrController/getInvoicehdr";
   static String invdtlforReturnedsURL=connectIPLocal+"/api/getInvoicedtlController/getInvoicedtl";
 
+  static String GetCountryAPI=connectIPLocal+"/api/CountryContrler/Country";
+  static String PostCustomerAPI=connectIPLocal+"/api/postCustomer/postCustomer";
+
 
 
   static String Total='';

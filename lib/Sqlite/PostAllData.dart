@@ -454,4 +454,96 @@ class PostAllData {
   }
 
 
+
+  static PostCustomer(BuildContext context,
+      String id,
+      String CusName,
+      String OrderNo,
+      String Area,
+      String CustType,
+      String Mobile,
+      String Acc,
+      String Lat,
+      String Lng,
+      String GpsLocation,
+      String COMPUTERNAME,
+      String UserID,
+      ) async {
+    var LanguageProvider = Provider.of<Language>(context, listen: false);
+    try{
+      var handler = DatabaseHandler();
+      //var json=await handler.retrieveSTOCKposted(id);
+
+        showDialog(
+            context: context,
+            builder: (_) =>
+                AlertDialog(
+                  title: Text(LanguageProvider.Llanguage('CustomerInventory')),
+                  content: Text(LanguageProvider.Llanguage('loading')),
+                ));
+
+
+        Uri apiUrl = Uri.parse(Globalvireables.PostCustomerAPI);
+
+
+        var map = new Map<String, String>();
+        map['CusName'] = CusName;
+        map['OrderNo'] ='6565';
+        map['Area'] =Area;
+        map['CustType'] ='1';
+        map['Mobile'] =Mobile;
+        map['Acc'] ='1';
+        map['Lat'] =double.parse(Lat.toString()).toStringAsFixed(3);
+        map['Lng'] =double.parse(Lng.toString()).toStringAsFixed(3);
+        map['GpsLocation'] =GpsLocation;
+        map['COMPUTERNAME'] ='phone';
+        map['UserID'] =UserID;
+
+      print("input : "+map.toString());
+
+
+
+
+        http.Response res = await http.post(
+          apiUrl,
+          body: map,
+        );
+
+
+        if (res.statusCode == 200) {
+          print("OUTPUTddonneen : "+res.body);
+
+          if(res.body.toString().contains('done')){
+            handler.updateCustomerInit(id);
+          }
+          Navigator.pop(context);
+
+        } else {
+          print("OUTPUT : "+res.statusCode.toString());
+
+          Navigator.pop(context);
+          showDialog(
+              context: context,
+              builder: (_) =>
+                  AlertDialog(
+                    title: Text(LanguageProvider.Llanguage('anerror')),
+                    content: Text(LanguageProvider.Llanguage('anerrortitle')),
+                  ));
+        }}catch(e){
+
+      Navigator.pop(context);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('anerror')),
+                content: Text(LanguageProvider.Llanguage('anerrortitle')+e.toString()),
+              ));
+
+
+    }
+
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cashvanmobile/Models/CountryModel.dart';
 import 'package:cashvanmobile/Models/ItemModel.dart';
 import 'package:cashvanmobile/Models/ItemsCategModel.dart';
 import 'package:cashvanmobile/Models/UnitItemModel.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import '../Models/CustomerinitModel.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/ManLogTransModel.dart';
 import '../Models/ManVisitsModel.dart';
@@ -369,12 +371,9 @@ class DatabaseHandler {
                   "ManId TEXT,"
                   "unit TEXT,"
                   "ItemNo,"
-
                   "unitname,"
                   "itemname,"
                   "customername,"
-
-
                   "Qty TEXT,"
                   "OrderQty TEXT,"
                   "VisitOrderNo TEXT,"
@@ -383,9 +382,96 @@ class DatabaseHandler {
             );
 
 
+          await database.execute(
+              "CREATE TABLE Country(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "no TEXT,"
+                  "name TEXT,"
+                  "ename TEXT,"
+                  "target TEXT,"
+                  "namepe TEXT,"
+                  "namepa TEXT,"
+                  "parent TEXT,"
+                  "city TEXT,"
+                  "route TEXT,"
+                  "father TEXT,"
+                  "branch TEXT)"
+          );
+
+          await database.execute(
+              "CREATE TABLE CustomerinitModel(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "CusName TEXT,"
+                  "OrderNo TEXT,"
+                  "Area TEXT,"
+                  "CustType TEXT,"
+                  "Mobile TEXT,"
+                  "Acc TEXT,"
+                  "Lat TEXT,"
+                  "Lng TEXT,"
+                  "GpsLocation TEXT,"
+                  "posted TEXT,"
+                  "COMPUTERNAME TEXT,"
+                  "UserID TEXT)"
+          );
 
         });
   }
+  Future<void> updateCustomerInit(String id) async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+    var gg=0;
+    await database.rawQuery(
+      'UPDATE CustomerinitModel set posted = ? WHERE posted = $gg and id = $id ',
+      [1],  );
+  }
+
+
+  Future<String> addCustomerinitModel(List<CustomerinitModel> items) async{
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('CustomerinitModel', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+      return res.toString();
+    }
+    return '';
+
+  }
+
+  Future<List<CustomerinitModel>> retrievCustomerinitModel() async {
+
+    final Database database = await initializeDB();
+    var gg=0;
+    List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  CustomerinitModel where posted = $gg ');
+
+    return queryResult.map((e) => CustomerinitModel.fromMap(e)).toList();
+  }
+
+
+  Future<List<CountryModel>> retrievCountry() async {
+
+    final Database database = await initializeDB();
+
+    List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  Country');
+
+    return queryResult.map((e) => CountryModel.fromMap(e)).toList();
+  }
+
+
+
+
+
+  Future<void> addCountry(List<CountryModel> items) async{
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('Country', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+    }
+
+  }
+
+
+
 ///////////////////////////////////////
   Future<void> updateStockposted(String id) async {
     //  Dropbranches();
@@ -689,6 +775,7 @@ print("isnew : "+isnew.toString());
     return maxId; // Return 0 if there are no records in the table
 
   }
+
 
 
 

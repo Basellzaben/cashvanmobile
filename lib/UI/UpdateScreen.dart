@@ -54,6 +54,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
   bool checkunites = false;
   bool checkunititem = false;
 
+  bool checkcountry = false;
+
+
   @override
   Widget build(BuildContext context) {
     var ThemP = Provider.of<Them>(context, listen: false);
@@ -301,6 +304,38 @@ class _UpdateScreenState extends State<UpdateScreen> {
                               Spacer(),
                             ],
                           ),
+
+
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      value: checkcountry,
+                                      //set variable for value
+                                      onChanged: (bool? value) async {
+                                        // if(!checkusers)
+
+                                        setState(() {
+                                          checkcountry = !checkcountry;
+                                        });
+                                      }),
+                                  Text('المناطق',
+                                      style: ArabicTextStyle(
+                                          arabicFont: ArabicFont.tajawal,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize:
+                                          Globalvireables.getDeviceType() ==
+                                              'tablet'
+                                              ? 17 * unitHeightValue
+                                              : 12 * unitHeightValue)),
+                                ],
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
@@ -351,6 +386,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
                                   if (checkunititem)
                                   {await GettAllData.GetUniteItem(context);
                                   checkunititem=false;
+                                  }
+                                  if (checkcountry)
+                                  {await GettAllData.GetCountry(context);
+                                  checkcountry=false;
                                   }
 
                                   //   await Future.delayed(Duration(seconds: 1));

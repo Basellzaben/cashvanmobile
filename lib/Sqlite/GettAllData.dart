@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../ColorsLanguage/GlobalVar.dart';
+import '../Models/CountryModel.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/Sequences.dart';
 import '../Models/StockModel.dart';
@@ -470,6 +471,74 @@ return await handler.getMaxIdFromTable('ManLogTrans');
 
     throw "Unable to retrieve Invoices.";
   }
+
+
+
+  static Future<List<CountryModel>> GetCountry(BuildContext context) async {
+    await Future.delayed(Duration(seconds: 1));
+    var LanguageProvider = Provider.of<Language>(context, listen: false);
+
+    showDialog(
+        context: context,
+        builder: (_) =>
+            AlertDialog(
+              title: Text(LanguageProvider.Llanguage('updatedata')),
+              content: Text(LanguageProvider.Llanguage('loading')),
+            ));
+    try{
+      Uri apiUrl = Uri.parse(Globalvireables.GetCountryAPI);
+      final handler = DatabaseHandler();
+      http.Response res = await http.post(
+        apiUrl,
+      );
+
+      print("statusCode" + res.statusCode.toString());
+
+
+      if (res.statusCode == 200) {
+        print("Invoices" + res.body.toString());
+        List<dynamic> body = jsonDecode(res.body);
+        List<CountryModel> Invoices = body
+            .map(
+              (dynamic item) => CountryModel.fromJson(item),
+        )
+            .toList();
+        handler.addCountry( Invoices).whenComplete(() =>  Navigator.pop(context));
+
+        return Invoices;
+      } else {
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (_) =>
+                AlertDialog(
+                  title: Text(LanguageProvider.Llanguage('updatedata')),
+                  content: Text(res.statusCode.toString()),
+                ));
+
+        throw "Unable to retrieve Invoices." + res.statusCode.toString();
+      }}catch(e){
+      Navigator.pop(context);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('updatedata')),
+                content: Text(e.toString()),
+              ));
+
+
+    }
+
+    throw "Unable to retrieve Invoices.";
+  }
+
+
+
+
+
+
 
  static Future<int> GetMaxInvoiceV (BuildContext context) async {
     final handler = DatabaseHandler();

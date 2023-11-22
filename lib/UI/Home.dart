@@ -1066,9 +1066,93 @@ SizedBox(height: 20,),
 
 
 
-                          ],)
+                          ],),
 
-                        ,
+
+                        Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: Row(
+                            children: [
+
+                              GestureDetector(
+                                onTap: () async {
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CustomerInventory ()),);
+
+
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: HexColor(ThemP.getcolor())),
+                                        borderRadius: BorderRadius.circular(15.0),
+
+                                      ),
+                                      width: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          6:MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          4.5,
+                                      height: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          6:MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          4.5,
+                                      child: Column(
+                                        children: [
+                                          Spacer(),
+                                          SvgPicture.asset("assets/returnedItems.svg",color: HexColor(ThemP.getcolor()),
+                                            height: 50 * unitHeightValue,
+                                            width: 50 * unitHeightValue,
+                                          ),
+
+                                          Spacer(),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                        LanguageProvider.Llanguage("ReturnedItems"),
+                                        style: ArabicTextStyle(
+                                            arabicFont: ArabicFont.tajawal,
+                                            color: HexColor(ThemP.getcolor()),
+                                            fontSize:
+
+                                            Globalvireables.getDeviceType()=='tablet'?22 * unitHeightValue:13 * unitHeightValue,
+                                            fontWeight: FontWeight.w700
+                                        )
+
+
+
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+
+
+                              Spacer(),
+
+
+
+
+                            ],),
+                        ),
+
+
                         SizedBox(
                           height: 5,
                         ),
