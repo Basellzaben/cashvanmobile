@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:cashvanmobile/UI/CustomerLocation.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:arabic_font/arabic_font.dart';
@@ -36,6 +37,7 @@ import '../Providers/languageProvider.dart';
 import '../SharedPrefrence/StoreShared.dart';
 import '../Sqlite/DatabaseHandler.dart';
 import 'CustomerInventory.dart';
+import 'CustomerStock.dart';
 import 'MapScreen.dart';
 import 'Settings.dart';
 import 'SupplyDocument .dart';
@@ -919,7 +921,7 @@ SizedBox(height: 20,),
                                 if(IsOpen){
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => CustomerInventory()),
+                                    MaterialPageRoute(builder: (context) => CustomerStock()),
                                   );
                                 }else{
                                   showDialog(
@@ -975,7 +977,7 @@ SizedBox(height: 20,),
                                     height: 5,
                                   ),
                                   Text(
-                                      LanguageProvider.Llanguage("CustomerInventory"),
+                                      LanguageProvider.Llanguage("CustomerStock"),
                                       style: ArabicTextStyle(
                                           arabicFont: ArabicFont.tajawal,
                                           color: HexColor(ThemP.getcolor()),
@@ -1070,7 +1072,7 @@ SizedBox(height: 20,),
 
 
                         Padding(
-                          padding: const EdgeInsets.all(13.0),
+                          padding: const EdgeInsets.only(top:20.0,left:13.0,right:13.0,bottom:13.0,),
                           child: Row(
                             children: [
 
@@ -1112,7 +1114,7 @@ SizedBox(height: 20,),
                                       child: Column(
                                         children: [
                                           Spacer(),
-                                          SvgPicture.asset("assets/returnedItems.svg",color: HexColor(ThemP.getcolor()),
+                                          SvgPicture.asset("assets/addcustomer.svg",color: HexColor(ThemP.getcolor()),
                                             height: 50 * unitHeightValue,
                                             width: 50 * unitHeightValue,
                                           ),
@@ -1125,7 +1127,7 @@ SizedBox(height: 20,),
                                       height: 5,
                                     ),
                                     Text(
-                                        LanguageProvider.Llanguage("ReturnedItems"),
+                                        LanguageProvider.Llanguage("addcustomer"),
                                         style: ArabicTextStyle(
                                             arabicFont: ArabicFont.tajawal,
                                             color: HexColor(ThemP.getcolor()),
@@ -1146,7 +1148,77 @@ SizedBox(height: 20,),
 
                               Spacer(),
 
+                              GestureDetector(
+                                onTap: () async {
 
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CustomerLocation()),);
+
+
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: HexColor(ThemP.getcolor())),
+                                        borderRadius: BorderRadius.circular(15.0),
+
+                                      ),
+                                      width: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          6:MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          4.5,
+                                      height: Globalvireables.getDeviceType()=='tablet'?MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          6:MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width /
+                                          4.5,
+                                      child: Column(
+                                        children: [
+                                          Spacer(),
+                                          SvgPicture.asset("assets/location.svg",color: HexColor(ThemP.getcolor()),
+                                            height: 50 * unitHeightValue,
+                                            width: 50 * unitHeightValue,
+                                          ),
+
+                                          Spacer(),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                        LanguageProvider.Llanguage("customerlocationn"),
+                                        style: ArabicTextStyle(
+                                            arabicFont: ArabicFont.tajawal,
+                                            color: HexColor(ThemP.getcolor()),
+                                            fontSize:
+
+                                            Globalvireables.getDeviceType()=='tablet'?22 * unitHeightValue:13 * unitHeightValue,
+                                            fontWeight: FontWeight.w700
+                                        )
+
+
+
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Spacer(),
+                              Spacer(),
+                              Spacer(),
+                              Spacer(),
 
 
                             ],),

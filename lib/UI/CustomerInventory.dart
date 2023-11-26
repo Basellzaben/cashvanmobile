@@ -146,7 +146,7 @@ class _CustomerInventoryState extends State<CustomerInventory> {
             elevation: 4.0,
             title: Widgets.Appbar(
                 context,
-                LanguageProvider.Llanguage('openvisit'),
+                LanguageProvider.Llanguage('addcustomer'),
                 unitHeightValue,
                 LanguageProvider.langg,
                 LanguageProvider.getDirection()),
@@ -1336,25 +1336,24 @@ if(int.parse(ggg.toString())>0){
   }
 
   PostCustomer(){
+
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
-
     final handler = DatabaseHandler();
-
 
     print("CustomerIDdatabase "+CustomerIDdatabase);
 
     PostAllData.PostCustomer(context,
-        CustomerIDdatabase.toString(),
+      CustomerIDdatabase.toString(),
       customername.text,
-       '1',
+      '1',
       dateinput.text,
-       '1',
+      '1',
       customermobile.text,
-       '1',
+      '1',
       Currentlat.toString(),
       Currentlong.toString(),
       customeraddres.text,
-       'mobile',
+      'mobile',
       Loginprovider.getid().toString()
     );
     customername.clear();

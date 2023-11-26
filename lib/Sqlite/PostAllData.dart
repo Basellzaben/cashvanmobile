@@ -384,7 +384,6 @@ class PostAllData {
 
   }
 
-
   static PostStock(BuildContext context,String id) async {
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     try{
@@ -530,6 +529,107 @@ class PostAllData {
                     content: Text(LanguageProvider.Llanguage('anerrortitle')),
                   ));
         }}catch(e){
+
+      Navigator.pop(context);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('anerror')),
+                content: Text(LanguageProvider.Llanguage('anerrortitle')+e.toString()),
+              ));
+
+
+    }
+
+  }
+
+
+
+  static PostCustomerLOCATION(BuildContext context,String id,
+      String CustNo,
+      String ManNo,
+      String CustName,
+      String Lat_X,
+      String Lat_Y,
+      String Locat,
+      String Note,
+      String Tr_Date,
+      String PersonNm,
+      String MobileNo,
+      String Stutes,
+      ) async {
+
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+
+    var LanguageProvider = Provider.of<Language>(context, listen: false);
+    try{
+      var handler = DatabaseHandler();
+      //var json=await handler.retrieveSTOCKposted(id);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('customerlocationn')),
+                content: Text(LanguageProvider.Llanguage('loading')),
+              )
+      );
+
+      Uri apiUrl = Uri.parse(Globalvireables.PostCustomerlocationAPI);
+
+
+      print("CustomerIDdddd    "+CustNo);
+      //print("Lat_X    "+double.parse(Lat_Y.toString()).toStringAsFixed(3).toString());
+     // print("Lat_Y    "+double.parse(Lat_Y.toString()).toStringAsFixed(3).toString());
+
+
+
+      var map = new Map<String, String>();
+      map['CustNo'] = CustNo.toString();
+      map['ManNo'] =Loginprovider.getid().toString();
+      map['CustName'] =CustName.toString();
+     // map['Lat_X'] ='44.65';
+    //  map['Lat_Y'] ='44.65';
+
+       map['Lat_X'] =double.parse(Lat_X.toString()).toStringAsFixed(3).toString();
+      map['Lat_Y'] =double.parse(Lat_Y.toString()).toStringAsFixed(3).toString();
+      map['Locat'] ='locat';
+      map['Note'] ='--ssesz-';
+      map['Tr_Date'] =Tr_Date.toString().substring(0,10);
+      map['PersonNm'] =Loginprovider.getnameE().toString();
+      map['MobileNo'] ='0';
+      map['Stutes'] ='1';
+
+      print("input : "+map.toString());
+
+      http.Response res = await http.post(
+        apiUrl,
+        body: map,
+      );
+
+      if (res.statusCode == 200) {
+        print("OUTPUTddonneen : "+res.body);
+
+        if(res.body.toString().contains('done')){
+          handler.updateCustomerLocation(id);
+        }
+        Navigator.pop(context);
+
+      } else {
+        print("OUTPUT : "+res.statusCode.toString());
+
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (_) =>
+                AlertDialog(
+                  title: Text(LanguageProvider.Llanguage('anerror')),
+                  content: Text(LanguageProvider.Llanguage('anerrortitle')),
+                ));
+      }}catch(e){
 
       Navigator.pop(context);
 

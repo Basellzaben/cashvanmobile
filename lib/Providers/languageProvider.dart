@@ -44,13 +44,15 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+    "customerlocationn":"موقع العميل",
+    "addcustomer":"اضافة عميل",
     "customerlocation":"عنوان العميل",
     "customerphone":"رقم الهاتف",
     "selectcity":"اختر المنطقة",
     "SupplyDocument":"سند التزويد",
     "Supplydocument":"سند التزويد",
     "Inventoryid": "رقم الجرد",
-    "CustomerInventory": "جرد العميل",
+    "CustomerStock": "جرد العميل",
     "updatescreen": "تحديث البيانات",
     "returnedid": "رقم المرتجع",
     "ReturnedItems": "مرتجع المواد",
@@ -251,8 +253,10 @@ class Language extends ChangeNotifier {
   };
 
   static Map<String, Object?> en = {
+    "addcustomer":"Create Customer",
+    "customerlocationn":"Customer Location",
 
-    "CustomerInventory": "Customer Inventory",
+    "CustomerStock": "Customer Inventory",
     "Clientceiling": "Client ceiling",
     "SupplyDocument":"Supply Document",
     "selectcity":"Choose the region",

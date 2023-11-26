@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import '../Models/CustomerLocationModel.dart';
 import '../Models/CustomerinitModel.dart';
 import '../Models/CustomersModel.dart';
 import '../Models/ManLogTransModel.dart';
@@ -413,8 +414,57 @@ class DatabaseHandler {
                   "UserID TEXT)"
           );
 
+
+          await database.execute(
+              "CREATE TABLE CustomerLocation(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "CustNo TEXT,"
+                  "ManNo TEXT,"
+                  "CustName TEXT,"
+                  "Lat_X TEXT,"
+                  "Lat_Y TEXT,"
+                  "Locat TEXT,"
+                  "Note TEXT,"
+                  "Tr_Date TEXT,"
+                  "PersonNm TEXT,"
+                  "posted TEXT,"
+                  "MobileNo TEXT,"
+                  "Stutes TEXT)"
+          );
+
         });
   }
+  Future<void> updateCustomerLocation(String id) async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+    var gg=0;
+    await database.rawQuery(
+      'UPDATE CustomerLocation set posted = ? WHERE posted = $gg and id = $id ',
+      [1],  );
+  }
+
+
+  Future<String> addCustomerLocation(List<CustomerLocationModel> items) async{
+    final Database database = await initializeDB();
+    for (int i = 0; i < items.length; i++) {
+      var res = await database.insert('CustomerLocation', items[i].toMap());
+      print("Result " + i.toString() + " :" + res.toString());
+      return res.toString();
+    }
+    return '';
+
+  }
+
+  Future<List<CustomerLocationModel>> retrievCustomerLocation() async {
+
+    final Database database = await initializeDB();
+    var gg=0;
+    List<Map<String, Object?>> queryResult =
+    await database.rawQuery('select * from  CustomerLocation where posted = $gg ');
+
+    return queryResult.map((e) => CustomerLocationModel.fromMap(e)).toList();
+  }
+
+  //////////
   Future<void> updateCustomerInit(String id) async {
     //  Dropbranches();
     final Database database = await initializeDB();

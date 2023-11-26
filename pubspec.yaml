@@ -89,6 +89,8 @@ flutter:
     - assets/min.svg
     - assets/returnedItems.svg
     - assets/inventory.svg
+    - assets/addcustomer.svg
+    - assets/location.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

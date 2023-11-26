@@ -1,4 +1,9 @@
+
 class CustomerinitModel {
+
+
+
+
 
   int? id;
   String? CusName;
@@ -49,7 +54,7 @@ class CustomerinitModel {
       Lng: map['Lng'],
       GpsLocation: map['GpsLocation'],
       COMPUTERNAME: map['COMPUTERNAME'],
-        UserID: map['UserID'],
+      UserID: map['UserID'],
       posted: map['posted'],
 
     );
