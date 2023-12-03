@@ -161,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 17,
               ),
               Container(
-                width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/2.5:
+                width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/1.5:
                 MediaQuery.of(context).size.width/1.5,
 
                   margin: EdgeInsets.only(
@@ -199,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   )),
               Container(
-                  width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/2.5:
+                  width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/1.5:
                   MediaQuery.of(context).size.width/1.5,
                   margin: EdgeInsets.only(
                       left: 25, right: 25, top: 44),
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   height: 50,
-                  width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/2.5:
+                  width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/1.5:
                   MediaQuery.of(context).size.width/1.2,
                   margin: EdgeInsets.only(top: 40, bottom: 5),
                   color: HexColor(Globalvireables.white),
@@ -355,7 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       SizedBox(
-        width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/2.5:
+        width: Globalvireables.getDeviceType()=='tablet'?MediaQuery.of(context).size.width/1.5:
         MediaQuery.of(context).size.width/1.2,
         child: Align(
           alignment: Alignment.bottomCenter,

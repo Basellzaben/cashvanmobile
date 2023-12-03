@@ -16,14 +16,13 @@ class Globalvireables {
   static String grey="#707070";
   static String secondcolor2="#d0e8ee";
   static String connectIPLocal="http://10.0.1.120:3210";
-
-
   static String them1="#229954";
   static String them2="#2E86C1";
 
   static String them3="#8E44AD";
   static String them4="#2E4053";
   static String them5="#138B79";
+
 
 
 //Store Data into Shared Keys

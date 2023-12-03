@@ -5,6 +5,7 @@ import 'package:arabic_font/arabic_font.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cashvanmobile/Models/SalesInvoiceDModelPost.dart';
 import 'package:cashvanmobile/Models/SalesInvoiceHModelPost.dart';
+import 'package:cashvanmobile/Providers/PrintProvider.dart';
 import 'package:cashvanmobile/Sqlite/GettAllData.dart';
 import 'package:cashvanmobile/Sqlite/PostAllData.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ import '../Models/ManVisitsModel.dart';
 import '../Models/OpenRoundModel.dart';
 import '../Models/PriceModel.dart';
 import '../Providers/LoginProvider.dart';
+import '../Providers/PrintProvider.dart';
+import '../Providers/PrintProvider.dart';
 import '../Providers/RoundProvider.dart';
 import '../Providers/Them.dart';
 import '../Providers/languageProvider.dart';
@@ -37,6 +40,9 @@ import '../SharedPrefrence/StoreShared.dart';
 import '../Sqlite/DatabaseHandler.dart';
 import '../widget/Widgets.dart';
 import 'Home.dart';
+import 'Print.dart';
+import 'PrintInvoice.dart';
+
 import 'Settings.dart';
 import 'package:http/http.dart' as http;
 
@@ -108,10 +114,11 @@ bool newInv=true;
     var roundpr = Provider.of<RoundProvider>(context, listen: false);
 
     var ThemP = Provider.of<Them>(context, listen: false);
-    double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.00118;
     var stops = [0.0, 1.00];
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+    var PrintProviderr = Provider.of<PrintProvider>(context, listen: false);
 
     return Stack(children: <Widget>[
       Image.asset(
@@ -233,6 +240,39 @@ try {
                     ),
                   ):Container(),
                 ),
+
+
+                SizedBox(
+                  width: 3,
+                ),
+                GestureDetector(
+                  onTap: () {
+
+
+                    PrintProviderr.setCusName(CustomerName);
+                    PrintProviderr.setcart(cart);
+                    PrintProviderr.setcartHdr(cartHdr);
+
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => PrintInvoice()),);
+
+
+
+                  },
+                  child: cart!.length>0 ? Container(
+                    width: 90,
+                    color: HexColor(ThemP.color),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(Icons.print, color: Colors.white),
+                        Text(LanguageProvider.Llanguage('print'),
+                            style: TextStyle(color: Colors.white))
+                      ],
+                    ),
+                  ):Container(),
+                ),
+
+
                 Expanded(
                   child: Container(
                     alignment: Alignment.center,
@@ -727,7 +767,7 @@ try {
                                   fontWeight: FontWeight.bold,
                                   fontSize:
                                       MediaQuery.of(context).size.width > 600
-                                          ? 22
+                                          ? 18
                                           : 15)),
                           Spacer(),
                           Checkbox(
@@ -745,7 +785,7 @@ try {
                                   fontWeight: FontWeight.bold,
                                   fontSize:
                                       MediaQuery.of(context).size.width > 600
-                                          ? 22
+                                          ? 18
                                           : 15)),
                           Spacer(),
                           GestureDetector(
@@ -770,25 +810,28 @@ try {
 
                               }
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: HexColor(ThemP.color),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: HexColor(ThemP.color),
 
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20.0),
-                                    bottomRight: Radius.circular(20.0),
-                                    topLeft: Radius.circular(20.0),
-                                    bottomLeft: Radius.circular(20.0)),
-                              ),
-                              width: MediaQuery.of(context).size.width/3,
-                              height: MediaQuery.of(context).size.width/10,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.add, color: Colors.white),
-                                  Text(LanguageProvider.Llanguage('Add'),
-                                      style: TextStyle(color: Colors.white))
-                                ],
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20.0),
+                                      bottomRight: Radius.circular(20.0),
+                                      topLeft: Radius.circular(20.0),
+                                      bottomLeft: Radius.circular(20.0)),
+                                ),
+                                width: MediaQuery.of(context).size.width/4,
+                                height: MediaQuery.of(context).size.width/13,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.add, color: Colors.white),
+                                    Text(LanguageProvider.Llanguage('Add'),
+                                        style: TextStyle(color: Colors.white))
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -837,7 +880,7 @@ try {
                                                   style: ArabicTextStyle(
                                                       arabicFont:
                                                           ArabicFont.tajawal,
-                                                      fontSize: 22 *
+                                                      fontSize: 18 *
                                                           unitHeightValue)),
                                               content: Text(
                                                 LanguageProvider.Llanguage(
@@ -1335,7 +1378,7 @@ try {
 
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     var ThemP = Provider.of<Them>(context, listen: false);
-    double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.00118;
 
     showModalBottomSheet(
        // backgroundColor: HexColor(ThemP.getcolor()),
@@ -1621,7 +1664,7 @@ try {
   ) {
     var count = 1;
     var ThemP = Provider.of<Them>(context, listen: false);
-    double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.00118;
 
     showDialog(
         context: context,
@@ -1917,7 +1960,7 @@ bouncetotal=0;
 
     var LanguageProvider = Provider.of<Language>(context, listen: false);
     var ThemP = Provider.of<Them>(context, listen: false);
-    double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.00118;
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 
     TextEditingController bounceController = TextEditingController();
@@ -1966,7 +2009,7 @@ bouncetotal=0;
                                 LanguageProvider.Llanguage('edititem'),
                                 style: TextStyle(
                                     color: HexColor(ThemP.getcolor()),
-                                    fontSize: 22,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w900),
                               )),
                             ),
@@ -2594,12 +2637,10 @@ bouncetotal=0;
     });
   }
 
-  showIDSDialog(
-    BuildContext context,
-  ) {
+  showIDSDialog(BuildContext context) {
     var count = 1;
     var ThemP = Provider.of<Them>(context, listen: false);
-    double unitHeightValue = MediaQuery.of(context).size.height * 0.00122;
+    double unitHeightValue = MediaQuery.of(context).size.height * 0.00118;
 
     showDialog(
         context: context,
@@ -2609,15 +2650,15 @@ bouncetotal=0;
             return AlertDialog(
                 insetPadding: EdgeInsets.all(20),
                 content: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 1.7,
+                  width: MediaQuery.of(context).size.width/1.1,
+                  height: MediaQuery.of(context).size.height / 2,
                   child: Column(
                     children: [
                       Center(
                         child: Row(
                           children: [
                             Container(
-                                width: MediaQuery.of(context).size.width / 4,
+                                width: MediaQuery.of(context).size.width / 3.7,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   color: Colors.black12,
@@ -2631,7 +2672,7 @@ bouncetotal=0;
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500))),
                             Container(
-                                width: MediaQuery.of(context).size.width / 4,
+                                width: MediaQuery.of(context).size.width / 3.7,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   color: Colors.black12,
@@ -2645,7 +2686,7 @@ bouncetotal=0;
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500))),
                             Container(
-                                width: MediaQuery.of(context).size.width / 4,
+                                width: MediaQuery.of(context).size.width / 3.7,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   color: Colors.black12,
@@ -2661,134 +2702,137 @@ bouncetotal=0;
                           ],
                         ),
                       ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width,
-                          child: FutureBuilder(
-                            future: getIDS(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<SalesInvoiceHModel>>
-                                    snapshot) {
-                              if (snapshot.hasData) {
-                                List<SalesInvoiceHModel>? Search =
-                                    snapshot.data;
+                      Center(
+                        child: SizedBox(
+                            width: MediaQuery.of(context).size.width/1.1,
+                            height: MediaQuery.of(context).size.height / 2.5,
 
-                                return ListView(
-                                  children: Search!
-                                      .map((SalesInvoiceHModel v) =>
-                                          GestureDetector(
-                                            onTap: () {
-                                              GetInvData(v.OrderNo.toString());
-                                            },
-                                            child: Center(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                      width: MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              4,
-                                                      /*   decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.black),
-                                            color: Colors.transparent,
+                            child: FutureBuilder(
+                              future: getIDS(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<SalesInvoiceHModel>>
+                                      snapshot) {
+                                if (snapshot.hasData) {
+                                  List<SalesInvoiceHModel>? Search =
+                                      snapshot.data;
 
-                                          ),*/
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            v.Date.toString(),
-                                                            style: ArabicTextStyle(
-                                                                arabicFont:
-                                                                    ArabicFont
-                                                                        .tajawal,
-                                                                fontSize: 14 *
-                                                                    unitHeightValue,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500)),
-                                                      )),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              4,
-                                                      /*  decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.black),
-                                            color: Colors.transparent,
+                                  return ListView(
+                                    children: Search!
+                                        .map((SalesInvoiceHModel v) =>
+                                            GestureDetector(
+                                              onTap: () {
+                                                GetInvData(v.OrderNo.toString());
+                                              },
+                                              child: Center(
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                        width: MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                            3.9,
+                                                        /*   decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.black),
+                                              color: Colors.transparent,
 
-                                          ),*/
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            v.OrderNo
-                                                                .toString(),
-                                                            style: ArabicTextStyle(
-                                                                arabicFont:
-                                                                    ArabicFont
-                                                                        .tajawal,
-                                                                fontSize: 14 *
-                                                                    unitHeightValue,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500)),
-                                                      )),
-                                                  Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              4,
-                                                      /*decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.black),
-                                            color: Colors.transparent,
+                                            ),*/
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              v.Date.toString(),
+                                                              style: ArabicTextStyle(
+                                                                  arabicFont:
+                                                                      ArabicFont
+                                                                          .tajawal,
+                                                                  fontSize: 14 *
+                                                                      unitHeightValue,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500)),
+                                                        )),
+                                                    Container(
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                3.9,
+                                                        /*  decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.black),
+                                              color: Colors.transparent,
 
-                                          ),*/
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            v.Cust_No
-                                                                .toString(),
-                                                            style: ArabicTextStyle(
-                                                                arabicFont:
-                                                                    ArabicFont
-                                                                        .tajawal,
-                                                                fontSize: 14 *
-                                                                    unitHeightValue,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700)),
-                                                      )),
-                                                ],
+                                            ),*/
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              v.OrderNo
+                                                                  .toString(),
+                                                              style: ArabicTextStyle(
+                                                                  arabicFont:
+                                                                      ArabicFont
+                                                                          .tajawal,
+                                                                  fontSize: 14 *
+                                                                      unitHeightValue,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500)),
+                                                        )),
+                                                    Container(
+                                                        width:
+                                                            MediaQuery.of(context)
+                                                                    .size
+                                                                    .width /
+                                                                3.9,
+                                                        /*decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.black),
+                                              color: Colors.transparent,
+
+                                            ),*/
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              v.Cust_No
+                                                                  .toString(),
+                                                              style: ArabicTextStyle(
+                                                                  arabicFont:
+                                                                      ArabicFont
+                                                                          .tajawal,
+                                                                  fontSize: 14 *
+                                                                      unitHeightValue,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700)),
+                                                        )),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ))
-                                      .toList(),
-                                );
-                              } else {
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              }
-                            },
-                          )),
+                                            ))
+                                        .toList(),
+                                  );
+                                } else {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              },
+                            )),
+                      ),
                     ],
                   ),
                 ));

@@ -9,6 +9,7 @@ import 'package:sqflite/sqflite.dart';
 import 'ColorsLanguage/GlobalVar.dart';
 import 'ColorsLanguage/HexaColor.dart';
 import 'Providers/LoginProvider.dart';
+import 'Providers/PrintProvider.dart';
 import 'Providers/RoundProvider.dart';
 import 'Providers/Them.dart';
 import 'Providers/languageProvider.dart';
@@ -25,9 +26,13 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider<Language>(create: (_) => Language()),
         ChangeNotifierProvider<Them>(create: (_) => Them()),
+        ChangeNotifierProvider<PrintProvider>(create: (_) => PrintProvider()),
         ChangeNotifierProvider<LoginProvider>(create: (_) => LoginProvider()),
-        ChangeNotifierProvider<RoundProvider>(create: (_) => RoundProvider()),],
+        ChangeNotifierProvider<RoundProvider>(create: (_) => RoundProvider()),
+      ],
+
       child:DevicePreview(enabled: false,builder:(context)=> const MyApp(),)));
+
 }
 
 class MyApp extends StatelessWidget {

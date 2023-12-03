@@ -591,9 +591,6 @@ class PostAllData {
       map['CustNo'] = CustNo.toString();
       map['ManNo'] =Loginprovider.getid().toString();
       map['CustName'] =CustName.toString();
-     // map['Lat_X'] ='44.65';
-    //  map['Lat_Y'] ='44.65';
-
        map['Lat_X'] =double.parse(Lat_X.toString()).toStringAsFixed(3).toString();
       map['Lat_Y'] =double.parse(Lat_Y.toString()).toStringAsFixed(3).toString();
       map['Locat'] ='locat';

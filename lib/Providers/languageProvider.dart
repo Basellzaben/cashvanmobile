@@ -44,6 +44,7 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+    "print":"طباعه",
     "customerlocationn":"موقع العميل",
     "addcustomer":"اضافة عميل",
     "customerlocation":"عنوان العميل",
@@ -255,6 +256,7 @@ class Language extends ChangeNotifier {
   static Map<String, Object?> en = {
     "addcustomer":"Create Customer",
     "customerlocationn":"Customer Location",
+    "print":"print",
 
     "CustomerStock": "Customer Inventory",
     "Clientceiling": "Client ceiling",

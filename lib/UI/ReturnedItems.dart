@@ -61,9 +61,7 @@ class _ReturnedItemsState extends State<ReturnedItems> {
   }
 
   bool newInv = true;
-
   double total = 0.0;
-
   var hdr_dis_value = '1';
   var Cust_No = '1';
   var bounce_Total = '1';
@@ -76,9 +74,7 @@ class _ReturnedItemsState extends State<ReturnedItems> {
   String CustomerName = '';
   String CustomerLimite = '';
   String Receivables = '';
-
   List<PriceModel> myObjects = [];
-
   String InvId = '';
   List<SalesInvoiceDModelReturned>? cart = [];
   List<ReturnedHlModel>? HDR = [];
@@ -1329,7 +1325,7 @@ class _ReturnedItemsState extends State<ReturnedItems> {
                 insetPadding: EdgeInsets.all(20),
                 content: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 1.7,
+                  height: MediaQuery.of(context).size.height / 1.5,
                   child: Column(
                     children: [
                       Center(
