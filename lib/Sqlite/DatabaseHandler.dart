@@ -433,6 +433,32 @@ class DatabaseHandler {
 
         });
   }
+
+
+
+
+  Future<int> getMaxPerRequest(BuildContext context) async {
+    int maxId=0;
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT MAX(OrderNo) as max_id FROM CustomerinitModel',
+    );
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      maxId = int.parse((result[0]['max_id']).toString())+ 1;
+      print("MAXID : "+maxId.toString());
+
+    } else {
+      maxId = int.parse(Loginprovider.id.toString()+'000')+1;
+      print("MAXfromdatabaselocal"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+
+
   Future<void> updateCustomerLocation(String id) async {
     //  Dropbranches();
     final Database database = await initializeDB();
@@ -473,7 +499,14 @@ class DatabaseHandler {
       'UPDATE CustomerinitModel set posted = ? WHERE posted = $gg and id = $id ',
       [1],  );
   }
-
+  Future<void> updateCustomerrequestpostInit(String id) async {
+    //  Dropbranches();
+    final Database database = await initializeDB();
+    var gg=-1;
+    await database.rawQuery(
+      'UPDATE CustomerinitModel set posted = ? WHERE posted = $gg and id = $id ',
+      [0],  );
+  }
 
   Future<String> addCustomerinitModel(List<CustomerinitModel> items) async{
     final Database database = await initializeDB();
@@ -786,6 +819,8 @@ print("isnew : "+isnew.toString());
 
     return res.toString();
   }
+
+
 
   Future<int> getMaxInvoice(BuildContext context) async {
     int maxId=0;

@@ -58,6 +58,7 @@ class Globalvireables {
   static String GetCountryAPI=connectIPLocal+"/api/CountryContrler/Country";
   static String PostCustomerAPI=connectIPLocal+"/api/postCustomer/postCustomer";
   static String PostCustomerlocationAPI=connectIPLocal+"/api/postCustomerloc/postCustomerloc";
+  static String PostCustomerPermisionAPI=connectIPLocal+"/api/Postpermision/Postpermision";
 
 
 

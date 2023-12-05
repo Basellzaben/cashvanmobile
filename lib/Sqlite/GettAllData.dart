@@ -961,4 +961,114 @@ var max=0;
     throw "Unable to retrieve Invoices.";
   }
 
+
+  static Future<int> GetMaxREQpermision (BuildContext context) async {
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+    var max=0;
+    try{
+      final handler = DatabaseHandler();
+
+      Uri apiUrl = Uri.parse(Globalvireables.GetMaxInvoice);
+
+      var map = new Map<String, dynamic>();
+      map['ManId'] ='2';
+      map['type'] = 'maxreqpermision';
+
+      http.Response res = await http.post(
+          apiUrl,
+          body:map
+      );
+
+      if (res.statusCode == 200) {
+
+        List<dynamic> body = jsonDecode(res.body);
+        List<Sequences> seq = body.map((dynamic item) => Sequences.fromJson(item),)  .toList();
+
+
+        print("maxstock " + body.toString());
+        print("input " + map.toString());
+
+
+
+        if(seq.first.salesOrderMax.toString()!='0')
+          StoreShared.SaveJson('maxstock',seq.first.salesOrderMax.toString());
+        else
+          StoreShared.SaveJson('maxstock','0');
+
+
+
+        var maxfromlocal=await handler.getMaxPerRequest(context);
+
+
+
+        var maxfromapi=seq.first.salesOrderMax.toString();
+
+
+
+
+        print("sttttttock  " + maxfromapi.toString());
+
+
+        if(int.parse(maxfromlocal.toString())>double.parse(maxfromapi))
+        {
+          StoreShared.SaveJson('maxstock',maxfromlocal.toString());
+          max=int.parse(maxfromlocal.toString());
+
+        }
+        else
+        {
+          StoreShared.SaveJson('maxstock',maxfromapi.toString());
+          max=int.parse(maxfromapi.toString());
+        }
+
+
+
+        /* List<UnitItemModel> Invoices = body
+            .map(
+              (dynamic item) => UnitItemModel.fromJson(item),
+        )
+            .toList();
+*/
+
+        //  handler.addUnitItem( Invoices).whenComplete(() =>  Navigator.pop(context));
+
+      } else {
+
+        print("reponceapppp"+res.statusCode.toString());
+
+
+        var maxfromlocal='0';
+
+        print("reponceapppp"+maxfromlocal.toString());
+
+
+        StoreShared.SaveJson('maxstock',maxfromlocal.toString());
+        max=int.parse(maxfromlocal.toString());
+
+
+      }}catch(e){
+
+      print(e.toString() + "errrrror");
+
+
+      var maxfromlocal='0';
+
+      print(maxfromlocal.toString() + "maaaax");
+
+
+      StoreShared.SaveJson('maxstock',maxfromlocal.toString());
+      max=int.parse(maxfromlocal.toString());
+      print(max.toString() + "maxstock");
+
+    }
+
+    print(max.toString() + "maaaax");
+
+    return max;
+    throw "Unable to retrieve Invoices.";
+  }
+
+
+
+
 }

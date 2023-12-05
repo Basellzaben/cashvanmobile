@@ -46,7 +46,7 @@ class _CustomerInventoryState extends State<CustomerInventory> {
   Timer? timer;
   bool active = false;
   bool IsOpen = false;
-
+var OrderNo='';
 
   bool IsNew = true;
 
@@ -54,7 +54,7 @@ class _CustomerInventoryState extends State<CustomerInventory> {
   String latCustomer = '';
   String longCustomer = '';
   String CustomerId = '';
-
+String post='';
   String CustomerName = '';
   String CustomerIDdatabase = '';
   String CustomerLimite = '';
@@ -69,7 +69,7 @@ class _CustomerInventoryState extends State<CustomerInventory> {
   @override
   void initState() {
     getCurrentpostion();
-
+    GetMax();
     determinePosition();
     super.initState();
   }
@@ -211,6 +211,27 @@ class _CustomerInventoryState extends State<CustomerInventory> {
                               Spacer(),
                             ],
                           ),
+
+                          Row(
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                   OrderNo,
+                                    style: ArabicTextStyle(
+                                        arabicFont: ArabicFont.tajawal,
+                                        color: HexColor(Globalvireables.black2),
+                                        fontSize:
+                                        Globalvireables.getDeviceType() ==
+                                            'tablet'
+                                            ? 18 * unitHeightValue
+                                            : 14 * unitHeightValue,
+                                        fontWeight: FontWeight.w900)),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                          
+                          
                           SizedBox(
                             height: 10,
                           ),
@@ -782,7 +803,9 @@ SizedBox(height: 20,),
       customeraddres.text=v.GpsLocation.toString();
       CustomerIDdatabase=v.id.toString();
 
+      post=v.posted.toString();
 
+      OrderNo=v.OrderNo.toString();
 
       IsNew=false;
 
@@ -800,7 +823,7 @@ SizedBox(height: 20,),
       Container(
         width: MediaQuery.of(context).size.width / 5.5,
         child: Text(
-          v.Area.toString(),
+          v.OrderNo.toString(),
           style: ArabicTextStyle(arabicFont: ArabicFont.tajawal, color: Colors.black, fontSize: Globalvireables.getDeviceType() == 'tablet' ? 18 * unitHeightValue : 13 * unitHeightValue, fontWeight: FontWeight.w700),
         ),
       ),
@@ -817,7 +840,7 @@ SizedBox(height: 20,),
       Container(
         width: MediaQuery.of(context).size.width / 5.5,
         child: Text(
-          v.posted.toString()=='0'?'غير معتمد':'معتمد',
+          v.posted.toString()=='-1'?'غير مرحل':'بانتظار الموافقه',
           style: ArabicTextStyle(arabicFont: ArabicFont.tajawal, color: v.posted.toString()=='0'? Colors.redAccent:Colors.green, fontSize: Globalvireables.getDeviceType() == 'tablet' ? 12 * unitHeightValue : 12 * unitHeightValue, fontWeight: FontWeight.w400),
         ),
       ),
@@ -1070,7 +1093,7 @@ width: MediaQuery.of(context).size.width/1.3,
                                   HexColor(ThemP.getcolor()),
                                 ),
                                 child: Text(
-    IsNew? LanguageProvider.Llanguage('save'):LanguageProvider.Llanguage('post'),
+    IsNew? LanguageProvider.Llanguage('sendperrequest'):LanguageProvider.Llanguage('post'),
                                   style: ArabicTextStyle(
                                       arabicFont: ArabicFont.tajawal,
                                       color:
@@ -1080,10 +1103,14 @@ width: MediaQuery.of(context).size.width/1.3,
                                 onPressed: () async {
 
 if(IsNew && returnfull())
-                                  SaveCustomer();
+   SaveCustomer();
 else if(returnfull())
   PostCustomer();
 
+
+setState(() {
+
+});
                                 },
                               ),
                             ),
@@ -1228,6 +1255,8 @@ else if(returnfull())
   }
 
   getCurrentpostion() async {
+    GetMax();
+
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     double lat = position.latitude;
@@ -1247,6 +1276,8 @@ else if(returnfull())
   }
 
   Future<List<CountryModel>> getCustomers() async {
+    GetMax();
+
     var handler = DatabaseHandler();
     List<CountryModel> users=[];
     try {
@@ -1273,6 +1304,8 @@ else if(returnfull())
   }
 
   Future<List<CustomerinitModel>> getCustomersInit() async {
+    GetMax();
+
     var handler = DatabaseHandler();
     List<CustomerinitModel> users=[];
     try {
@@ -1298,17 +1331,25 @@ else if(returnfull())
 
   SaveCustomer() async {
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+    GetMax();
+
+  var max=  await GettAllData.GetMaxREQpermision(context);
+  OrderNo=max.toString();
 
 
-    final handler = DatabaseHandler();
+ print("OrderNo " +OrderNo.toString());
+
+
+    setState(() {
+
+    });
     await Future.delayed(Duration(seconds: 1));
 
 
     List<CustomerinitModel> c=[];
     c.add(new CustomerinitModel(
-
       CusName: customername.text,
-      OrderNo: '',
+      OrderNo: OrderNo.toString(),
       Area:dateinput.text,
       CustType: '1',
       Mobile:customermobile.text,
@@ -1322,20 +1363,24 @@ else if(returnfull())
 
     ));
 
-    var ggg=await  handler.addCustomerinitModel(c);
+   var ggg=await  handler.addCustomerinitModel(c);
+    PostRequest(OrderNo.toString());
 
-if(int.parse(ggg.toString())>0){
+
+
+/*if(int.parse(ggg.toString())>0){
   c.clear();
   dateinput.clear();
   customername.clear();
   customeraddres.clear();
   customermobile.clear();
-}
+}*/
 
 
   }
 
   PostCustomer(){
+    GetMax();
 
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
     final handler = DatabaseHandler();
@@ -1365,6 +1410,29 @@ dateinput.clear();
   }
 
 
+  PostRequest(String OrderNo) async {
+
+    GetMax();
+    print("CustomerIDdatabase "+CustomerIDdatabase);
+    print("customername  "+customername.text);
+    print("OrderNo  "+OrderNo);
+
+
+
+    PostAllData.PostrequestpermisionCustomer(context,
+        CustomerIDdatabase.toString(),
+        customername.text+'سام العميل : ',
+        OrderNo.toString()
+        );
+    customername.clear();
+    customeraddres.clear();
+    customermobile.clear();
+    dateinput.clear();
+
+
+  }
+
+
  bool returnfull(){
 
     if(dateinput.text.isNotEmpty &&
@@ -1378,5 +1446,8 @@ dateinput.clear();
 
   }
 
-
+  Future GetMax() async {
+   var max = await GettAllData.GetMaxREQpermision(context);
+   OrderNo=max.toString();
+  }
 }

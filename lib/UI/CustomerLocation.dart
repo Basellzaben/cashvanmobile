@@ -901,8 +901,7 @@ dateinput.text=v.CustName.toString()
                                                             },
                                                           ),
                                                         ),
-                                                      )
-                                                      ,
+                                                      ),
 
 
 
@@ -920,6 +919,9 @@ dateinput.text=v.CustName.toString()
                               ),
                             ],
                           ),
+
+
+
 
                   Align(
                             alignment: Alignment.bottomCenter,
@@ -959,6 +961,8 @@ if(IsNew){
                           ),
 
 
+
+
                         ],
                       ),
                     ),
@@ -966,7 +970,8 @@ if(IsNew){
                 ),
               ),
             ),
-          )),
+          )
+      ),
     ]);
   }
 
@@ -989,8 +994,6 @@ if(IsNew){
     Home(),
     Invoice(),
   ];
-
-
 
   GetDistance(String latCustomer, String longCustomer) async {
     try {
@@ -1033,7 +1036,6 @@ if(IsNew){
     }
   }
 
-
   getCurrentpostion() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -1052,7 +1054,6 @@ if(IsNew){
     print("long : "+Currentlong);
 
   }
-
 
   Future<List<CustomerLocationModel>> getCustomersInit() async {
     var handler = DatabaseHandler();
@@ -1077,8 +1078,6 @@ if(IsNew){
     }
     return users;
   }
-
-
 
   Future<List<CustomersModel>> getCustomers() async {
     var handler = DatabaseHandler();
@@ -1131,7 +1130,6 @@ if(IsNew){
     }
     return users;
   }
-
 
   SaveCustomer() async {
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);

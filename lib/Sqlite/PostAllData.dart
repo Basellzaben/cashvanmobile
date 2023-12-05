@@ -453,7 +453,75 @@ class PostAllData {
   }
 
 
+  static PostrequestpermisionCustomer(BuildContext context,
+      String id , String OrderDesc , String OrderNo ) async {
+    var LanguageProvider = Provider.of<Language>(context, listen: false);
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 
+    try{
+      var handler = DatabaseHandler();
+      //var json=await handler.retrieveSTOCKposted(id);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('CustomerInventory')),
+                content: Text(LanguageProvider.Llanguage('loading')),
+              ));
+
+
+      Uri apiUrl = Uri.parse(Globalvireables.PostCustomerPermisionAPI);
+
+
+      var map = new Map<String, String>();
+      map['ManNo'] = Loginprovider.getid().toString();
+      map['OrderNo'] =OrderNo;
+      map['OrderDesc'] =OrderDesc;
+      print("input : "+map.toString());
+
+
+
+
+      http.Response res = await http.post(
+        apiUrl,
+        body: map,
+      );
+
+
+      if (res.statusCode == 200) {
+        print("OUTPUTddonneen : "+res.body);
+
+        if(res.body.toString().contains('done')){
+          handler.updateCustomerrequestpostInit(id);
+        }
+        Navigator.pop(context);
+
+      } else {
+        print("OUTPUT : "+res.statusCode.toString());
+
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (_) =>
+                AlertDialog(
+                  title: Text(LanguageProvider.Llanguage('anerror')),
+                  content: Text(LanguageProvider.Llanguage('anerrortitle')),
+                ));
+      }}catch(e){
+
+      Navigator.pop(context);
+
+      showDialog(
+          context: context,
+          builder: (_) =>
+              AlertDialog(
+                title: Text(LanguageProvider.Llanguage('anerror')),
+                content: Text(LanguageProvider.Llanguage('anerrortitle')+e.toString()),
+              ));
+    }
+
+  }
   static PostCustomer(BuildContext context,
       String id,
       String CusName,
@@ -511,11 +579,27 @@ class PostAllData {
 
         if (res.statusCode == 200) {
           print("OUTPUTddonneen : "+res.body);
+          Navigator.pop(context);
 
           if(res.body.toString().contains('done')){
             handler.updateCustomerInit(id);
+
+            showDialog(
+                context: context,
+                builder: (_) =>
+                    AlertDialog(
+                      title: Text( LanguageProvider.Llanguage('addcustomer'),),
+                      content: Text('تم تعريف العميل بنجاح'),
+                    ));
+          }else  if(res.body.toString().contains('prosss')){
+            showDialog(
+                context: context,
+                builder: (_) =>
+                    AlertDialog(
+                      title: Text( LanguageProvider.Llanguage('addcustomer'),),
+                      content: Text('الطلب تحت المعالجه'),
+                    ));
           }
-          Navigator.pop(context);
 
         } else {
           print("OUTPUT : "+res.statusCode.toString());
