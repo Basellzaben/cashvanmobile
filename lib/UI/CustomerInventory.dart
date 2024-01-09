@@ -12,7 +12,6 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-
 import '../Calculator.dart';
 import '../ColorsLanguage/GlobalVar.dart';
 import '../ColorsLanguage/HexaColor.dart';
@@ -47,10 +46,7 @@ class _CustomerInventoryState extends State<CustomerInventory> {
   bool active = false;
   bool IsOpen = false;
 var OrderNo='';
-
   bool IsNew = true;
-
-
   String latCustomer = '';
   String longCustomer = '';
   String CustomerId = '';
@@ -483,14 +479,16 @@ String post='';
                                                                   child: GestureDetector(
                                                                     onTap: () {
                                                                      Manlogtrans.clear();
-
-
                                                                       dateinput.text = v.name.toString();
-
                                                                       CustomerId = v.no.toString();
 
 
-                                                                      setState(() {});
+
+
+
+                                                                      setState(() {
+
+                                                                      });
                                                                       Navigator.pop(context);
                                                                     },
                                                                     child: Padding(
@@ -1108,9 +1106,12 @@ else if(returnfull())
   PostCustomer();
 
 
+
 setState(() {
 
 });
+
+
                                 },
                               ),
                             ),

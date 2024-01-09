@@ -536,11 +536,112 @@ return await handler.getMaxIdFromTable('ManLogTrans');
 
 
 
+  static Future<int> GetMaxVoucher (BuildContext context) async {
+    final handler = DatabaseHandler();
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+    var max=0;
+    try{
+
+      Uri apiUrl = Uri.parse(Globalvireables.GetMaxInvoice);
+
+
+
+      var map = new Map<String, dynamic>();
+      map['ManId'] = Loginprovider.getid();
+      map['type'] = 'maxvocher';
+
+      http.Response res = await http.post(
+          apiUrl,
+          body:map
+      );
+
+      if (res.statusCode == 200) {
+
+        List<dynamic> body = jsonDecode(res.body);
+        List<Sequences> seq = body.map((dynamic item) => Sequences.fromJson(item),)  .toList();
+
+
+        print("Invoices" + seq.first.salesOrderMax.toString());
+
+
+
+        if(seq.first.salesOrderMax.toString()!='0')
+          StoreShared.SaveJson('maxvoch',seq.first.salesOrderMax.toString());
+        else
+          StoreShared.SaveJson('maxvoch','0');
+
+
+
+        var maxfromlocal=await handler.getmaxvoch(context);
+        var maxfromapi=seq.first.salesOrderMax.toString();
+
+
+        print("sttttttock  " + maxfromapi.toString());
+
+
+        if(int.parse(maxfromlocal.toString())>double.parse(maxfromapi))
+        {
+          StoreShared.SaveJson('maxvoch',maxfromlocal.toString());
+          max=int.parse(maxfromlocal.toString());
+
+        }
+        else
+        {
+          StoreShared.SaveJson('maxvoch',maxfromapi.toString());
+          max=int.parse(maxfromapi.toString());
+        }
+
+
+
+        /* List<UnitItemModel> Invoices = body
+            .map(
+              (dynamic item) => UnitItemModel.fromJson(item),
+        )
+            .toList();
+*/
+
+        //  handler.addUnitItem( Invoices).whenComplete(() =>  Navigator.pop(context));
+
+      } else {
+
+        print("reponceapppp"+res.statusCode.toString());
+
+
+        var maxfromlocal=await handler.getmaxvoch(context);
+
+        print("reponceapppp"+maxfromlocal.toString());
+
+
+        StoreShared.SaveJson('maxvoch',maxfromlocal.toString());
+        max=int.parse(maxfromlocal.toString());
+
+
+      }}catch(e){
+
+      print(e.toString() + "errrrror");
+
+
+      var maxfromlocal=await handler.getmaxvoch(context);
+
+      print(maxfromlocal.toString() + "maaaax");
+
+
+      StoreShared.SaveJson('maxvoch',maxfromlocal.toString());
+      max=int.parse(maxfromlocal.toString());
+      print(max.toString() + "maxvoch");
+
+    }
+
+    print(max.toString() + "maaaax");
+
+    return max;
+    throw "Unable to retrieve Invoices.";
+  }
 
 
 
 
- static Future<int> GetMaxInvoiceV (BuildContext context) async {
+  static Future<int> GetMaxInvoiceV (BuildContext context) async {
     final handler = DatabaseHandler();
     var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
 var max=0;

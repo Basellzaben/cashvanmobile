@@ -44,6 +44,16 @@ class Language extends ChangeNotifier {
 
   //"Top Doctors :",
   static Map<String, Object?> ar = {
+    "datecheck":"تاريخ الشيك",
+    "amount":"المبلغ",
+    "persondispensing":"اسم الساحب",
+    "checknumber":"رقم الشيك",
+    "totalcash":"المبلغ النقدي",
+    "totalcheck":"مجموع الشيك",
+    "totalvoch":"مجموع القبض",
+    "vouchersid":"رقم القبض",
+    "receiptvoucher":"سند القبض",
+    "AddCHECK":"إضافة الشيكات",
     "sendperrequest":"ارسال طلب موافقه",
     "print":"طباعه",
     "customerlocationn":"موقع العميل",
@@ -255,18 +265,29 @@ class Language extends ChangeNotifier {
   };
 
   static Map<String, Object?> en = {
+    "persondispensing":"person dispensing",
+    "datecheck":"Check Date",
+
+    "amount":"amount",
     "addcustomer":"Create Customer",
     "customerlocationn":"Customer Location",
     "print":"print",
-    "sendperrequest":"Send an approval request",
+    "checknumber":"check number",
 
+    "totalvoch":"Total payment",
+    "totalcheck":"Check total",
+    "totalcash":"Cash amount",
+
+    "AddCHECK":"Add checks",
+    "vouchersid":"Batch number",
+    "sendperrequest":"Send an approval request",
+    "receiptvoucher":"receipt voucher",
     "CustomerStock": "Customer Inventory",
     "Clientceiling": "Client ceiling",
     "SupplyDocument":"Supply Document",
     "selectcity":"Choose the region",
     "customerphone":"phone number",
     "customerlocation":"Customer address",
-
     "Show": "Show",
     "Supplydocument":"Supply document",
     "unit": "unit",

@@ -431,6 +431,40 @@ class DatabaseHandler {
                   "Stutes TEXT)"
           );
 
+
+
+          await database.execute(
+              "CREATE TABLE Payment(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "vouchtype TEXT,"
+                  "orderno TEXT,"
+                  "date TEXT,"
+                  "acc TEXT,"
+                  "amt TEXT,"
+                  "notes TEXT,"
+                  "curno TEXT,"
+                  "userid TEXT,"
+                  "transdate TEXT,"
+                  "posted TEXT,"
+                  "v_orderno TEXT,"
+                  "checktotal TEXT,"
+                  "fromsales TEXT,"
+                  "cash TEXT)"
+          );
+
+
+
+          await database.execute(
+              "CREATE TABLE Payment_check(id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "transid TEXT,"
+                  "bankno TEXT,"
+                  "checkdate TEXT,"
+                  "checkno TEXT,"
+                  "amnt TEXT,"
+                  "userid TEXT,"
+                  "transdate TEXT)"
+          );
+
+
         });
   }
 
@@ -649,6 +683,29 @@ class DatabaseHandler {
     }
     return res;
   }
+
+  Future<int> getmaxvoch(BuildContext context) async {
+    int maxId=0;
+    final Database database = await initializeDB();
+    final List<Map<String, dynamic>> result = await database.rawQuery(
+      'SELECT MAX(orderno) as max_id FROM Payment',
+    );
+    var Loginprovider = Provider.of<LoginProvider>(context, listen: false);
+
+    if (result.isNotEmpty && result[0]['max_id']!=null) {
+      maxId = int.parse((result[0]['max_id']).toString())+ 1;
+      print("MAXID : "+maxId.toString());
+
+    } else {
+      maxId = int.parse(Loginprovider.id.toString()+'000')+1;
+      print("maxstock"+maxId.toString());
+    }
+    return maxId; // Return 0 if there are no records in the table
+
+  }
+
+
+
 
   Future<int> getMaxStock(BuildContext context) async {
     int maxId=0;
